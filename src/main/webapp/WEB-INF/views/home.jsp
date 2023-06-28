@@ -1,14 +1,10 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
-<html>
-<head>
-	<title>Home</title>
-</head>
-<body>
-<h1>
-	Hello world!  
-</h1>
-
-<P>  The time on the server is ${serverTime}. </P>
-</body>
-</html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ include file="./common/header.jsp"%>
+<%@ include file="./common/sidenav.jsp"%>
+<main>
+	<div class="container-fluid px-4">
+	반갑습니다 index페이지입니댱~
+	</div>
+</main>
+<script src="js/scripts.js"></script>
