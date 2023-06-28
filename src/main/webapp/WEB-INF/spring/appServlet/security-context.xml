@@ -6,12 +6,8 @@
 	<!-- security:intercept-url 우선순위 ... 작은것에서 > 큰것으로 ..... -->
 	<security:http auto-config="true">
 		<security:csrf disabled="true" />
-<<<<<<< HEAD
-		<security:intercept-url pattern="/member/loginForm.do" access="permitAll" />
-=======
 		<security:intercept-url pattern="/loginForm.do" access="permitAll" />
 		<security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" />
->>>>>>> e09288d0f4666686658885b6f1be863ca1743291
 		<security:intercept-url pattern="/home.do" access="permitAll" />
 		<!-- <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" /> -->
 
