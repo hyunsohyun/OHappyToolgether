@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.kosa.member.dao.UsersDao" >	
+	<select id="selectAllUser" resultType="kr.or.kosa.member.vo.Users">
+		SELECT userid, password, name, enabled, email, image FROM USERS
+	</select>
+	
+	<select id="selectUserById" resultType="kr.or.kosa.member.vo.Users">
+		select userid, password, name, enabled, email, image from users where userid = #{userid}
+	</select>
+	
+	<insert id="insertUser" parameterType="kr.or.kosa.member.vo.Users">
+		insert into users values(#{userid}, ${password}, ${name}, #{enabled}, ${email}, ${image})
+	</insert>
+	
+	<delete id="deleteUser" parameterType="String">
+		delete from users where userid = ${userid}
+	</delete>
+	
+	<update id="updateUser" parameterType="kr.or.kosa.member.vo.Users">
+		
+	</update>
+
+</mapper>
+
