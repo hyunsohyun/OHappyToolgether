@@ -20,15 +20,14 @@ public class HomeController {
 		logger.info("Welcome home!");
 		return "home";
 	}
-
-
-	@GetMapping(value="/member/loginForm.do")
+	
+	@GetMapping(value="/loginForm.do")
 	public String login() {
 		logger.info("LoginForm으로 이동");
 		return "member/loginForm";
 	}
 
-	@GetMapping(value="/member/logout.do")
+	@GetMapping(value="/logout.do")
 	public String logout() {
 		logger.info("Logout으로 이동");
 		return "member/logout";

@@ -41,6 +41,20 @@
 			<version>12.1.0.1</version>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!-- jackson  lib  -->
+    	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+    		<groupId>org.codehaus.jackson</groupId>
+    		<artifactId>jackson-core-asl</artifactId>
+    		<version>1.9.13</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.13.4.1</version>
+		</dependency>
+		
 		<!-- 수업시간 추가했던 jar 순서대로 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -116,6 +130,7 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
 		</dependency>
+				
 		<!-- Spring Mybatis 사용 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -127,6 +142,15 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->	
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.20</version>
+		    <scope>provided</scope>
+		</dependency>
+		
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
