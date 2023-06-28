@@ -27,5 +27,10 @@ public class TemplateController {
 	public String calendarView() throws Exception{
 		return "templateContent/fullCalendar";
 	}
+	
+	@RequestMapping("/note.do")
+	public String note() throws Exception{
+		return "templateContent/summernote";
+	}
 
 }
