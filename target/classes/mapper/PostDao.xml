@@ -6,9 +6,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="kr.or.kosa.post.PostDao" >
 
 	<select id="postList" resultType="kr.or.kosa.post.Post">
-	<![CDATA[
-	    SELECT * FROM POST
-	]]>
+	    SELECT POST_ID 
+		    , BOARD_ID
+		    , TITLE
+		    , CONTENT
+		    , HIT
+		    , CREATE_DATE
+		    , MODIFY_DATE
+		    , PROJECT_ID
+		    , USERID 
+		FROM POST
+	</select>
+	
+	<select id="postDetail" resultType="kr.or.kosa.post.Post">
+	    SELECT POST_ID 
+	    , BOARD_ID
+	    , TITLE
+	    , CONTENT
+	    , HIT
+	    , CREATE_DATE
+	    , MODIFY_DATE
+	    , PROJECT_ID
+	    , USERID
+	    FROM POST
+	    WHERE POST_ID = #{postId}
 	</select>
 	
 </mapper>

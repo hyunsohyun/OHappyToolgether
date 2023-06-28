@@ -28,7 +28,7 @@
 				</thead>
 				<tbody>
 					<c:forEach var="list" items="${list}">
-						<tr onclick="detailPost.do?no=${list.postId}">
+						<tr onclick="postDetail.do?postId=${list.postId}">
 							<td></td>
 							<td>${list.title}</td>
 							<td>${list.userid}</td>

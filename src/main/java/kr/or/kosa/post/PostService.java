@@ -16,6 +16,7 @@ public class PostService {
 		this.sqlsession = sqlsession;
 	}
 
+	//리스트
 	public List<Post> postlist() {
 		List<Post> postList = null;
 		try {
@@ -27,5 +28,23 @@ public class PostService {
 		}
 		return postList;
 	}
+	
+	//상세보기
+	public Post postDetail(String postId){
+		Post post = null;
+		try {
+			PostDao Postdao = sqlsession.getMapper(PostDao.class);
+			post = Postdao.postDetail(postId);
+		}catch (Exception e) {
+			System.out.println("오류발생");
+			System.out.println(e.getMessage());
+		}
 
+		return post;
+	}
+
+	//수정하기
+	
+	//삭제하기
+	
 }

@@ -6,4 +6,5 @@ import java.util.List;
 public interface PostDao {
 	
 	public List<Post> postList() throws ClassNotFoundException, SQLException;
+	public Post postDetail(String postId) throws ClassNotFoundException, SQLException;
 }
