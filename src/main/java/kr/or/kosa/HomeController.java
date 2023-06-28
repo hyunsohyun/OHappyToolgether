@@ -14,18 +14,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home!");
 		return "home";
 	}
-	
-	
+
+
 	@GetMapping(value="/member/loginForm.do")
 	public String login() {
 		logger.info("LoginForm으로 이동");
 		return "member/loginForm";
+	}
+
+	@GetMapping(value="/member/logout.do")
+	public String logout() {
+		logger.info("Logout으로 이동");
+		return "member/logout";
 	}
 
 }
