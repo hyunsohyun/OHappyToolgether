@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security" xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -24,11 +25,11 @@
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:jdbc-user-service data-source-ref="driverManagerDataSource" 
-			 users-by-username-query="SELECT id AS USERID, PASSWORD, 1 enabled FROM users where id=?"
-			 authorities-by-username-query="select m.ID , r.ROLE_NAME  
+			 users-by-username-query="SELECT userid AS USERID, PASSWORD, 1 enabled FROM users where userid=?"
+			 authorities-by-username-query="select m.USERID , r.ROLE_NAME  
 							           from users m join roll r 
-							           on m.id = r.userid 
-							           where m.id=?" />
+							           on m.userid = r.userid 
+							           where m.userid=?" />
 		</security:authentication-provider>
 	</security:authentication-manager>
 
