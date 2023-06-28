@@ -9,10 +9,10 @@
 		<li class="breadcrumb-item"><a href="/">Dashboard</a></li>
 		<li class="breadcrumb-item active">Tables</li>
 	</ol>
-		<form method="post" action="">
-		
-			<input type="input" class="form-control" id="Input" placeholder="제목을 입력해주세요">
+		<form method="post" id="testform" name="testform" action="">
+			<input type="input" class="form-control" id="Input" name="title" placeholder="제목을 입력해주세요">
 			<textarea id="summernote" name="editordata"></textarea>
+			<input type ="button" onclick="test()" value ="등록"/>
 		</form>
 	
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -23,6 +23,11 @@
 			$(document).ready(function() {
 				$('#summernote').summernote();
 			});
+			
+		function test(){
+			console.log(testform.title.value);
+			console.log(testform.editordata.value);
+		}	
 	</script>
 </main>
 
