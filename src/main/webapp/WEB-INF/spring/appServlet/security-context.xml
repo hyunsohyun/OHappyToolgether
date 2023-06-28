@@ -9,7 +9,7 @@
 		<security:intercept-url pattern="/member/loginForm.do" access="permitAll" />
 		<security:intercept-url pattern="/home.do" access="permitAll" />
 		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
-		<security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" />
+		<!-- <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" /> -->
 
 		<security:form-login login-page="/member/loginForm.do" 
 						   	 default-target-url="/" 
@@ -24,11 +24,11 @@
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:jdbc-user-service data-source-ref="driverManagerDataSource" 
-			 users-by-username-query="SELECT id AS USERID, PASSWORD, 1 enabled FROM users where id=?"
-			 authorities-by-username-query="select m.ID , r.ROLE_NAME  
-							           from users m join roll r 
-							           on m.id = r.userid 
-							           where m.id=?" />
+			 users-by-username-query="SELECT USERID, PASSWORD, ENABLED FROM users WHERE USERID=?"
+			 authorities-by-username-query="SELECT m.USERID , r.ROLE_NAME  
+							           FROM users m JOIN roll r 
+							           ON m.USERID = r.USERID 
+							           WHERE m.USERID=?" />
 		</security:authentication-provider>
 	</security:authentication-manager>
 
