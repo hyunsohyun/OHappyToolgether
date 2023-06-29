@@ -21,6 +21,12 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	public String loginhome(Locale locale, Model model) {
+		logger.info("Welcome home!");
+		return "home";
+	}
+	
 	public HomeController() {
 		System.out.println("홈컨트롤러 생성자 호출");
 	}
