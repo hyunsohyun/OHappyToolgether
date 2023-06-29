@@ -43,6 +43,19 @@ public class MemberController {
 		}		
 	}
 	
+	@GetMapping("/users/{projectId}")
+	public ResponseEntity<List<Users>> selectAllUsersByProjectId(@PathVariable("projectId") int projectId) {
+		List<Users> list = null;
+		try {
+			list = memberService.selectAllUsersByProjectId(projectId);
+			return new ResponseEntity<List<Users>>(list,HttpStatus.OK);
+		} catch (Exception e) {			
+			System.out.println("selectAllUser()에서 터짐");
+			System.out.println(e.getMessage());
+			return new ResponseEntity<List<Users>>(list,HttpStatus.BAD_REQUEST);
+		}		
+	}
+	
 	@GetMapping("{userid}")
 	public ResponseEntity<Users> selectUserById(@PathVariable("userid") String userid) {
 		Users user = null;

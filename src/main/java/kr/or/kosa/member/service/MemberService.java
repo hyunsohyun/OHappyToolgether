@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.kosa.member.dao.UsersDao;
 import kr.or.kosa.member.vo.Users;
+import kr.or.kosa.project.dao.ProjectDao;
 
 @Service
 public class MemberService {
@@ -34,6 +35,24 @@ public class MemberService {
 			e.printStackTrace();
 		}		
 		return list;
+	}
+	
+	public List<Users> selectAllUsersByProjectId(int projectId){
+		System.out.println("selectAllUsersByProjectId() 시작");
+		List<Users> list = null;
+		UsersDao dao = sqlsession.getMapper(UsersDao.class);
+		System.out.println("ProjectDao 맵퍼 가져옴");
+		try {
+			list = dao.selectAllUsersByProjectId(projectId);
+			System.out.println("list 사이즈 : " + list.size());
+			System.out.println("projectList 가져옴");
+		} catch (Exception e) {
+			System.out.println("dao.selectAllProjectById(userid) 에서 터짐");
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+		}		
+		System.out.println("selectAllUsersByProjectId 리턴");
+		return list;		
 	}
 	
 	public Users selectUserById(String userid) {
