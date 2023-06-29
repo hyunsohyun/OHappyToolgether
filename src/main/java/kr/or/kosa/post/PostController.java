@@ -31,6 +31,7 @@ public class PostController {
 		return "post/postList";
 	}
 	
+	// 게시글 작성
 	@GetMapping(value="/postInsert.do")
 	public String postInsert() {
 		return "post/postInsert";
