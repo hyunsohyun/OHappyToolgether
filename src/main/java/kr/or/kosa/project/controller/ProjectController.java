@@ -3,6 +3,8 @@ package kr.or.kosa.project.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,7 +50,6 @@ public class ProjectController {
 		try {
 			result = projectService.insertProject(project);
 			System.out.println("requestBody의 project 정보 : " + project.toString());
-			
 			return new ResponseEntity<Integer>(result,HttpStatus.OK);
 		} catch (Exception e) {			
 			System.out.println("insertProject()에서 터짐");
@@ -73,16 +74,16 @@ public class ProjectController {
 	
 	@PostMapping("{projectId}/{userid}")
 	public ResponseEntity<Integer> insertUsersProject(@RequestBody UsersProject usersProject) {
-		int result = 0;
-		System.out.println("PostMapping {projectId}/{userid}");
-		try {	
-			result = projectService.insertUsersProject(usersProject);
-			return new ResponseEntity<Integer>(result,HttpStatus.OK);
-		} catch (Exception e) {			
-			System.out.println("insertUsersProject()에서 터짐");
-			System.out.println(e.getMessage());
-			return new ResponseEntity<Integer>(result,HttpStatus.BAD_REQUEST);
-		}		
+	    int result = 0;
+	    System.out.println("PostMapping {projectId}/{userid}");
+	    try {    
+	        result = projectService.insertUsersProject(usersProject);
+	        return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	    } catch (Exception e) {            
+	        System.out.println("insertUsersProject()에서 예외가 발생했습니다.");
+	        System.out.println(e.getMessage());
+	        return new ResponseEntity<Integer>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }        
 	}
 	
 	@DeleteMapping("{projectId}/{userid}")
@@ -92,7 +93,11 @@ public class ProjectController {
 		try {	
 			result = projectService.deleteUsersProject(usersProject);
 			return new ResponseEntity<Integer>(result,HttpStatus.OK);
-		} catch (Exception e) {			
+		} catch (DuplicateKeyException e) {
+	        System.out.println("기본키 중복 오류 발생");
+	        System.out.println(e.getMessage());
+	        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+	    }catch (Exception e) {			
 			System.out.println("deleteUsersProject()에서 터짐");
 			System.out.println(e.getMessage());
 			return new ResponseEntity<Integer>(result,HttpStatus.BAD_REQUEST);

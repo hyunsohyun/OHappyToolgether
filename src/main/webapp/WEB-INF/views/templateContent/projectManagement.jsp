@@ -2,15 +2,134 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../common/header.jsp"%>
 <%@ include file="../common/sidenav.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<script type="text/javascript">
-	$("#empnosearchbtn").click(function(){
-		if($("#empnosearch").val() == "" || $("#empnosearch").val() == null){
-			empList();
-		}else{
-			searchByEmpno($("#empnosearch").val());
-		}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- <script type="text/javascript">
+	$(document).ready(function(){
+		$("#userInvite").click(function(){
+			console.log("누름");
+			if($("#userSearch").val() == "" || $("#userSearch").val() == null){
+				empList();
+			}else{
+				selectUserById($("#userSearch").val());
+			}
+		});
 	});
+</script> -->
+
+<script>
+    $(document).ready(function() {
+    	var projectId = 500; // 프로젝트 ID를 설정
+        var tableBody = $("#memberList"); // tbody 요소 선택
+        
+        $.ajax({
+            url: "member/users/" + projectId,
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+                console.log("사용자 목록 가져오기 성공");
+                tableBody.empty(); // 기존 데이터 삭제
+                
+                // 사용자 목록을 순회하며 행을 생성하여 tbody에 추가
+                $.each(response, function(index, user) {
+                    var row = $("<tr>").addClass("table-active");
+                    var nameCell = $("<td>").text(user.name);
+                    var userIdCell = $("<td>").text(user.userid);
+                    var removeButtonCell = $("<td>").append($("<button>").addClass("btn btn-danger").text("추방"));
+                    
+                    row.append(nameCell);
+                    row.append(userIdCell);
+                    row.append(removeButtonCell);
+                    
+                    tableBody.append(row);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.log("에러 메시지:", error);
+            }
+        });
+        // 버튼 클릭 시 사용자 정보 가져오기
+        $("#userSearchBtn").click(function(e) {
+            e.preventDefault(); // 폼 전송 방지
+            
+            var userid = $("#userSearch").val(); // 사용자 ID 입력값 가져오기
+            
+            // AJAX 요청
+            $.ajax({
+                url: "member/" + userid,
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    // 요청이 성공한 경우
+                    var user = response;
+                    console.log("받은 user 정보:", user);
+                    
+                    // 사용자 정보를 테이블에 추가
+                    addUserToTable(user);
+                },
+                error: function(xhr, status, error) {
+                    // 요청이 실패한 경우
+                    console.log("에러 메시지:", error);  
+                    addUserToTable("");
+                }
+            });
+        });
+        
+        // 테이블에 사용자 정보 추가
+        function addUserToTable(user) {
+            var tableBody = $("#userTableBody");
+
+            // 기존의 테이블 내용 삭제
+            tableBody.empty();
+
+            // 사용자 정보 행 생성
+            if (user.userid && user.userid !== "") {
+			    console.log(user.name);
+			    var row = $("<tr>");
+			    var userIdCell = $("<td>").text(user.userid);
+			    var nameCell = $("<td>").text(user.name);
+			    var inviteButtonCell = $("<td>").append($("<a>").addClass("btn btn-outline-primary userInvite").text("초대"));
+			
+			    row.append(userIdCell);
+			    row.append(nameCell);
+			    row.append(inviteButtonCell);
+			
+			    // 테이블에 행 추가
+			    tableBody.append(row);
+			}
+        }
+        
+        $(document).on("click", ".userInvite", function(e) {
+        	let tableBody = $("#userTableBody");
+        	e.preventDefault();
+	
+            var userId = $(this).closest("tr").find("td:eq(0)").text();
+            var projectId = 500;
+            var usersProject = {
+                projectId: projectId,
+                userid: userId
+            };
+
+            $.ajax({
+                url: "project/" + projectId + "/" + userId,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(usersProject),
+                dataType: "json",
+                success: function(response) {
+                    console.log("초대");
+                    tableBody.empty();
+                    alert("초대완료");
+                },
+                error: function(xhr, status, error) {
+                    console.log("에러 메시지:", error);
+                    tableBody.empty();
+                    alert("이미 초대한 유저입니다.");
+                }
+            });
+        });
+    });
 </script>
 	
 <style>
@@ -94,30 +213,16 @@
 					aria-describedby="emailHelp" placeholder="Enter email">
 				<button type="button" class="btn btn-success">변경</button>
 			</div>
-			<div class="form-group">
+			<!-- <div class="form-group">
 				<label class="form-label mt-4" for="readOnlyInput">참여인원</label> <input
-					class="form-control" id="readOnlyInput" type="text"
+					class="form-control"  type="text"
 					placeholder="5명" readonly="">
-			</div>
-			<div class="form-group">
-				<fieldset>
-					<label class="form-label mt-4" for="readOnlyInput">게시글 수</label> <input
-						class="form-control" id="readOnlyInput" type="text"
-						placeholder="13개" readonly="">
-				</fieldset>
-			</div>
-			<div class="form-group">
-				<fieldset>
-					<label class="form-label mt-4" for="readOnlyInput">KANBAN -
-						CARD 개수</label> <input class="form-control" id="readOnlyInput" type="text"
-						placeholder="19개" readonly="">
-				</fieldset>
-			</div>
+			</div> -->
 			<button type="button" class="btn btn-danger">프로젝트 삭제</button>
 		</div>
 	</div>
 	
-	<div class="card border-dark mb-3 projectinfo">
+	 <div class="card border-dark mb-3 projectinfo">
 		<div class="card-header projectinfo-header">프로젝트 참가자</div>
 			<div class=" card-body">
 			<div class="form-group">
@@ -129,66 +234,43 @@
 				      <th scope="col">추방</th>
 				    </tr>
 				  </thead>
-				  <tbody>
-				  	
-				  	<c:forEach items="${list}" var="l">
-					<tr>
-						<td>${l.userid}</td>
-						<td>${l.name}</td>
-						<td><a class="btn btn-outline-primary empdelete">추방</a></td>
-					</tr>
-					</c:forEach>
-				  
-				    <tr class="table-active">
-				      <th scope="row">남동우</th>
-				      <td>DongWooID</td>
-				      <td><button type="button" class="btn btn-danger">추방</button></td>
-				    </tr>
-				    <tr>
-				      <th scope="row">Default</th>
-				      <td>Column content</td>
-				      <td><button type="button" class="btn btn-danger">추방</button></td>
-				    </tr>
-				    <tr class="table-primary">
-				      <th scope="row">Primary</th>
-				      <td>Column content</td>
-				      <td><button type="button" class="btn btn-danger">추방</button></td>
-				    </tr>
-				    <tr class="table-secondary">
-				      <th scope="row">Secondary</th>
-				      <td>Column content</td>
-				      <td><button type="button" class="btn btn-danger">추방</button></td>
-				    </tr>
-				    <tr class="table-success">
-				      <th scope="row">Success</th>
-				      <td>Column content</td>
-				      <td><button type="button" class="btn btn-danger">추방</button></td>
-				    </tr>
-				    <tr class="table-danger">
-				      <th scope="row">Danger</th>
-				      <td>Column content</td>
-				      <td><button type="button" class="btn btn-danger">추방</button></td>
-				    </tr>
-				    <tr class="table-warning">
-				      <th scope="row">Warning</th>
-				      <td>Column content</td>
-				      <td><button type="button" class="btn btn-danger">추방</button></td>
-				    </tr>
+				  <tbody id ="memberList">
+					 
 				  </tbody>
 				</table>
 			</div>				
 		</div>
-	</div>
-	
+	</div> 
+
 	<div class="card border-dark mb-3 projectinfo">
-		<div class="card-header projectinfo-header">참가자 초대하기</div>
-		<div class=" card-body">
-						
-		  <form class="d-flex">
-	        <input class="form-control me-sm-2" type="search" placeholder="Search">
-	        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-	      </form>
-		</div>
-	</div>
-	
+    <div class="card-header projectinfo-header">참가자 초대하기</div>
+    <div class="card-body">
+        <form class="d-flex">
+            <input class="form-control me-sm-2" type="search" placeholder="Search" id="userSearch">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="userSearchBtn">Search</button>
+        </form>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">이름</th>
+                    <th scope="col">아이디</th>
+                    <th scope="col">초대</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <c:forEach items="${list}" var="l">
+                    <tr>
+                        <td>${l.userid}</td>
+                        <td>${l.name}</td>
+                        <td><a class="btn userInvite">초대</a></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+
+
 </main>
