@@ -1,10 +1,5 @@
 package kr.or.kosa.template;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +21,11 @@ public class TemplateController {
 	@RequestMapping("/calendar.do")
 	public String calendarView() throws Exception{
 		return "templateContent/fullCalendar";
+	}
+	
+	@RequestMapping("/note.do")
+	public String note() throws Exception{
+		return "templateContent/summernote";
 	}
 
 }

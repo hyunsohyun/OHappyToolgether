@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -29,5 +30,11 @@ public class PostController {
 
 		return "post/postList";
 	}
-
+	
+	// 게시글 작성
+	@GetMapping(value="/postInsert.do")
+	public String postInsert() {
+		return "post/postInsert";
+	}
+	
 }
