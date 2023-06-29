@@ -5,9 +5,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="kr.or.kosa.project.dao.ProjectDao">
 	
 	<select id="selectAllProjectById" resultType="kr.or.kosa.project.vo.Project">
-		select userid, password, name, enabled, email, image from
-		users where userid in (
-			select userid from users_project where project_id = #{projectId}
+		select project_id, project_name, project_image, manager_id from
+		project where project_id in (
+			select project_id from users_project where userid = #{userid}
 		)
 	</select>
 	
