@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    , PROJECT_ID
 		    , USERID 
 		FROM POST
+		WHERE BOARD_ID = #{boardId}
 	</select>
 	
 	<select id="postDetail" resultType="kr.or.kosa.post.Post">
@@ -31,6 +32,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    FROM POST
 	    WHERE POST_ID = #{postId}
 	</select>
+	
+	<insert id="postInsert" parameterType="kr.or.kosa.post.Post" > 
+		INSERT INTO POST (POST_ID, BOARD_ID, TITLE, CONTENT, HIT, CREATE_DATE, PROJECT_ID, USERID) 
+		VALUES(#{postId}, #{boardId}, #{title}, #{content}, 0, sysdate, #{projectId}, #{userId});
+	</insert>
+	
+	<delete id="postDelete" parameterType="kr.or.kosa.post.Post">
+		DELETE 
+		FROM POST 
+		WHERE POST_ID = #{postId}
+	</delete>
+	
+	<update id ="updateHit">
+		UPDATE POST 
+			SET HIT = HIT + 1
+		WHERE POST_ID = #{postId}
+	</update>
+	
+	<update id="postUpdate" parameterType="kr.or.kosa.post.Post">
+		UPDATE POST SET 
+			TITEL = #{title}
+			, CONTENT = #{content}
+			, MODIFY_DATE = sysdate
+		WHERE POST_ID = #{postId}
+	</update>
 	
 </mapper>
 
