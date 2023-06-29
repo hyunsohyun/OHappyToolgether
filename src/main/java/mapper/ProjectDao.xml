@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.kosa.project.dao.ProjectDao">
+	
+	<select id="selectAllProjectById" resultType="kr.or.kosa.project.vo.Project">
+		select project_id, project_name, project_image, manager_id from
+		project where project_id in (
+			select project_id from users_project where userid = #{userid}
+		)
+	</select>
+	
+	<insert id="insertProject" parameterType="kr.or.kosa.project.vo.Project">
+		INSERT INTO project(project_id, project_name, project_image, manager_id)
+		VALUES (PROJECT_SEQ.NEXTVAL, #{projectName}, #{projectImage}, #{managerId})
+	</insert>
+	
+	<delete id="deleteProject">
+		DELETE FROM project WHERE project_id = #{projectId}
+	</delete>
+	
+	<insert id="insertUsersProject" parameterType="kr.or.kosa.project.vo.UsersProject">
+		INSERT INTO users_project(userid, project_id)
+		VALUES (#{userid}, #{projectId})
+	</insert>
+	
+	<delete id="deleteUsersProject" parameterType="kr.or.kosa.project.vo.UsersProject">
+		DELETE FROM users_project WHERE userid = #{userid} and project_id = #{projectId}
+	</delete>
+
+</mapper>
+	
+	
+
+
+
+
+
+
