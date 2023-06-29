@@ -2,7 +2,6 @@ package kr.or.kosa.project.dao;
 
 import java.util.List;
 
-import kr.or.kosa.member.vo.Users;
 import kr.or.kosa.project.vo.Project;
 import kr.or.kosa.project.vo.UsersProject;
 
