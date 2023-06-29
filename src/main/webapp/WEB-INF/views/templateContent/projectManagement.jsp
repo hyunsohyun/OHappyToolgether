@@ -3,6 +3,15 @@
 <%@ include file="../common/header.jsp"%>
 <%@ include file="../common/sidenav.jsp"%>
 
+<script type="text/javascript">
+	$("#empnosearchbtn").click(function(){
+		if($("#empnosearch").val() == "" || $("#empnosearch").val() == null){
+			empList();
+		}else{
+			searchByEmpno($("#empnosearch").val());
+		}
+	});
+</script>
 	
 <style>
 	body{
@@ -121,6 +130,15 @@
 				    </tr>
 				  </thead>
 				  <tbody>
+				  	
+				  	<c:forEach items="${list}" var="l">
+					<tr>
+						<td>${l.userid}</td>
+						<td>${l.name}</td>
+						<td><a class="btn btn-outline-primary empdelete">추방</a></td>
+					</tr>
+					</c:forEach>
+				  
 				    <tr class="table-active">
 				      <th scope="row">남동우</th>
 				      <td>DongWooID</td>
