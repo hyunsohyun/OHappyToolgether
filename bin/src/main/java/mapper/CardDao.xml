@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.kosa.card.dao.CardDao">
+	
+	<!-- 칸반보드 select 매퍼 -->
+	<select id="selectByKanbanboardId" resultType="kr.or.kosa.card.vo.Card">
+		select card_id AS cardId, project_id AS projectId, kanbanboard_id AS kanbanboardId, title, content, create_date AS createDate, start_date AS startDate, end_date AS endDate, name from CARD
+		WHERE project_id = #{projectId} AND kanbanboard_id = #{kanbanboardId}
+	</select>
+	
+	<!-- 칸반보드 insert 매퍼 -->
+	<insert id="insertCard" parameterType="kr.or.kosa.card.vo.Card">
+		INSERT INTO CARD(CARD_ID, PROJECT_ID, KANBANBOARD_ID, TITLE, CONTENT, CREATE_DATE, START_DATE, END_DATE, NAME)
+		VALUES (CARD_SEQ.NEXTVAL, #{projectId}, #{kanbanboardId}, #{title}, #{content}, SYSDATE, #{startDate}, #{endDate}, #{name})
+	</insert>
+	
+	<!-- 칸반보드 update 매퍼 -->
+	<update id="updateCard" parameterType="kr.or.kosa.card.vo.Card">
+		UPDATE CARD SET title=#{title} , content=#{content}, kanbanboard_id=#{kanbanboardId},
+						start_date=#{startDate}, end_date=#{endDate}, name=#{name}
+		WHERE CARD_ID = #{cardId}
+	</update>
+	
+	<!-- 칸반보드 delete 매퍼 -->
+	<delete id="deleteCard">
+		DELETE FROM CARD WHERE CARD_ID = #{cardId}
+	</delete>
+
+</mapper>
+	
+	
+
+
+
+
+
+

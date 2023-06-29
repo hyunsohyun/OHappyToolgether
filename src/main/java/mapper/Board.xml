@@ -3,12 +3,13 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.or.kosa.Board.dao.BoardDao" >	
-	<select id="selectAllBoard" resultType="kr.or.kosa.Board.vo.Board">
+<mapper namespace="kr.or.kosa.board.dao.BoardDao" >	
+
+	<select id="selectAllBoard" resultType="kr.or.kosa.board.vo.Board">
 
 	</select>
 	
-	<insert id="insertBoard" parameterType="kr.or.kosa.Board.vo.Board">
+	<insert id="insertBoard" parameterType="kr.or.kosa.board.vo.Board">
 
 	</insert>
 	
@@ -16,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</delete>
 	
-	<update id="updateBoard" parameterType="kr.or.kosa.Board.vo.Board">
+	<update id="updateBoard" parameterType="kr.or.kosa.board.vo.Board">
 		
 	</update>
 
