@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import kr.or.kosa.card.dao.CardDao;
+import kr.or.kosa.card.vo.Card;
 import kr.or.kosa.project.dao.ProjectDao;
 import kr.or.kosa.project.vo.Project;
 import kr.or.kosa.project.vo.UsersProject;
@@ -95,5 +97,11 @@ public class ProjectService {
 			e.getStackTrace();
 		}		
 		return result;
+	}
+	
+	//프로젝트 이름변경
+	public int updateProjectName(Project project) {
+		ProjectDao dao = sqlsession.getMapper(ProjectDao.class);
+		return dao.updateProjectName(project);
 	}
 }

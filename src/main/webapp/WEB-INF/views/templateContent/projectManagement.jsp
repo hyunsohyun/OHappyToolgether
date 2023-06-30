@@ -20,8 +20,10 @@
 
 <script>
     $(document).ready(function() {
-    	var projectId = 500; // 프로젝트 ID를 설정
+    	var projectId = 400; // 프로젝트 ID를 설정
+    	var memberId = "osh8242";
         var tableBody = $("#memberList"); // tbody 요소 선택
+    	var userId = 'ndw';
         
         $.ajax({
             url: "member/users/" + projectId,
@@ -36,7 +38,7 @@
                     var row = $("<tr>").addClass("table-active");
                     var nameCell = $("<td>").text(user.name);
                     var userIdCell = $("<td>").text(user.userid);
-                    var removeButtonCell = $("<td>").append($("<button>").addClass("btn btn-danger").text("추방"));
+                    var removeButtonCell = $("<td>").append($("<button>").addClass("btn btn-danger deleteUsersProject").text("추방"));
                     
                     row.append(nameCell);
                     row.append(userIdCell);
@@ -49,7 +51,82 @@
                 console.log("에러 메시지:", error);
             }
         });
+        
+        $.ajax({
+
+            url: "project/" + userId,
+            type: "GET",
+            dataType: "json",
+            success: function(response) {
+                console.log("프로젝트정보 가져오기 성공");
+                var projectName = '';
+                for (var i = 0; i < response.length; i++) {
+                  if (response[i].projectId === projectId) {
+                     projectName = response[i].projectName;
+                     console.log(projectName);
+                     $("#projectName").val(projectName);
+                    break;
+                  }
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("에러 메시지:", error);
+            }
+        });
+        
+        
         // 버튼 클릭 시 사용자 정보 가져오기
+        $("#userSearchBtn").click(function(e) {
+            e.preventDefault(); // 폼 전송 방지
+            
+            var userid = $("#userSearch").val(); // 사용자 ID 입력값 가져오기
+            
+            // AJAX 요청
+            $.ajax({
+                url: "member/" + userid,
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    // 요청이 성공한 경우
+                    var user = response;
+                    console.log("받은 user 정보:", user);
+                    
+                    // 사용자 정보를 테이블에 추가
+                    addUserToTable(user);
+                },
+                error: function(xhr, status, error) {
+                    // 요청이 실패한 경우
+                    console.log("에러 메시지:", error);  
+                    addUserToTable("");
+                }
+            });
+        });
+        
+        $(document).ready(function() {
+        	  // 변경 버튼 클릭 이벤트 핸들러
+        	  $("#changeProjectNameBtn").click(function() {
+        	    var projectName = $("#projectName").val(); // 변경할 프로젝트명 가져오기
+        	    
+        	    // AJAX 요청
+        	    $.ajax({
+        	      url: "project/" + projectId + "/" + memberId,
+        	      type: "PUT",
+        	      dataType: "json",
+        	      contentType: "application/json",
+        	      data: JSON.stringify({ projectName: projectName }), // 변경할 프로젝트명 전달
+        	      success: function(response) {
+        	        console.log("프로젝트명 변경 성공");
+        	        // 성공적으로 업데이트된 경우, 필요한 처리를 수행하세요.
+        	      },
+        	      error: function(xhr, status, error) {
+        	        console.log("에러 메시지:", error);
+        	        // 업데이트 실패 시 에러 처리를 수행하세요.
+        	      }
+        	    });
+        	  });
+        	});
+        
+        // 버튼 클릭 시 input 안에 있는 프로젝트 명으로 변경
         $("#userSearchBtn").click(function(e) {
             e.preventDefault(); // 폼 전송 방지
             
@@ -129,10 +206,39 @@
                 }
             });
         });
+        
+        $(document).on("click", ".deleteUsersProject", function(e) {
+        	console.log("삭제버튼을 누름");
+        	let tableBody = $("#userTableBody");
+        	e.preventDefault();
+	
+            var userId = $(this).closest("tr").find("td:eq(1)").text();
+            var projectId = 500;
+            var usersProject = {
+                projectId: projectId,
+                userid: userId
+            };
+
+            $.ajax({
+                url: "project/" + projectId + "/" + userId,
+                type: "DELETE",
+                contentType: "application/json",
+                data: JSON.stringify(usersProject),
+                dataType: "json",
+                success: function(response) {
+                    console.log("삭제");
+                    tableBody.empty();
+                    alert("추방되었습니다.");
+                },
+                error: function(xhr, status, error) {
+                    console.log("에러 메시지:", error);
+                }
+            }); 
+        });
     });
 </script>
 	
-<style>
+<!-- <style>
 	body{
 		background-color: lightgray;
 	}
@@ -198,8 +304,8 @@
 	}
 	.projectinfo-header{
 	}
-</style>
-<main>
+</style class="card border-dark mb-3"> -->
+<%--  <main>
 	<div id="projectManagementTitle">
 		<h2>프로젝트관리</h2>
 	</div>
@@ -231,7 +337,7 @@
 				    <tr>
 				      <th scope="col">이름</th>
 				      <th scope="col">아이디</th>
-				      <th scope="col">추방</th>
+                      <th scope="col">추방</a></th> <!-- 수정: href="#" 추가 -->
 				    </tr>
 				  </thead>
 				  <tbody id ="memberList">
@@ -274,3 +380,100 @@
 
 
 </main>
+
+
+
+
+ --%>
+ 
+<style>
+    .projectinfo-header {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
+    .projectinfo-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .projectinfo {
+        flex-basis: 30%;
+        margin: 10px;
+    }
+
+    .table th,
+    .table td {
+        text-align: center;
+    }
+
+    /* 반응형 레이아웃을 위한 미디어 쿼리 */
+    @media (max-width: 767px) {
+        .projectinfo {
+            flex-basis: 100%;
+        }
+    }
+</style>
+
+<main class="container mt-4">
+    <div id="projectManagementTitle">
+        <h2>프로젝트관리</h2>
+    </div>
+
+    <div class="projectinfo-container">
+        <div class="card border-dark mb-3 projectinfo">
+            <div class="card-header projectinfo-header">프로젝트 정보</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1" class="form-label mt-1">프로젝트 이름</label>
+                    <input type="email" class="form-control" id="projectName" aria-describedby="emailHelp" placeholder="Enter email">
+                    <button type="button" class="btn btn-success" id="changeProjectNameBtn">변경</button>
+                </div>
+                <button type="button" class="btn btn-danger">프로젝트 삭제</button>
+            </div>
+        </div>
+
+        <div class="card border-dark mb-3 projectinfo">
+            <div class="card-header projectinfo-header">프로젝트 참가자</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">이름</th>
+                                <th scope="col">아이디</th>
+                                <th scope="col">추방</th>
+                            </tr>
+                        </thead>
+                        <tbody id="memberList">
+                            <!-- Member list rows go here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-dark mb-3 projectinfo">
+            <div class="card-header projectinfo-header">참가자 초대하기</div>
+            <div class="card-body">
+                <form class="d-flex">
+                    <input class="form-control me-sm-2" type="search" placeholder="Search" id="userSearch">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="userSearchBtn">Search</button>
+                </form>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">이름</th>
+                            <th scope="col">아이디</th>
+                            <th scope="col">초대</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- User table rows go here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
