@@ -127,12 +127,13 @@
             success : function(data) {
                $('#commentList').empty();
                $.each(data, function(key, value) {
-					console.log(value.commentId);
+					//console.log(value.commentId);
 					let str = "<tr>";
 					str += "<td>작성자</td>";
 					str += "<td>" + value.writerId + "</td>";
 					str += "<td>내용</td>";
                   	str += "<td>" + value.content + "</td>";
+                  	str += "<td><input type='button' value='삭제' onclick='commemtDelete(" + value.commentId + ")'></td>";
                     str += "</tr>";
                    $('#commentList').append(str);
                });
@@ -159,4 +160,18 @@
          });
 	}
 	
+	//댓글 삭제
+	function commemtDelete(commentId){
+		//console.log(commentId);
+		$.ajax({
+            url : "comments",
+            type : 'DELETE',
+            dataType : "json",
+            data : JSON.stringify({ postId : commentId }),
+            contentType:  'application/json; charset=UTF-8',
+            success : function(data) {
+            	commentList();
+            }
+         });
+	}
 </script>
