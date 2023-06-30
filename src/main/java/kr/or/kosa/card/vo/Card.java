@@ -31,4 +31,5 @@ public class Card {
 	private Date startDate;
 	private Date endDate;
 	private String name;
+	private int pos;
 }
