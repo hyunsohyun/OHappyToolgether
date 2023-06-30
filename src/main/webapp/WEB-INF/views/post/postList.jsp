@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
@@ -10,10 +11,14 @@
 		<li class="breadcrumb-item"><a href="/">Dashboard</a></li>
 		<li class="breadcrumb-item active">Tables</li>
 	</ol>
-	
+
 	<div class="card mb-4">
 		<div class="card-header">
-			<i class="fas fa-table me-1"></i>게시판이름
+			<i class="fas fa-table me-1"></i>${boardName}
+		</div>
+		<div>
+			<button type="button" class="btn btn-sm btn-warning" id="deleteBtn"
+				onclick="location.href='/postInsert.do?boardId=${boardId}'">글쓰기</button>
 		</div>
 		<div class="card-body">
 			<table id="datatablesSimple">
@@ -28,8 +33,8 @@
 				</thead>
 				<tbody>
 					<c:forEach var="list" items="${list}">
-						<tr onclick="detailPost.do?no=${list.postId}">
-							<td></td>
+						<tr>
+							<td>${list.postId}</td>
 							<td>${list.title}</td>
 							<td>${list.userid}</td>
 							<td>${list.createDate}</td>
@@ -45,5 +50,24 @@
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script src="js/datatables-simple-demo.js"></script>
 <script type="text/javascript">
-	$('#example').DataTable();
+	
+	$("#datatablesSimple").on('click', 'tbody tr', function() {
+		let postId = $(this).children().eq(0).text();
+		
+		/* //조회수 업데이트
+		$.ajax({
+		    url: "post",
+		    type: "PUT",
+		    data: JSON.stringify({ postId: postId }),
+		    success: function(data) {
+		        // 상세 페이지 이동
+		        window.location.href = 'postDetail.do?boardId=' + ${boardId} + '&postId=' + postId;
+		    },
+		    error: function(request, status, error) {
+		        alert("code:" + request.status + "\n" + "error:" + error);
+		    }
+		}); */
+		window.location.href='postDetail.do?boardId='+${boardId}+'&postId='+postId;
+	});
+	
 </script>

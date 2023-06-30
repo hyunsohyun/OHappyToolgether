@@ -1,26 +1,26 @@
 package kr.or.kosa.post;
 
+
 public class Post {
-	private String postId;
-	private String boardId;
+	private int postId;
+	private int boardId;
 	private String title;
 	private String content;
-	private String hit;
+	private int hit;
 	private String createDate;
 	private String modifyDate;
 	private String projectId;
 	private String userid;
-	
-	public String getPostId() {
+	public int getPostId() {
 		return postId;
 	}
-	public void setPostId(String postId) {
+	public void setPostId(int postId) {
 		this.postId = postId;
 	}
-	public String getBoardId() {
+	public int getBoardId() {
 		return boardId;
 	}
-	public void setBoardId(String boardId) {
+	public void setBoardId(int boardId) {
 		this.boardId = boardId;
 	}
 	public String getTitle() {
@@ -35,10 +35,10 @@ public class Post {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getHit() {
+	public int getHit() {
 		return hit;
 	}
-	public void setHit(String hit) {
+	public void setHit(int hit) {
 		this.hit = hit;
 	}
 	public String getCreateDate() {
@@ -65,14 +65,6 @@ public class Post {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	
-	@Override
-	public String toString() {
-		return "Post [postId=" + postId + ", boardId=" + boardId + ", title=" + title + ", content=" + content
-				+ ", hit=" + hit + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", projectId="
-				+ projectId + ", userid=" + userid + "]";
-	}
-
 
 	
 }
