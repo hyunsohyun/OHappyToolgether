@@ -39,6 +39,7 @@ public class ProjectService {
 	}
 	
 	public int insertProject(Project project) {
+		System.out.println("insertProject 서비스 시작");
 		int result = 0;
 		ProjectDao dao = sqlsession.getMapper(ProjectDao.class);
 		System.out.println("ProjectDao 맵퍼 가져옴");
