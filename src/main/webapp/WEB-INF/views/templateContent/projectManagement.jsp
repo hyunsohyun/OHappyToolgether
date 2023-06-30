@@ -21,9 +21,9 @@
 <script>
     $(document).ready(function() {
     	var projectId = 400; // 프로젝트 ID를 설정
-    	var memberId = "osh8242";
+    	var memberId = "hsh";
         var tableBody = $("#memberList"); // tbody 요소 선택
-    	var userId = 'ndw';
+        var projectUserId = 'ndw';
         
         $.ajax({
             url: "member/users/" + projectId,
@@ -54,7 +54,7 @@
         
         $.ajax({
 
-            url: "project/" + userId,
+            url: "project/" + projectUserId,
             type: "GET",
             dataType: "json",
             success: function(response) {
@@ -76,7 +76,7 @@
         
         
         // 버튼 클릭 시 사용자 정보 가져오기
-        $("#userSearchBtn").click(function(e) {
+       /*  $("#userSearchBtn").click(function(e) {
             e.preventDefault(); // 폼 전송 방지
             
             var userid = $("#userSearch").val(); // 사용자 ID 입력값 가져오기
@@ -100,14 +100,43 @@
                     addUserToTable("");
                 }
             });
+        }); */
+        
+        $("#userSearchBtn").click(function(e) {
+            e.preventDefault(); // 폼 전송 방지
+
+            var userid = $("#userSearch").val(); // 사용자 ID 입력값 가져오기
+
+            var url = (userid !== "") ? "member/" + userid : "member";
+
+            // AJAX 요청
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    // 요청이 성공한 경우
+                    var user = response;
+                    console.log("받은 user 정보:", user);
+
+                    // 사용자 정보를 테이블에 추가
+                    addUserToTable(user);
+                },
+                error: function(xhr, status, error) {
+                    // 요청이 실패한 경우
+                    console.log("에러 메시지:", error);
+                    addUserToTable("");
+                }
+            });
         });
+
+
         
         $(document).ready(function() {
         	  // 변경 버튼 클릭 이벤트 핸들러
         	  $("#changeProjectNameBtn").click(function() {
         	    var projectName = $("#projectName").val(); // 변경할 프로젝트명 가져오기
         	    
-        	    // AJAX 요청
         	    $.ajax({
         	      url: "project/" + projectId + "/" + memberId,
         	      type: "PUT",
@@ -116,11 +145,11 @@
         	      data: JSON.stringify({ projectName: projectName }), // 변경할 프로젝트명 전달
         	      success: function(response) {
         	        console.log("프로젝트명 변경 성공");
-        	        // 성공적으로 업데이트된 경우, 필요한 처리를 수행하세요.
+
         	      },
         	      error: function(xhr, status, error) {
         	        console.log("에러 메시지:", error);
-        	        // 업데이트 실패 시 에러 처리를 수행하세요.
+
         	      }
         	    });
         	  });
@@ -128,40 +157,43 @@
         
         // 버튼 클릭 시 input 안에 있는 프로젝트 명으로 변경
         $("#userSearchBtn").click(function(e) {
-            e.preventDefault(); // 폼 전송 방지
-            
-            var userid = $("#userSearch").val(); // 사용자 ID 입력값 가져오기
-            
-            // AJAX 요청
-            $.ajax({
-                url: "member/" + userid,
-                type: "GET",
-                dataType: "json",
-                success: function(response) {
-                    // 요청이 성공한 경우
-                    var user = response;
-                    console.log("받은 user 정보:", user);
-                    
-                    // 사용자 정보를 테이블에 추가
-                    addUserToTable(user);
-                },
-                error: function(xhr, status, error) {
-                    // 요청이 실패한 경우
-                    console.log("에러 메시지:", error);  
-                    addUserToTable("");
-                }
-            });
-        });
+		    e.preventDefault(); // 폼 전송 방지
+		
+		    var userid = $("#userSearch").val(); // 사용자 ID 입력값 가져오기
+		
+		    var url = (userid !== "") ? "member/" + userid : "member";
+		
+		    // AJAX 요청
+		    $.ajax({
+		        url: url,
+		        type: "GET",
+		        dataType: "json",
+		        success: function(response) {
+		            // 요청이 성공한 경우
+		            var user = response;
+		            console.log("받은 user 정보:", user);
+		
+		            // 사용자 정보를 테이블에 추가
+		            addUserToTable(user);
+		        },
+		        error: function(xhr, status, error) {
+		            // 요청이 실패한 경우
+		            console.log("에러 메시지:", error);
+		            addUserToTable("");
+		        }
+		    });
+		});
+
         
         // 테이블에 사용자 정보 추가
-        function addUserToTable(user) {
+        /* function addUserToTable(user) {
             var tableBody = $("#userTableBody");
 
             // 기존의 테이블 내용 삭제
             tableBody.empty();
 
             // 사용자 정보 행 생성
-            if (user.userid && user.userid !== "") {
+            if (user.userid !== "") {
 			    console.log(user.name);
 			    var row = $("<tr>");
 			    var userIdCell = $("<td>").text(user.userid);
@@ -174,50 +206,132 @@
 			
 			    // 테이블에 행 추가
 			    tableBody.append(row);
+			} else (user.userid == "") {
+				
 			}
-        }
+        } */
         
-        $(document).on("click", ".userInvite", function(e) {
-        	let tableBody = $("#userTableBody");
-        	e.preventDefault();
-	
-            var userId = $(this).closest("tr").find("td:eq(0)").text();
-            var projectId = 500;
+        function addUserToTable(user) {
+            var tableBody = $("#userTableBody");
+
+            // 기존의 테이블 내용 삭제
+            tableBody.empty();
+
+            // 사용자 정보 행 생성
+            if (Array.isArray(user)) {
+                // 배열인 경우, 모든 사용자 정보를 반복하여 테이블에 행 추가
+                for (var i = 0; i < user.length; i++) {
+                    var currentUser = user[i];
+                    var row = $("<tr>");
+                    var userIdCell = $("<td>").text(currentUser.userid);
+                    var nameCell = $("<td>").text(currentUser.name);
+                    var inviteButtonCell = $("<td>").append($("<a>").addClass("btn btn-outline-primary userInvite").text("초대"));
+
+                    row.append(nameCell);
+                    row.append(userIdCell);
+                    row.append(inviteButtonCell);
+
+                    // 테이블에 행 추가
+                    tableBody.append(row);
+                }
+            } else {
+                // 단일 사용자인 경우, 테이블에 행 추가
+                if (user.userid !== "") {
+                    console.log(user.name);
+                    var row = $("<tr>");
+                    var userIdCell = $("<td>").text(user.userid);
+                    var nameCell = $("<td>").text(user.name);
+                    var inviteButtonCell = $("<td>").append($("<a>").addClass("btn btn-outline-primary userInvite").text("초대"));
+
+                    row.append(nameCell);
+                    row.append(userIdCell);
+                    row.append(inviteButtonCell);
+
+                    // 테이블에 행 추가
+                    tableBody.append(row);
+                }
+            }
+        }
+
+
+
+
+        	$(document).on("click", ".userInvite", function(e) {
+        	    let tableBody = $("#userTableBody");
+        	    e.preventDefault();
+
+        	    var userId = $(this).closest("tr").find("td:eq(1)").text();
+        	    var usersProject = {
+        	        projectId: projectId,
+        	        userid: userId
+        	    };
+
+        	    $.ajax({
+        	        url: "project/" + projectId + "/" + userId,
+        	        type: "POST",
+        	        contentType: "application/json",
+        	        data: JSON.stringify(usersProject),
+        	        dataType: "json",
+        	        success: function(response) {
+        	            console.log("초대");
+        	            tableBody.empty();
+        	            alert("초대완료");
+
+        	            // 비동기적으로 사용자 목록 갱신
+        	            refreshUserListAsync();
+        	        },
+        	        error: function(xhr, status, error) {
+        	            console.log("에러 메시지:", error);
+        	            tableBody.empty();
+        	            alert("이미 초대한 유저입니다.");
+        	        }
+        	    });
+        	});
+
+        	async function refreshUserListAsync() {
+        	    try {
+        	        var response = await $.ajax({
+        	            url: "member/users/" + projectId,
+        	            type: "GET",
+        	            dataType: "json"
+        	        });
+
+        	        console.log("사용자 목록 가져오기 성공");
+        	        var tableBody = $("#memberList");
+        	        tableBody.empty(); // 기존 데이터 삭제
+
+        	        // 사용자 목록을 순회하며 행을 생성하여 tbody에 추가
+        	        $.each(response, function(index, user) {
+        	            var row = $("<tr>").addClass("table-active");
+        	            var nameCell = $("<td>").text(user.name);
+        	            var userIdCell = $("<td>").text(user.userid);
+        	            var removeButtonCell = $("<td>").append($("<button>").addClass("btn btn-danger deleteUsersProject").text("추방"));
+
+        	            row.append(nameCell);
+        	            row.append(userIdCell);
+        	            row.append(removeButtonCell);
+
+        	            tableBody.append(row);
+        	        });
+        	    } catch (error) {
+        	        console.log("에러 메시지:", error);
+        	    }
+        	}
+
+
+       
+        
+        $(document).on("click", ".deleteUsersProject", function(e) {
+            console.log("삭제버튼을 누름");
+            e.preventDefault();
+
+            var userId = $(this).closest("tr").find("td:eq(1)").text();
             var usersProject = {
                 projectId: projectId,
                 userid: userId
             };
 
-            $.ajax({
-                url: "project/" + projectId + "/" + userId,
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(usersProject),
-                dataType: "json",
-                success: function(response) {
-                    console.log("초대");
-                    tableBody.empty();
-                    alert("초대완료");
-                },
-                error: function(xhr, status, error) {
-                    console.log("에러 메시지:", error);
-                    tableBody.empty();
-                    alert("이미 초대한 유저입니다.");
-                }
-            });
-        });
-        
-        $(document).on("click", ".deleteUsersProject", function(e) {
-        	console.log("삭제버튼을 누름");
-        	let tableBody = $("#userTableBody");
-        	e.preventDefault();
-	
-            var userId = $(this).closest("tr").find("td:eq(1)").text();
-            var projectId = 500;
-            var usersProject = {
-                projectId: projectId,
-                userid: userId
-            };
+            var deleteButton = $(this); // 삭제 버튼 요소
 
             $.ajax({
                 url: "project/" + projectId + "/" + userId,
@@ -227,13 +341,13 @@
                 dataType: "json",
                 success: function(response) {
                     console.log("삭제");
-                    tableBody.empty();
+                    deleteButton.closest("tr").remove(); // 해당 <tr> 요소 삭제
                     alert("추방되었습니다.");
                 },
                 error: function(xhr, status, error) {
                     console.log("에러 메시지:", error);
                 }
-            }); 
+            });
         });
     });
 </script>
@@ -457,8 +571,8 @@
             <div class="card-header projectinfo-header">참가자 초대하기</div>
             <div class="card-body">
                 <form class="d-flex">
-                    <input class="form-control me-sm-2" type="search" placeholder="Search" id="userSearch">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="userSearchBtn">Search</button>
+                    <input class="form-control me-sm-2" type="search" placeholder="id 검색" id="userSearch">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="userSearchBtn">검색</button>
                 </form>
                 <table class="table table-hover">
                     <thead>
