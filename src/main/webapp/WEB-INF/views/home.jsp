@@ -20,6 +20,7 @@
 			<main>
 				<div class="container-fluid px-4">반갑습니다 index페이지입니댱~</div>
 				<a href="loginForm.do">로그인 페이지</a>
+				<p><img src="/assets/img/together.png"></p>
 			</main>
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 		</div>
