@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,15 +41,25 @@ public class HomeController {
 	    return "home";
 	}
 	
+	@RequestMapping(value="/projectList.do")
+	public String projectList() {
+		logger.info("projectList으로 이동");
+		return "project/projectList";
+	}
+	
+	@RequestMapping(value="/projectDetail.do/{projectId}")
+	public String projectList(@PathVariable("projectId") String projectId, HttpSession session) {
+		logger.info("projectId으로 이동");
+		session.setAttribute("projectId", projectId);
+	    System.out.println("projectId : " + projectId);
+		return "project/projectDetail";
+	}
+	
 	@RequestMapping(value="/logout.do")
 	public String logout(HttpSession session) {
 		logger.info("Logout으로 이동");
 		session.removeAttribute("userid");
 		return "home";
-	}
-	
-	public HomeController() {
-		System.out.println("홈컨트롤러 생성자 호출");
 	}
 	
 	@GetMapping(value="/loginForm.do")
