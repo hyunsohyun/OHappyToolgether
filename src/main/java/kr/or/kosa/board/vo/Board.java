@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class Board {
 	
-	private String boardId;
+	private int boardId;
 	private String boardName;
-	private String projectId;
+	private int projectId;
 	
 }
