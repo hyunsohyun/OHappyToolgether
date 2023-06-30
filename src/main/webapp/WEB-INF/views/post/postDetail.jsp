@@ -61,22 +61,15 @@
 	</table>
 	
 	<hr>
-	파일리스트
-	<%-- 
-	${filelist.postId}
-	${filelist.realFileName}
-	${filelist.hashFileName}
-	${filelist.boardId}
-	${filelist.fileId}--%>
+	<h3>파일리스트</h3>
 	<table>
 		<c:forEach var="fileList" items="${fileList}">
 			<tr>
-				<td>fileid</td>
 				<td>${fileList.fileId}</td>
-			</tr>
-			<tr>
-				<td>realFileName</td>
+				<td>${fileList.postId}</td>
 				<td>${fileList.realFileName}</td>
+				<td>${fileList.filePath}</td>
+				<td>${fileList.boardId}</td>
 			</tr>
 			
 		</c:forEach>
@@ -92,6 +85,8 @@
 						<td>${commentList.writerId}</td>
 						<td>내용</td>
 						<td>${commentList.content}</td>
+						<td><input type='button' value='파일삭제' onclick='fileDelete(this)'></td>
+						<td></td>
 					</tr>
 					
 				</c:forEach>
@@ -123,11 +118,18 @@
 		commentList();
 	})
 	
+	///////////////////////////////////
 	//글삭제
 	function deletePost(){
-		let boardId = "${post.boardId}";
-		let postId = "${post.postId}";
+		const boardId = "${post.boardId}";
+		const postId = "${post.postId}";
 		window.location.href="postDelete.do?boardId=" + boardId + "&postId=" + postId;
+	}
+	
+	///////////////////////////////////
+	//파일 리스트
+	function fileList(){
+					
 	}
 	
 	///////////////////////////////////
@@ -148,6 +150,7 @@
 					str += "<td>내용</td>";
                   	str += "<td>" + value.content + "</td>";
                   	str += "<td><input type='button' value='삭제' onclick='commemtDelete(" + value.commentId + ")'></td>";
+                  	str += "<td><input type='button' value='수정' onclick='commemtUpdateMode(this)'></td>";
                     str += "</tr>";
                    $('#commentList').append(str);
                });
@@ -194,6 +197,37 @@
             		alert("댓글삭제 완료");
             	}else{
             		alert("댓글삭제 실패")
+            	}
+            	commentList();
+            }
+         });
+	}
+	
+	//댓글 수정으로 바꾸기
+	function commemtUpdateMode(gg){
+		console.log(gg);
+		alert("gdg");
+	}
+	
+	//댓글 수정
+	function commemtUpdate(commentId){
+		const postId = "${post.postId}";
+		//console.log(commentId);
+		$.ajax({
+            url : "comments",
+            type : 'PUT',
+            dataType : "json",
+            data : JSON.stringify({ 
+            	postId : postId,
+            	content : $("#commentContent").val(),
+            	commentId : commentId
+       		}),
+       		contentType:  'application/json; charset=UTF-8',
+            success : function(data) {
+            	 if(data>0){
+            		alert("댓글수정 완료");
+            	}else{
+            		alert("댓글수정 실패")
             	}
             	commentList();
             }

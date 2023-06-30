@@ -58,21 +58,19 @@ public class CommentsService {
 	}
 	
 	//댓글수정
-	public Comments commentUpdate(Comments comments){
+	public int commentUpdate(Comments comments){
+		int result = 0;
+		
 		try {
 			CommentsDao Commentsdao = sqlsession.getMapper(CommentsDao.class);
-			int n = Commentsdao.commentUpdate(comments);
-			if(n>0) {
-				System.out.println("댓글수정 성공");
-			}else {
-				System.out.println("댓글수정 실패 ");
-			}
+			result = Commentsdao.commentUpdate(comments);
+			
 		}catch (Exception e) {
 			System.out.println("오류발생");
 			System.out.println(e.getMessage());
 		}
 
-		return comments;
+		return result;
 	}
 	
 	//댓글삭제

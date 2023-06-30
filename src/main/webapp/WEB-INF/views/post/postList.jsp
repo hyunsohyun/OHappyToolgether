@@ -67,7 +67,7 @@
 				$("#datatablesSimple").on('click', 'tbody tr', function() {
 					let postId = $(this).children().eq(0).text();
 
-					/* //조회수 업데이트
+					//조회수 업데이트
 					$.ajax({
 					    url: "post",
 					    type: "PUT",
@@ -79,7 +79,7 @@
 					    error: function(request, status, error) {
 					        alert("code:" + request.status + "\n" + "error:" + error);
 					    }
-					}); */
+					});
 					window.location.href = 'postDetail.do?boardId=' + ${boardId} + '&postId=' + postId;
 				});
 			</script>
