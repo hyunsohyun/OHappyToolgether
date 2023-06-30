@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <div id="layoutSidenav_nav">
 	<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
 		<div class="sb-sidenav-menu">
@@ -96,12 +97,15 @@
 		</div>
 		<div class="sb-sidenav-footer">
 			<div class="small">Logged in as:</div>
-			<c:if test="${param.userid != null}">
-				${param.userid}
-			</c:if>
-			<c:if test="${param.userid == null}">
-				Anonymous
-			</c:if>
+			<c:set var="userid" value="${sessionScope.userid}" />
+			<c:choose>
+				<c:when test="${userid != null}">				
+					${userid} <a href="logout.do">로그아웃</a>
+				</c:when>
+				<c:otherwise>
+					Anonymous
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</nav>
 </div>
