@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.kosa.board.dao.BoardDao">
+
+	<insert id="insertBoard" parameterType="kr.or.kosa.board.vo.Board">
+		insert into board(board_id, board_name, project_id) values(board_seq.nextval, #{boardName}, #{projectId})
+	</insert>
+
+	<select id="selectBoardList" resultType="kr.or.kosa.board.vo.Board">
+		select board_id, board_name from board where project_id=#{projectId}
+	</select>
+
+	<update id="updateBoard" parameterType="kr.or.kosa.board.vo.Board">
+		update board set board_name=#{boardName}, project_id=#{projectId} where board_id=#{boardId}
+	</update>
+
+	<delete id="deleteBoard" parameterType="int">
+		delete from board where	board_id=#{boardId}
+	</delete>
+
+</mapper>
+
