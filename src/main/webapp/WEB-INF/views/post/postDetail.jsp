@@ -44,16 +44,44 @@
 			<td>${post.userid}</td>
 		</tr>
 	</table>
+	
+	<hr>
 	파일리스트
-	<%-- ${filelist.fileId}
+	<%-- 
 	${filelist.postId}
 	${filelist.realFileName}
 	${filelist.hashFileName}
 	${filelist.boardId}
-	${filelist.fileId} 
-	
-	
+	${filelist.fileId}--%>
+	<table>
+		<c:forEach var="fileList" items="${fileList}">
+			<tr>
+				<td>fileid</td>
+				<td>${fileList.fileId}</td>
+			</tr>
+			<tr>
+				<td>realFileName</td>
+				<td>${fileList.realFileName}</td>
+			</tr>
+			
+		</c:forEach>
+	</table>
+	<hr>
 	댓글 리스트
+	<table>
+		<c:forEach var="commentList" items="${commentList}">
+			<tr>
+				<td>commentId</td>
+				<td>${commentList.commentId}</td>
+			</tr>
+			<tr>
+				<td>postId</td>
+				<td>${commentList.postId}</td>
+			</tr>
+			
+		</c:forEach>
+	</table>
+	<%-- 
 	${commentList.commentId}
 	${commentList.postId}
 	${commentList.content}
@@ -67,11 +95,13 @@
 </main>
 <%@ include file="../common/footer.jsp"%>
 <script type="text/javascript">
-	$(document).ready(function( {
-		console.log("${filelist}");	
-		console.log("${commentList}");		
-	)};
+	
+	$(document).ready(function({
+		commentLsit();
+	});
 
+	
+	//댓글삭제
 	function deletePost(){
 		let boardId = "${post.boardId}";
 		let postId = "${post.postId}";

@@ -18,4 +18,7 @@ public interface PostDao {
 	
 	//글수정
 	public int postUpdate(Post post) throws ClassNotFoundException, SQLException;
+	
+	//게시판 조회수 업데이트
+	public void postHitUpdate(int postId) throws ClassNotFoundException, SQLException;
 }

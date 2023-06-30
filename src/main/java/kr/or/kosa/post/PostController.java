@@ -41,7 +41,6 @@ public class PostController {
 		this.commentsService = commentsService;
 	}
 
-	/* 게시판 템플릿 페이지*/
 	//글리스트
 	@RequestMapping("/postList.do")
 	public String postList(String boardId, Model model) throws Exception{
@@ -115,6 +114,5 @@ public class PostController {
 		postService.postDelete(post.getPostId());
 		return "redirect:postList.do?boardId=" + post.getBoardId();
 	}
-	
 	
 }

@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE POST_ID = #{postId}
 	</delete>
 	
-	<update id ="updateHit">
+	<update id ="postHitUpdate">
 		UPDATE POST 
 			SET HIT = HIT + 1
 		WHERE POST_ID = #{postId}

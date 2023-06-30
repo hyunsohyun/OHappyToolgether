@@ -103,4 +103,16 @@ public class PostService {
 		
 		return message;
 	}
+	
+	public void postHitUpdate(int postId) {
+		
+		try {
+			PostDao Postdao = sqlsession.getMapper(PostDao.class);
+			Postdao.postHitUpdate(postId);
+		}catch (Exception e) {
+			System.out.println("조회수 업데이트 오류발생");
+			System.out.println(e.getMessage());
+		}
+		
+	}
 }
