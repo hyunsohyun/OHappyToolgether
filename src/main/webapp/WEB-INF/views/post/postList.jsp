@@ -4,20 +4,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>OHappyToolgether</title>
-	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-	<link href="css/styles.css" rel="stylesheet" />
-	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-	<style>
-		#full-image {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
-	</style>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<title>OHappyToolgether</title>
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<link href="css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<style>
+#full-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+</style>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -25,47 +25,47 @@
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 			<main>
-				<div class="container">
-					<h1 class="mt-4">게시판</h1>
-					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+			<div class="container">
+				<h1 class="mt-4">게시판</h1>
+				<ol class="breadcrumb mb-4">
+					<li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+					<li class="breadcrumb-item active">Tables</li>
+				</ol>
 
-					<div class="card mb-4">
-						<div class="card-header">
-							<i class="fas fa-table me-1"></i>${boardName}
-							<div>
-								<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="location.href='/postInsert.do?boardId=${boardId}'">글쓰기</button>
-							</div>
-						</div>
-						<div class="card-body">
-							<table id="datatablesSimple">
-								<thead>
+				<div class="card mb-4">
+					<div class="card-header">
+						<i class="fas fa-table me-1"></i>${boardName}
+					</div>
+					<div>
+						<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="location.href='/postInsert.do?boardId=${boardId}'">글쓰기</button>
+					</div>
+					<div class="card-body">
+						<table id="datatablesSimple">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="list" items="${list}">
 									<tr>
-										<th>번호</th>
-										<th>제목</th>
-										<th>작성자</th>
-										<th>작성일</th>
-										<th>조회수</th>
+										<td>${list.postId}</td>
+										<td>${list.title}</td>
+										<td>${list.userid}</td>
+										<td>${list.createDate}</td>
+										<td>${list.hit}</td>
 									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="list" items="${list}">
-										<tr>
-											<td>${list.postId}</td>
-											<td>${list.title}</td>
-											<td>${list.userid}</td>
-											<td>${list.createDate}</td>
-											<td>${list.hit}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
+								</c:forEach>
+							</tbody>
+						</table>
 					</div>
 				</div>
-
+			</div>
+				
 			</main>
 			<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 			<script src="js/datatables-simple-demo.js"></script>
