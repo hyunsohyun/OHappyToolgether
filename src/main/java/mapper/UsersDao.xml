@@ -8,6 +8,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT userid, password, name, enabled, email, image FROM USERS
 	</select>
 	
+	<select id="selectAllUsersByProjectId" resultType="kr.or.kosa.member.vo.Users">
+		SELECT userid, password, name, enabled, email, image FROM USERS 
+		WHERE userid in (
+			SELECT userid FROM users_project WHERE project_id = #{projectId}
+		)
+	</select>
+	
 	<select id="selectUserById" resultType="kr.or.kosa.member.vo.Users">
 		select userid, password, name, enabled, email, image from users where userid = #{userid}
 	</select>

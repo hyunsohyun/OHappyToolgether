@@ -21,6 +21,10 @@ public class HomeController {
 		return "home";
 	}
 	
+	public HomeController() {
+		System.out.println("홈컨트롤러 생성자 호출");
+	}
+	
 	@GetMapping(value="/loginForm.do")
 	public String login() {
 		logger.info("LoginForm으로 이동");
