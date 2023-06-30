@@ -66,7 +66,7 @@
 			
 		</c:forEach>
 	</table>
-	<button type="button" class="btn btn-sm" id="deleteBtn" onclick="deletePost()">글삭제</button>
+	<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="deletePost()">글삭제</button>
 	<div>
 		<!-- 댓글 리스트존 -->
 		<div>
