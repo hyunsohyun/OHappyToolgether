@@ -13,7 +13,10 @@
 	
 	<div class="card mb-4">
 		<div class="card-header">
-			<i class="fas fa-table me-1"></i>게시판이름
+			<i class="fas fa-table me-1"></i>게시판이름ㄹㄹㄹ
+		</div>
+		<div>
+			<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="postInsert.do">글쓰기</button>
 		</div>
 		<div class="card-body">
 			<table id="datatablesSimple">
@@ -28,7 +31,7 @@
 				</thead>
 				<tbody>
 					<c:forEach var="list" items="${list}">
-						<tr onclick="detailPost.do?no=${list.postId}">
+						<tr onclick="postDetail.do?postId=${list.postId}">
 							<td></td>
 							<td>${list.title}</td>
 							<td>${list.userid}</td>
