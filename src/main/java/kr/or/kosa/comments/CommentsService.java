@@ -76,20 +76,18 @@ public class CommentsService {
 	}
 	
 	//댓글삭제
-	public Comments commentDelete(Comments comments){
+	public int commentDelete(Comments comments){
+		int result = 0;
+		
 		try {
 			CommentsDao commentsdao = sqlsession.getMapper(CommentsDao.class);
-			int n = commentsdao.commentDelete(comments);
-			if(n>0) {
-				System.out.println("댓글삭제 성공");
-			}else {
-				System.out.println("댓글삭제 실패 ");
-			}
+			result = commentsdao.commentDelete(comments);
+			
 		}catch (Exception e) {
-			System.out.println("오류발생");
+			System.out.println("댓글 삭제 오류발생");
 			System.out.println(e.getMessage());
 		}
 
-		return comments;
+		return result;
 	}
 }

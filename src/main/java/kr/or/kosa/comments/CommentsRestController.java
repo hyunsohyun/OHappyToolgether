@@ -60,12 +60,10 @@ public class CommentsRestController {
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<Integer> commentDelete(@RequestParam int commentId) {
-		System.out.println(commentId);
+	public ResponseEntity<Integer> commentDelete(@RequestBody Comments comments) {
 		int result = 0;
-
 		try {
-			
+			result = commentsService.commentDelete(comments);
 			return new ResponseEntity<Integer>(result,HttpStatus.OK);
 		} catch (Exception e) {			
 			System.out.println(e.getMessage());

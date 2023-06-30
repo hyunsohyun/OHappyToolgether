@@ -11,13 +11,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 	<link href="css/styles.css" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-	<style>
-		#full-image {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
-	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -86,11 +80,7 @@
 					        alert("code:" + request.status + "\n" + "error:" + error);
 					    }
 					}); */
-					window.location.href = 'postDetail.do?boardId=' + $
-					{
-						boardId
-					}
-					+'&postId=' + postId;
+					window.location.href = 'postDetail.do?boardId=' + ${boardId} + '&postId=' + postId;
 				});
 			</script>
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
