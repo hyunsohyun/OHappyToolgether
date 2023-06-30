@@ -1,16 +1,18 @@
 package kr.or.kosa.post;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 
 @RestController
 @RequestMapping("/post")
 public class PostRestController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(PostRestController.class);
 	private PostService postService;
 
 	@Autowired
@@ -19,12 +21,12 @@ public class PostRestController {
 	}
 	
 	// 조회수 update
-	@PostMapping("/updateHit")
-	public void update(@RequestParam int postId) {
-		try {
-			postService.postHitUpdate(postId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	@PutMapping
+	public void update(@RequestBody Post post) {
+	    try {
+	        postService.postHitUpdate(post.getPostId());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 }

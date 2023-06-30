@@ -54,20 +54,18 @@
 	$("#datatablesSimple").on('click', 'tbody tr', function() {
 		let postId = $(this).children().eq(0).text();
 		
-		//조회수 업데이트
-		/* $.ajax({
-			url : "post/updateHit",
-			type : "POST",
-			data : {postId : postId},
-			cache : false,
-			dataType : 'json',
-			success : function(data) {
-				//상세 페이지 이동
-				window.location.href='postDetail.do?boardId='+${boardId}+'&postId='+postId;
-			},
-			error : function(request, status, error) {
-				 alert("code:"+request.status+"\n"+"error:"+error); 
-			}
+		/* //조회수 업데이트
+		$.ajax({
+		    url: "post",
+		    type: "PUT",
+		    data: JSON.stringify({ postId: postId }),
+		    success: function(data) {
+		        // 상세 페이지 이동
+		        window.location.href = 'postDetail.do?boardId=' + ${boardId} + '&postId=' + postId;
+		    },
+		    error: function(request, status, error) {
+		        alert("code:" + request.status + "\n" + "error:" + error);
+		    }
 		}); */
 		window.location.href='postDetail.do?boardId='+${boardId}+'&postId='+postId;
 	});

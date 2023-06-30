@@ -37,8 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			, CONTENT
 			, CREATE_DATE
 			, WRITER_ID
-			, BOARD_ID ) 
-		VALUES(#{commentId}, #{postId}, #{content}, sysdate, #{userId}, #{boardId});
+			, BOARD_ID 
+			)VALUES(commentsSeq.NEXTVAL, #{postId}, #{content}, sysdate, #{writerId}, #{boardId});
 	</insert>
 	
 	<update id ="commentUpdate" parameterType="kr.or.kosa.comments.Comments">

@@ -66,21 +66,30 @@
 			
 		</c:forEach>
 	</table>
-	<hr>
-	댓글 리스트
-	<table>
-		<c:forEach var="commentList" items="${commentList}">
-			<tr>
-				<td>commentId</td>
-				<td>${commentList.commentId}</td>
-			</tr>
-			<tr>
-				<td>postId</td>
-				<td>${commentList.postId}</td>
-			</tr>
-			
-		</c:forEach>
-	</table>
+	<button type="button" class="btn btn-sm" id="deleteBtn" onclick="deletePost()">글삭제</button>
+	<div>
+		<!-- 댓글 리스트존 -->
+		<div>
+			<table id="commentList">
+				<c:forEach var="commentList" items="${commentList}">
+					<tr>
+						<td>작성자</td>
+						<td>${commentList.writerId}</td>
+						<td>내용</td>
+						<td>${commentList.content}</td>
+					</tr>
+					
+				</c:forEach>
+			</table>
+		</div>
+		<!-- 댓글입력존 -->
+		<div>
+			<form>
+				<input type="text" id="commentContent">
+				<input type="button" onclick="commentsInsert()" value="댓글등록">
+			</form>
+		</div>
+	</div>
 	<%-- 
 	${commentList.commentId}
 	${commentList.postId}
@@ -90,21 +99,64 @@
 	${commentList.writerId}
 	${commentList.boardId} --%>
 	
-	<button type="button" class="btn btn-sm" id="deleteBtn" onclick="deletePost()">글삭제</button>
+	
 
 </main>
 <%@ include file="../common/footer.jsp"%>
 <script type="text/javascript">
 	
-	$(document).ready(function({
-		commentLsit();
-	});
-
+	$(document).ready(function(){
+		commentList();
+	})
 	
-	//댓글삭제
+	//글삭제
 	function deletePost(){
 		let boardId = "${post.boardId}";
 		let postId = "${post.postId}";
 		window.location.href="postDelete.do?boardId=" + boardId + "&postId=" + postId;
 	}
+	
+	///////////////////////////////////
+	//댓글리스트
+	function commentList(){
+		const postId = "${post.postId}";
+		
+		$.ajax({
+            url : "comments/" + postId,
+            dataType : "json",
+            success : function(data) {
+               $('#commentList').empty();
+               $.each(data, function(key, value) {
+					console.log(value.commentId);
+					let str = "<tr>";
+					str += "<td>작성자</td>";
+					str += "<td>" + value.writerId + "</td>";
+					str += "<td>내용</td>";
+                  	str += "<td>" + value.content + "</td>";
+                    str += "</tr>";
+                   $('#commentList').append(str);
+               });
+               
+            }
+         });
+	}
+	
+	//댓글작성
+	function commentsInsert(){
+		const postId = "${post.postId}";
+		
+		$.ajax({
+            url : "comments",
+            type : 'POST',
+            dataType : "json",
+            data : JSON.stringify({ postId : postId,
+            		 content : $("#commentContent").val()
+            		}),
+            contentType:  'application/json; charset=UTF-8',
+            success : function(data) {
+            	commentList();
+            }
+         });
+	}
+	
 </script>

@@ -45,21 +45,16 @@ public class CommentsService {
 	}
 
 	//댓글쓰기
-	public Comments commentInsert(Comments comments){
+	public int commentInsert(Comments comments){
+		int result = 0;
 		try {
 			CommentsDao commentsdao = sqlsession.getMapper(CommentsDao.class);
-			int n = commentsdao.commentInsert(comments);
-			if(n>0) {
-				System.out.println("댓글쓰기 성공");
-			}else {
-				System.out.println("댓글쓰기 실패 ");
-			}
+			result = commentsdao.commentInsert(comments);
 		}catch (Exception e) {
-			System.out.println("오류발생");
+			System.out.println("댓글쓰기 오류발생");
 			System.out.println(e.getMessage());
 		}
-
-		return comments;
+		return result;
 	}
 	
 	//댓글수정
