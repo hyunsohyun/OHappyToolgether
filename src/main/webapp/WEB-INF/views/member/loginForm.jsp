@@ -29,7 +29,8 @@
 					<div class="col-md-4 offset-md-4">
 						<div class="card">
 							<div class="card-header">
-								<div>User Login</div>
+								<i class="fas fa-user"></i>
+								User Login
 							</div>
 							<div class="card-body">
 								<form name='f' action='${pageContext.request.contextPath}/login.do' method='POST'>
@@ -41,7 +42,7 @@
 									</div>
 									<div class="form-group mt-4">
 										<button type="submit" class="btn btn-primary">Submit</button>
-									</div>									
+									</div>
 								</form>
 							</div>
 							<div class="card-footer small text-muted">OHappyToolgether</div>
