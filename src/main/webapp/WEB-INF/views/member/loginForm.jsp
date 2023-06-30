@@ -1,19 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Login Page</title>
-<link href="css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-	crossorigin="anonymous"></script>
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-	rel="stylesheet">
-</head>
-<body>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
 	<div>
 		<c:if test="${param.error != null}">
 			<p>아이디와 비번이 잘못 되었어요</p>
