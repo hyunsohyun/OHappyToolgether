@@ -1,8 +1,52 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../common/header.jsp"%>
-<%@ include file="../common/sidenav.jsp"%>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>OHappyToolgether</title>
+	<link
+		href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+	<link href="css/styles.css" rel="stylesheet" />
+	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"	crossorigin="anonymous"></script>
+	
+	<style>
+    .projectinfo-header {
+        background-color: #343a40;
+        color: #ffffff;
+    }
 
+    .projectinfo-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .projectinfo {
+        flex-basis: 30%;
+        margin: 10px;
+    }
+
+    .table th,
+    .table td {
+        text-align: center;
+    }
+    #changeProjectNameBtn{
+    	margin-left: 5px;
+    }
+    
+    .projectDelteBtn{
+    	float:right; 
+    }
+
+
+    @media (max-width: 767px) {
+        .projectinfo {
+            flex-basis: 100%;
+        }
+    }
+</style>
+    
+</head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
@@ -183,13 +227,14 @@ document.addEventListener("DOMContentLoaded", function() {
       if (user.userid !== "") {
         let row = document.createElement("tr");
 
+        let nameCell = document.createElement("td");
+        nameCell.textContent = user.name;
+        row.appendChild(nameCell);
+        
         let userIdCell = document.createElement("td");
         userIdCell.textContent = user.userid;
         row.appendChild(userIdCell);
 
-        let nameCell = document.createElement("td");
-        nameCell.textContent = user.name;
-        row.appendChild(nameCell);
 
         let inviteButtonCell = document.createElement("td");
         let inviteButton = document.createElement("a");
@@ -354,102 +399,82 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-	
-<style>
-    .projectinfo-header {
-        background-color: #343a40;
-        color: #ffffff;
-    }
 
-    .projectinfo-container {
-        display: flex;
-        flex-wrap: wrap;
-    }
+<body class="sb-nav-fixed">
+	<%@ include file="/WEB-INF/views/common/header.jsp"%>
+	<div id="layoutSidenav">
 
-    .projectinfo {
-        flex-basis: 30%;
-        margin: 10px;
-    }
+		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
+		<div id="layoutSidenav_content">
+			<main class="container mt-4">
+				<div id="projectManagementTitle">
+					<h2>프로젝트관리</h2>
+				</div>
 
-    .table th,
-    .table td {
-        text-align: center;
-    }
-    #changeProjectNameBtn{
-    	margin-left: 5px;
-    }
-    
-    .projectDelteBtn{
-    	float:right; 
-    }
+				<div class="projectinfo-container">
+					<div class="card border-dark mb-3 projectinfo">
+						<div class="card-header projectinfo-header">프로젝트 정보</div>
+						<div class="card-body">
+							<div>
+								<label for="exampleInputEmail1" class="form-label mt-1">프로젝트
+									이름</label>
+							</div>
+							<div class="form-group d-flex">
+								<input type="email" class="form-control" id="projectName"
+									aria-describedby="emailHelp" placeholder="Enter email">
+								<button type="button" class="btn btn-success ml-2"
+									id="changeProjectNameBtn">변경</button>
+							</div>
+							<button type="button" class="btn btn-danger projectDelteBtn"
+								id="projectDelteBtn">프로젝트 삭제</button>
+						</div>
+					</div>
 
-    /* 반응형 레이아웃을 위한 미디어 쿼리 */
-    @media (max-width: 767px) {
-        .projectinfo {
-            flex-basis: 100%;
-        }
-    }
-</style>
+					<div class="card border-dark mb-3 projectinfo">
+						<div class="card-header projectinfo-header">프로젝트 참가자</div>
+						<div class="card-body">
+							<div class="form-group">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th scope="col">이름</th>
+											<th scope="col">아이디</th>
+											<th scope="col">추방</th>
+										</tr>
+									</thead>
+									<tbody id="memberList">
 
-<main class="container mt-4">
-    <div id="projectManagementTitle">
-        <h2>프로젝트관리</h2>
-    </div>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
 
-    <div class="projectinfo-container">
-        <div class="card border-dark mb-3 projectinfo">
-            <div class="card-header projectinfo-header">프로젝트 정보</div>
-            <div class="card-body">
-                <div><label for="exampleInputEmail1" class="form-label mt-1">프로젝트 이름</label></div>
-			    <div class="form-group d-flex">
-			        <input type="email" class="form-control" id="projectName" aria-describedby="emailHelp" placeholder="Enter email">
-			        <button type="button" class="btn btn-success ml-2" id="changeProjectNameBtn">변경</button>
-			    </div>
-			    <button type="button" class="btn btn-danger projectDelteBtn" id="projectDelteBtn" >프로젝트 삭제</button>
-			</div>
-        </div>
-
-        <div class="card border-dark mb-3 projectinfo">
-            <div class="card-header projectinfo-header">프로젝트 참가자</div>
-            <div class="card-body">
-                <div class="form-group">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">이름</th>
-                                <th scope="col">아이디</th>
-                                <th scope="col">추방</th>
-                            </tr>
-                        </thead>
-                        <tbody id="memberList">
-                            <!-- Member list rows go here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="card border-dark mb-3 projectinfo">
-            <div class="card-header projectinfo-header">참가자 초대하기</div>
-            <div class="card-body">
-                <form class="d-flex">
-                    <input class="form-control me-sm-2" type="search" placeholder="id 검색" id="userSearch">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="userSearchBtn">검색</button>
-                </form>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">이름</th>
-                            <th scope="col">아이디</th>
-                            <th scope="col">초대</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userTableBody">
-                        <!-- User table rows go here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</main>
+					<div class="card border-dark mb-3 projectinfo">
+						<div class="card-header projectinfo-header">참가자 초대하기</div>
+						<div class="card-body">
+							<form class="d-flex">
+								<input class="form-control me-sm-2" type="search"
+									placeholder="id 검색" id="userSearch">
+								<button class="btn btn-secondary my-2 my-sm-0" type="submit"
+									id="userSearchBtn">검색</button>
+							</form>
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col">이름</th>
+										<th scope="col">아이디</th>
+										<th scope="col">초대</th>
+									</tr>
+								</thead>
+								<tbody id="userTableBody">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+	</main>
+</body>
 
