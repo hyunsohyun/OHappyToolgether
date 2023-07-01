@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<select id="selectBoardList" resultType="kr.or.kosa.board.vo.Board">
-		select board_id, board_name from board where project_id=#{projectId}
+		select board_id, board_name, project_id from board where project_id=#{projectId}
 	</select>
 
 	<update id="updateBoard" parameterType="kr.or.kosa.board.vo.Board">

@@ -1,18 +1,23 @@
 package kr.or.kosa.project.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.or.kosa.card.vo.Card;
 import kr.or.kosa.project.service.ProjectService;
 import kr.or.kosa.project.vo.Project;
 import kr.or.kosa.project.vo.UsersProject;
@@ -48,7 +53,6 @@ public class ProjectController {
 		try {
 			result = projectService.insertProject(project);
 			System.out.println("requestBody의 project 정보 : " + project.toString());
-			
 			return new ResponseEntity<Integer>(result,HttpStatus.OK);
 		} catch (Exception e) {			
 			System.out.println("insertProject()에서 터짐");
@@ -73,16 +77,16 @@ public class ProjectController {
 	
 	@PostMapping("{projectId}/{userid}")
 	public ResponseEntity<Integer> insertUsersProject(@RequestBody UsersProject usersProject) {
-		int result = 0;
-		System.out.println("PostMapping {projectId}/{userid}");
-		try {	
-			result = projectService.insertUsersProject(usersProject);
-			return new ResponseEntity<Integer>(result,HttpStatus.OK);
-		} catch (Exception e) {			
-			System.out.println("insertUsersProject()에서 터짐");
-			System.out.println(e.getMessage());
-			return new ResponseEntity<Integer>(result,HttpStatus.BAD_REQUEST);
-		}		
+	    int result = 0;
+	    System.out.println("PostMapping {projectId}/{userid}");
+	    try {    
+	        result = projectService.insertUsersProject(usersProject);
+	        return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	    } catch (Exception e) {            
+	        System.out.println("insertUsersProject()에서 예외가 발생했습니다.");
+	        System.out.println(e.getMessage());
+	        return new ResponseEntity<Integer>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }        
 	}
 	
 	@DeleteMapping("{projectId}/{userid}")
@@ -92,14 +96,37 @@ public class ProjectController {
 		try {	
 			result = projectService.deleteUsersProject(usersProject);
 			return new ResponseEntity<Integer>(result,HttpStatus.OK);
-		} catch (Exception e) {			
+		} catch (DuplicateKeyException e) {
+	        System.out.println("기본키 중복 오류 발생");
+	        System.out.println(e.getMessage());
+	        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+	    }catch (Exception e) {			
 			System.out.println("deleteUsersProject()에서 터짐");
 			System.out.println(e.getMessage());
 			return new ResponseEntity<Integer>(result,HttpStatus.BAD_REQUEST);
 		}		
 	}
 	
-	
+	//프로젝트 이름변경
+	@PutMapping("{projectId}/{memberId}")
+	public ResponseEntity<Map<String, String>> update(@RequestBody Project project, @PathVariable("projectId") int projectId, @PathVariable("memberId") String memberId ) {
+		Map<String, String> response = new HashMap<String, String>();
+		project.setProjectId(projectId);
+		project.setManagerId(memberId);
+		try {
+			System.out.println("프로젝트 update 컨트롤러 실행");
+			System.out.println(project.toString());
+			
+			projectService.updateProjectName(project);
+			
+			System.out.println("업데이트 실행 완료");
+			response.put("message", "update success");
+			return new ResponseEntity<Map<String, String>>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Map<String, String>>(response, HttpStatus.BAD_REQUEST); 
+		}
+	}
 	
 	
 }

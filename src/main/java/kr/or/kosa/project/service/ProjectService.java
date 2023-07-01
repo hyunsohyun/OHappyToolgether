@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import kr.or.kosa.card.dao.CardDao;
+import kr.or.kosa.card.vo.Card;
 import kr.or.kosa.project.dao.ProjectDao;
 import kr.or.kosa.project.vo.Project;
 import kr.or.kosa.project.vo.UsersProject;
@@ -74,9 +77,13 @@ public class ProjectService {
 		try {			
 			result = dao.insertUsersProject(usersProject);
 			System.out.println("insertUsersProject 처리함");
-		} catch (Exception e) {
-			e.getStackTrace();
-		}		
+		} catch (DataIntegrityViolationException e) {
+	        System.out.println("기본 키 중복 오류가 발생했습니다.");
+	        throw e;
+	    } catch (Exception e) {
+	        System.out.println("예외가 발생했습니다.");
+	        throw new RuntimeException("insertUsersProject 메서드 실행 중 예외가 발생했습니다.", e);
+	    }	
 		return result;
 	}
 	
@@ -91,5 +98,11 @@ public class ProjectService {
 			e.getStackTrace();
 		}		
 		return result;
+	}
+	
+	//프로젝트 이름변경
+	public int updateProjectName(Project project) {
+		ProjectDao dao = sqlsession.getMapper(ProjectDao.class);
+		return dao.updateProjectName(project);
 	}
 }
