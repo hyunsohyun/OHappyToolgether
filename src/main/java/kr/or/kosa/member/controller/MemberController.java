@@ -32,12 +32,13 @@ public class MemberController {
 	
 	@GetMapping
 	public ResponseEntity<List<Users>> selectAllUser() {
+		System.out.println("모든 유저 목록 조회 매핑됨");
 		List<Users> list = null;
 		try {
 			list = memberService.selectAllUser();
 			return new ResponseEntity<List<Users>>(list,HttpStatus.OK);
 		} catch (Exception e) {			
-			System.out.println("emplist()에서 터짐");
+			System.out.println("selectAllUser()에서 터짐");
 			System.out.println(e.getMessage());
 			return new ResponseEntity<List<Users>>(list,HttpStatus.BAD_REQUEST);
 		}		

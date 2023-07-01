@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.kosa.file.FileDao" >
+
+	<select id="fileList" resultType="kr.or.kosa.file.File">
+	    SELECT FILE_ID 
+		    , POST_ID
+		    , REAL_FILE_NAME
+		    , HASH_FILE_NAME
+		    , FILE_PATH
+		    , BOARD_ID
+		FROM FILES
+		WHERE POST_ID = #{postId}
+	</select>
+	
+	<select id="fileDetail" resultType="kr.or.kosa.file.File">
+	    SELECT FILE_ID 
+		    , POST_ID
+		    , REAL_FILE_NAME
+		    , HASH_FILE_NAME
+		    , FILE_PATH
+		    , BOARD_ID
+	    FROM FILES
+	    WHERE FILE_ID = #{fileId}
+	</select>
+	
+	<insert id="fileInsert" parameterType="kr.or.kosa.file.File" > 
+		INSERT INTO FILES (
+			FILE_ID
+		    , POST_ID
+		    , REAL_FILE_NAME
+		    , HASH_FILE_NAME
+		    , FILE_PATH
+		    , BOARD_ID) 
+		VALUES(#{fileID}, #{postId}, #{realFilename}, #{hashFileName}, #{filePath}, #{boardId});
+	</insert>
+	
+	<delete id="fileDelete" parameterType="kr.or.kosa.file.File">
+		DELETE 
+		FROM FILES
+		WHERE file_ID = #{fileId}
+	</delete>
+	
+</mapper>
+

@@ -6,20 +6,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 칸반보드 select 매퍼 -->
 	<select id="selectByKanbanboardId" resultType="kr.or.kosa.card.vo.Card">
-		select card_id AS cardId, project_id AS projectId, kanbanboard_id AS kanbanboardId, title, content, create_date AS createDate, start_date AS startDate, end_date AS endDate, name from CARD
+		select card_id AS cardId, project_id AS projectId, kanbanboard_id AS kanbanboardId, title, content, create_date AS createDate, start_date AS startDate, end_date AS endDate, name, pos from CARD
 		WHERE project_id = #{projectId} AND kanbanboard_id = #{kanbanboardId}
+		ORDER BY pos
 	</select>
 	
 	<!-- 칸반보드 insert 매퍼 -->
 	<insert id="insertCard" parameterType="kr.or.kosa.card.vo.Card">
-		INSERT INTO CARD(CARD_ID, PROJECT_ID, KANBANBOARD_ID, TITLE, CONTENT, CREATE_DATE, START_DATE, END_DATE, NAME)
-		VALUES (CARD_SEQ.NEXTVAL, #{projectId}, #{kanbanboardId}, #{title}, #{content}, SYSDATE, #{startDate}, #{endDate}, #{name})
+		INSERT INTO CARD(CARD_ID, PROJECT_ID, KANBANBOARD_ID, TITLE, CONTENT, CREATE_DATE, START_DATE, END_DATE, NAME, POS)
+		VALUES (CARD_SEQ.NEXTVAL, #{projectId}, #{kanbanboardId}, #{title}, #{content}, SYSDATE, #{startDate}, #{endDate}, #{name}, #{pos})
 	</insert>
 	
 	<!-- 칸반보드 update 매퍼 -->
 	<update id="updateCard" parameterType="kr.or.kosa.card.vo.Card">
 		UPDATE CARD SET title=#{title} , content=#{content}, kanbanboard_id=#{kanbanboardId},
-						start_date=#{startDate}, end_date=#{endDate}, name=#{name}
+						start_date=#{startDate}, end_date=#{endDate}, name=#{name}, pos=#{pos}
 		WHERE CARD_ID = #{cardId}
 	</update>
 	

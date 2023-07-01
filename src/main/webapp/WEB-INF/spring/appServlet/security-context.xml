@@ -8,13 +8,12 @@
 		<security:csrf disabled="true" />
 		<security:intercept-url pattern="/loginForm.do" access="permitAll" />
 		<security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" />
-		<security:intercept-url pattern="/home.do" access="permitAll" />
 		<!-- <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" /> -->
 
 		<security:form-login login-page="/loginForm.do"
-							 default-target-url="/"
+							 default-target-url="/login.do"
 							 authentication-failure-url="/member/loginForm.do?error"
-							 username-parameter="id"
+							 username-parameter="userid"
 							 password-parameter="password" />
 		<security:logout logout-url="/logout.do" logout-success-url="/" />
 

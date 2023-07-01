@@ -2,8 +2,6 @@ package kr.or.kosa.card.vo;
 
 import java.util.Date;
 
-import lombok.Data;
-
 /*
 CREATE TABLE card (
 	card_id NUMBER NOT NULL,  		카드 ID 
@@ -19,7 +17,6 @@ CREATE TABLE card (
 );
 */
 
-@Data
 public class Card {
 	private int cardId;
 	private int projectId;
@@ -31,4 +28,67 @@ public class Card {
 	private Date startDate;
 	private Date endDate;
 	private String name;
+	private int pos;
+	
+	public int getCardId() {
+		return cardId;
+	}
+	public void setCardId(int cardId) {
+		this.cardId = cardId;
+	}
+	public int getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+	public int getKanbanboardId() {
+		return kanbanboardId;
+	}
+	public void setKanbanboardId(int kanbanboardId) {
+		this.kanbanboardId = kanbanboardId;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getPos() {
+		return pos;
+	}
+	public void setPos(int pos) {
+		this.pos = pos;
+	}
+	
 }
