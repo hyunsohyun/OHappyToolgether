@@ -19,7 +19,7 @@
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 			<main>
-				<div class="container" id="projectContainer">
+				<div class="container mt-2" id="projectContainer">
 								<!-- 프로젝트 카드 -->
 				</div>
 			</main>

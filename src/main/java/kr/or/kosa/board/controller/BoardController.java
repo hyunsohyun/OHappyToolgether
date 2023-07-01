@@ -48,8 +48,8 @@ public class BoardController {
 	public ResponseEntity<List<Board>> boardList(@PathVariable("projectId") int projectId) {
 		List<Board> list = new ArrayList<Board>();
 		try {
-			System.out.println("정상실행");
 			list = boardService.selectBoardList(projectId);
+			System.out.println("정상실행");
 			return new ResponseEntity<List<Board>>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<Board>>(list, HttpStatus.BAD_REQUEST);

@@ -72,6 +72,7 @@ public class MemberController {
 		}		
 	}
 	
+	
 	@PostMapping
 	public ResponseEntity<Integer> insertUser(@RequestBody Users user) {
 		int result = 0;
