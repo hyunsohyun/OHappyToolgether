@@ -4,20 +4,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>OHappyToolgether</title>
-	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-	<link href="css/styles.css" rel="stylesheet" />
-	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-	<style>
-		#full-image {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
-	</style>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<title>OHappyToolgether</title>
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<link href="css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -25,73 +19,47 @@
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 			<main>
-				<div class="container">
-					<h1 class="mt-4">게시판</h1>
-					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
-
-					<div class="card mb-4">
-						<div class="card-header">
-							<i class="fas fa-table me-1"></i>${boardName}
-							<div>
-								<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="location.href='/postInsert.do?boardId=${boardId}'">글쓰기</button>
-							</div>
-						</div>
-						<div class="card-body">
-							<table id="datatablesSimple">
-								<thead>
-									<tr>
-										<th>번호</th>
-										<th>제목</th>
-										<th>작성자</th>
-										<th>작성일</th>
-										<th>조회수</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="list" items="${list}">
-										<tr>
-											<td>${list.postId}</td>
-											<td>${list.title}</td>
-											<td>${list.userid}</td>
-											<td>${list.createDate}</td>
-											<td>${list.hit}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-					</div>
+				<div class="container" id="projectContainer">
+								<!-- 프로젝트 카드 -->
 				</div>
-
 			</main>
 			<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 			<script src="js/datatables-simple-demo.js"></script>
 			<script type="text/javascript">
-				$("#datatablesSimple").on('click', 'tbody tr', function() {
-					let postId = $(this).children().eq(0).text();
-
-					/* //조회수 업데이트
-					$.ajax({
-					    url: "post",
-					    type: "PUT",
-					    data: JSON.stringify({ postId: postId }),
-					    success: function(data) {
-					        // 상세 페이지 이동
-					        window.location.href = 'postDetail.do?boardId=' + ${boardId} + '&postId=' + postId;
-					    },
-					    error: function(request, status, error) {
-					        alert("code:" + request.status + "\n" + "error:" + error);
-					    }
-					}); */
-					window.location.href = 'postDetail.do?boardId=' + $
-					{
-						boardId
-					}
-					+'&postId=' + postId;
-				});
+				$(document).ready(
+						function() {
+							let userid = "${sessionScope.userid}";
+							console.log(userid);
+							$.ajax({
+								url : "project/" + userid,
+								type : "GET",
+								success : function(list) {
+									console.log(list);									
+									let projectContainer = $('#projectContainer');
+									let colNum = 4; // 한 줄에 보일 카드의 수
+									$(projectContainer).empty();
+									let str = "";
+									$.each(list, function(index, item){										
+										if(index%colNum==0) str += "<div class='row'>";
+										str += "<div class='col-md-"+ 12/colNum +"'>";
+										str += "<div class='card' style='width: 18rem;'>";
+										str += "<img src='" + item.projectImage + "' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>";
+										str += "<div class='card-body'>";
+										str += "<h4 class='card-title'>" + item.projectName + "</h4>";
+										str += "<p class='card-text'>프로젝트 설명</p>";
+										str += "<a href='projectDetail.do/"+ item.projectId +"' class='btn btn-primary'>Go somewhere</a>";
+										str += "</div></div></div>";
+										if(index%colNum==colNum-1) str += "</div>";										
+									});
+									$(projectContainer).append(str);
+								},
+								error : function(request, status, error) {
+									alert("code:" + request.status + "\n"
+											+ "error:" + error);
+								}
+							});
+						});
+				
 			</script>
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 		</div>
