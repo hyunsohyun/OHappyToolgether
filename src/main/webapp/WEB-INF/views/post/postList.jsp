@@ -71,8 +71,10 @@
 					$.ajax({
 					    url: "post",
 					    type: "PUT",
+					    dataType : "json",
 					    data: JSON.stringify({ postId: postId }),
-					    success: function(data) {
+					    contentType:  'application/json; charset=UTF-8',
+					    success: function() {
 					        // 상세 페이지 이동
 					        window.location.href = 'postDetail.do?boardId=' + ${boardId} + '&postId=' + postId;
 					    },
@@ -80,7 +82,7 @@
 					        alert("code:" + request.status + "\n" + "error:" + error);
 					    }
 					});
-					window.location.href = 'postDetail.do?boardId=' + ${boardId} + '&postId=' + postId;
+					//window.location.href = 'postDetail.do?boardId=' + ${boardId} + '&postId=' + postId;
 				});
 			</script>
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>

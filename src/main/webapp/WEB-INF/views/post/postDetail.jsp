@@ -230,7 +230,10 @@
             		alert("댓글수정 실패")
             	}
             	commentList();
-            }
+            },
+       		error: function(request, status, error) {
+		        alert("code:" + request.status + "\n" + "error:" + error);
+		    }
          });
 		
 	}
