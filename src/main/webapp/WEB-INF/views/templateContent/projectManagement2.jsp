@@ -10,118 +10,53 @@
 	<link href="css/styles.css" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"	crossorigin="anonymous"></script>
 	
-<style>
-
-	#projectManagementTitle{
-		margin-left: 40px;
-		margin-top: 20px;
-	}	
-
-  .projectinfo-header {
-  	font-weight : bold; 
-    height : 50px;
-    font-size: 25px;
-    display: flex;
-  	align-items: center;
-  	margin-top: auto;
-  	margin-bottom: auto;
-  } 
-  
-  .projectinfo-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .projectinfo {
-    flex-basis: 85%;
-    margin: auto;
-    margin-top: 50px;
-    height: 650px;
-    box-shadow : 1px 1px 3px 3px lightgray;
-    font-size: 18px;
-    background-color:#fefefe;
-  }
-  
-  .table th,
-  .table td {
-    text-align: center;
-  }
-  
-  #changeProjectNameBtn {
-    margin-left: 30px;
-  }
-  
-  .projectDelteBtn {
-    float: right;
-    margin-right: 70px;
-  }
-  
-  
-  #layoutSidenav {
-    background-color: #ebebeb;
-  }
-  
-  .project-info-box {
-    margin: 30px 50px 30px 120px;
-    width: 750px;
-    float:left;
-  }
-  #rightSideDiv{
-  	float: left;
-  	width: 550px;
-  	margin : 30px 0px;
-  }
-  
-  .project-input {
-    float: left;
-    width: 450px;
-    
-  }
-  .project-input-name {
-    float: left;
-    margin-right: 30px;
-    width: 200px;
-    height : 30px;
-  
-  }
-  .form-design1{
-  	width : 400px;
- 	height : 40px;
-  	font-size: 15px;
- 	border-radius: 13px;
- 	box-shadow : 1px 1px 3px 3px lightgray;
- 	border:0;
- 	outline: none;
-	padding-left: 10px;
-  	margin-bottom:5px;
-  }
-
-  .form-design{
-  	width : 450px;
- 	height : 40px;
-  	font-size: 15px;
- 	border: 0;
- 	border-radius: 13px;
- 	outline: none;
-	padding-left: 10px;
-  	background-color: rgb(233, 233, 233);
-  	margin-bottom:5px;
-  }
-  #changeProjectNameBtn{
-  	border-radius: 13px;
-  }
-  .hr {
-    background:gray;
-    height:1px;
-    border:1;
-    margin-bottom: 45px;
-	}
-   #projectImg{
-   	margin-bottom: 40px;
-   }
+	<style>
 	
-</style>
+    .projectinfo-header {
+        background-color: #343a40;
+        color: #ffffff;
+    }
 
+    .projectinfo-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .projectinfo {
+        flex-basis: 30%;
+        margin: 10px;
+    }
+
+    .table th,
+    .table td {
+        text-align: center;
+    }
+    #changeProjectNameBtn{
+    	margin-left: 5px;
+    }
+    
+    .projectDelteBtn{
+    	float:right; 
+    }
+
+
+   /*  @media (max-width: 767px) {
+        .projectinfo {
+            flex-basis: 100%;
+        }
+    } */
+    
+    #layoutSidenav{
+    	background-color: #ececec;
+    }
+    main{
+    	background-color : #1231DF;
+    }
+    
+    #projectManagementTitle{
+    	background-color:red;
+    }
+</style>
     
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -483,86 +418,31 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
-    <main>
-        <div id="projectManagementTitle">
-            <h2>프로젝트관리</h2>
-        </div>
+			<main>
+				<div id="projectManagementTitle">
+					<h2>프로젝트관리</h2>
+				</div>
 
-        <div class="projectinfo-container">
-            <div class="card projectinfo">
-                <div class="card-header projectinfo-header">프로젝트 정보</div>
-                <div class="card-body d-flex">
-                    <div class="project-info-box">
-                        <div class="d-flex">
-                            <div class="project-input-name">
-                                <label class="form-label mt-1">프로젝트 이름</label>
-                            </div>
-                            <div class="form-group project-input">
-                                <div class="d-flex">
-                                    <input type="text" class="form-design1" id="projectName">
-                                    <button type="button" class="btn btn-primary ml-2" id="changeProjectNameBtn">이름변경</button>
-                                </div>
-                            </div>
-                        </div>
+				<div class="projectinfo-container">
+					<div class="card border-dark mb-3 projectinfo">
+						<div class="card-header projectinfo-header">프로젝트 정보</div>
+						<div class="card-body">
+							<div>
+								<label for="exampleInputEmail1" class="form-label mt-1">프로젝트
+									이름</label>
+							</div>
+							<div class="form-group d-flex">
+								<input type="email" class="form-control" id="projectName"
+									aria-describedby="emailHelp" placeholder="Enter email">
+								<button type="button" class="btn btn-success ml-2"
+									id="changeProjectNameBtn">변경</button>
+							</div>
+							<button type="button" class="btn btn-danger projectDelteBtn"
+								id="projectDelteBtn">프로젝트 삭제</button>
+						</div>
+					</div>
 
-                        <hr class="hr">
-
-                        <div class="d-flex mt-3">
-                            <div class="project-input-name">
-                                <label class="form-label">프로젝트 참여인원</label>
-                            </div>
-                            <div class="form-group project-input ml-2">
-                                <input type="text" class="form-design" id="projectParticipants" disabled>
-                            </div>
-                        </div>
-
-                        <div class="d-flex mt-3">
-                            <div class="project-input-name">
-                                <label class="form-label">관리자 이름</label>
-                            </div>
-                            <div class="form-group project-input ml-2">
-                                <input type="text" class="form-design" id="projectManagerName" disabled>
-                            </div>
-                        </div>
-
-                        <div class="d-flex mt-3">
-                            <div class="project-input-name">
-                                <label class="form-label">관리자 ID</label>
-                            </div>
-                            <div class="form-group project-input ml-2">
-                                <input type="text" class="form-design" id="projectManagerId" disabled>
-                            </div>
-                        </div>
-                        
-                        <div class="d-flex mt-3">
-                            <div class="project-input-name">
-                                <label class="form-label">관리자 ID</label>
-                            </div>
-                            <div class="form-group project-input ml-2">
-                                <input type="text" class="form-design" id="projectManagerId" disabled>
-                            </div>
-                        </div>
-                        
-
-
-                        <hr class="hr">
-                        <button type="button" class="btn btn-danger projectDelteBtn float-right mt-3" id="projectDelteBtn">프로젝트 삭제</button>
-                    </div>
-
-                    <div id="rightSideDiv">
-                        <div id ="projectImg">
-                                <label class="form-label mt-1">프로젝트 이미지</label>
-                        </div>
-                        <div>
-                        	<img src="assets/img/together.png" height="400" width="400">
-                        </div>
-                    </div>
-                </div>
-            </div>
-   
-
-
-					<!-- <div class="card border-dark mb-3 projectinfo">
+					<div class="card border-dark mb-3 projectinfo">
 						<div class="card-header projectinfo-header">프로젝트 참가자</div>
 						<div class="card-body">
 							<div class="form-group">
@@ -604,7 +484,7 @@ document.addEventListener("DOMContentLoaded", function() {
 							</table>
 						</div>
 					</div>
-				</div> -->
+				</div>
 		</div>
 	</div>
 	</main>
