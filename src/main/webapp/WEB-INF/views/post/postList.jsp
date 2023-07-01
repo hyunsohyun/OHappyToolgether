@@ -19,47 +19,47 @@
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 			<main>
-				<div class="container">
-					<h1 class="mt-4">게시판</h1>
-					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tables</li>
-					</ol>
+			<div class="container">
+				<h1 class="mt-4">게시판</h1>
+				<ol class="breadcrumb mb-4">
+					<li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+					<li class="breadcrumb-item active">Tables</li>
+				</ol>
 
-					<div class="card mb-4">
-						<div class="card-header">
-							<i class="fas fa-table me-1"></i>${boardName}
-							<div>
-								<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="location.href='/postInsert.do?boardId=${boardId}'">글쓰기</button>
-							</div>
-						</div>
-						<div class="card-body">
-							<table id="datatablesSimple">
-								<thead>
+				<div class="card mb-4">
+					<div class="card-header">
+						<i class="fas fa-table me-1"></i>${boardName}
+					</div>
+					<div>
+						<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="location.href='/postInsert.do?boardId=${boardId}'">글쓰기</button>
+					</div>
+					<div class="card-body">
+						<table id="datatablesSimple">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="list" items="${list}">
 									<tr>
-										<th>번호</th>
-										<th>제목</th>
-										<th>작성자</th>
-										<th>작성일</th>
-										<th>조회수</th>
+										<td>${list.postId}</td>
+										<td>${list.title}</td>
+										<td>${list.userid}</td>
+										<td>${list.createDate}</td>
+										<td>${list.hit}</td>
 									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="list" items="${list}">
-										<tr>
-											<td>${list.postId}</td>
-											<td>${list.title}</td>
-											<td>${list.userid}</td>
-											<td>${list.createDate}</td>
-											<td>${list.hit}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
+								</c:forEach>
+							</tbody>
+						</table>
 					</div>
 				</div>
-
+			</div>
+				
 			</main>
 			<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 			<script src="js/datatables-simple-demo.js"></script>
