@@ -20,7 +20,10 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container mt-2" id="projectContainer">
-								<!-- 프로젝트 카드 -->
+					<!-- 프로젝트 카드영역-->
+					<c:forEach var="item" items="${projectList}">
+					
+					</c:forEach>
 				</div>
 			</main>
 			<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>

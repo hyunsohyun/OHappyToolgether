@@ -35,21 +35,7 @@ public class HomeController {
 	    return "home";
 	}
 	
-	@RequestMapping(value="/projectList.do")
-	public String projectList() {
-		logger.info("projectList으로 이동");
-		System.out.println("Request Mapping \"/projectList.do\"");
-		return "project/projectList";
-	}
 	
-	@RequestMapping(value="/projectDetail.do/{projectId}")
-	public String projectList(@PathVariable("projectId") String projectId, HttpSession session) {
-		logger.info("projectId "+projectId+"으로 이동");
-		System.out.println("Request Mapping \"/projectDetail.do/{projectId}\"");
-		System.out.println("projectId : " + projectId);
-		session.setAttribute("projectId", projectId);
-		return "project/projectDetail";
-	}
 	
 	@RequestMapping(value="/logout.do")
 	public String logout(HttpSession session) {
