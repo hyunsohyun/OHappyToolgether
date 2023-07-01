@@ -24,5 +24,5 @@ public class Board {
 	public void setProjectId(int projectId) {
 		this.projectId = projectId;
 	}
-	
+
 }
