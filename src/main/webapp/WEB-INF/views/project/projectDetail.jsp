@@ -16,7 +16,7 @@
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
 	<div id="layoutSidenav">
-		<%@ include file="/WEB-INF/views/common/sidenav_project.jsp"%>
+		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container mt-2" id="projectContainer">
@@ -26,8 +26,6 @@
 			<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 			<script src="/js/datatables-simple-demo.js"></script>
 			<script type="text/javascript">
-				
-				
 			</script>
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 		</div>
@@ -35,33 +33,7 @@
 	<script src="/js/scripts.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
-<script type="text/javascript">
-$(document).ready(
-		function() {
-			let projectId = "${sessionScope.projectId}";
-			console.log(projectId);
-			$.ajax({
-				url : "/board/" + projectId,
-				type : "GET",
-				success : function(list) {
-					console.log(list);									
-					let boardList = $('#boardList');					
-					let str = "";
-					$.each(list, function(index, item){										
-						str += "<a class='nav-link' href='/postList.do?boardId=" + item.boardId + "'>";
-						str += "<div class='sb-nav-link-icon'>";
-						str += "<i class='fas fa-table'></i>";
-						str += "</div>" + item.boardName + "</a>";
-					});
-					$(boardList).after(str);
-				},
-				error : function(request, status, error) {
-					alert("code:" + request.status + "\n"
-							+ "error:" + error);
-				}
-			});
-		});
-</script>
+
 </html>
 
 

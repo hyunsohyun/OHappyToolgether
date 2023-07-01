@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,12 +21,35 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container mt-2" id="projectContainer">
-								<!-- 프로젝트 카드 -->
+					<!-- 프로젝트 카드영역-->
+					<c:set var="colNum" value='4' />
+					<c:forEach var="item" items="${projectList}" begin="0" varStatus="status">
+						<c:if test="${status.index%colNum == 0}">
+							<div class='row mt-5'>
+						</c:if>
+						<div class="col-md-3">
+							<div class="card border-dark mb-3 projectinfo">
+								<div class="card-header projectinfo-header">project id : ${item.projectId}</div>
+								<div class="card-body">
+									<div>
+										<label class="form-label mt-1">${item.projectName}</label>
+									</div>
+									<div class="form-group d-flex">
+										<img src='${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
+									</div>
+									<a href='projectDetail.do/${item.projectId}' class="btn btn-danger float-end">시작</a>
+								</div>
+							</div>
+						</div>
+						<c:if test="${status.index%colNum == colNum-1}">
+							</div>
+						</c:if>
+					</c:forEach>
 				</div>
 			</main>
-			<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-			<script src="js/datatables-simple-demo.js"></script>
-			<script type="text/javascript">
+		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+		<script src="js/datatables-simple-demo.js"></script>
+		<!-- <script type="text/javascript">
 				$(document).ready(
 						function() {
 							let userid = "${sessionScope.userid}";
@@ -60,9 +84,9 @@
 							});
 						});
 				
-			</script>
-			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
-		</div>
+			</script> -->
+		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+	</div>
 	</div>
 	<script src="js/scripts.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

@@ -1,17 +1,11 @@
 package kr.or.kosa;
 
-import java.security.Principal;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,26 +35,13 @@ public class HomeController {
 	    return "home";
 	}
 	
-	@RequestMapping(value="/projectList.do")
-	public String projectList() {
-		logger.info("projectList으로 이동");
-		System.out.println("Request Mapping \"/projectList.do\"");
-		return "project/projectList";
-	}
 	
-	@RequestMapping(value="/projectDetail.do/{projectId}")
-	public String projectList(@PathVariable("projectId") String projectId, HttpSession session) {
-		logger.info("projectId "+projectId+"으로 이동");
-		System.out.println("Request Mapping \"/projectDetail.do/{projectId}\"");
-		System.out.println("projectId : " + projectId);
-		session.setAttribute("projectId", projectId);
-		return "project/projectDetail";
-	}
 	
 	@RequestMapping(value="/logout.do")
 	public String logout(HttpSession session) {
 		logger.info("Logout으로 이동");
 		session.removeAttribute("userid");
+		session.removeAttribute("projectId");
 		return "home";
 	}
 	
