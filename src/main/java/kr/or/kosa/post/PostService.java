@@ -44,24 +44,24 @@ public class PostService {
 	}
 
 	//글쓰기
-	public String postInsert(Post post){
-		String message = "";
+	public int postInsert(Post post){
+		int postId = -1;
 		
 		try {
 			PostDao Postdao = sqlsession.getMapper(PostDao.class);
-			int n = Postdao.postInsert(post);
-			if(n>0) {
-				message = "글쓰기 성공";
-			}else {
-				message = "글쓰기 실패";
-			}
+			
+			//생성된 postId			
+			Postdao.postInsert(post);
+			System.out.println("postID : " + post.getPostId());
+			postId =  post.getPostId();
+			
 		}catch (Exception e) {
 			System.out.println("글쓰기 오류발생");
 			System.out.println(e.getMessage());
 			e.getStackTrace();
 		}
 
-		return message;
+		return postId;
 	}
 	
 	//수정하기

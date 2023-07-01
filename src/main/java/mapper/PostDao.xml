@@ -32,11 +32,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    FROM POST
 	    WHERE POST_ID = #{postId}
 	</select>
-	
-	<insert id="postInsert" parameterType="kr.or.kosa.post.Post" > 
-		INSERT INTO POST (POST_ID, BOARD_ID, TITLE, CONTENT, HIT, CREATE_DATE, PROJECT_ID, USERID) 
-		VALUES(#{postId}, #{boardId}, #{title}, #{content}, 0, sysdate, #{projectId}, #{userId});
+
+	<insert id="postInsert" parameterType="kr.or.kosa.post.Post" useGeneratedKeys="true" keyProperty="postId">
+		<selectKey keyProperty="postId" resultType="int" order="BEFORE">
+			SELECT POST_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO POST (POST_ID, BOARD_ID, TITLE, CONTENT, HIT, CREATE_DATE, PROJECT_ID, USERID)
+		VALUES (#{postId}, #{boardId}, #{title}, #{content}, 0, sysdate, #{projectId}, #{userid})
 	</insert>
+	
+<!-- 	<insert id="postInsert" parameterType="kr.or.kosa.post.Post" keyProperty="postId"> 
+		INSERT INTO POST (
+			POST_ID
+			, BOARD_ID
+			, TITLE
+			, CONTENT
+			, HIT
+			, CREATE_DATE
+			, PROJECT_ID
+			, USERID
+		)VALUES(POST_SEQ.NEXTVAL, #{boardId}, #{title}, #{content}, 0, sysdate, #{projectId}, #{userid})
+	</insert> -->
 	
 	<delete id="postDelete" parameterType="kr.or.kosa.post.Post">
 		DELETE 

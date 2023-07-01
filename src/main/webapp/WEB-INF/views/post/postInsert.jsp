@@ -37,25 +37,27 @@
         <li class="breadcrumb-item"><a href="/project.do">프로젝트</a></li>
         <li class="breadcrumb-item"><a href="/loginForm.do">로그아웃</a></li>
     </ol>
-    <form method="post" id="testform" name="testform" action="">
+    <form method="post" id="postForm" name="testform" action="">
         <div class="form-group">
             <label for="Input">제목</label>
             <input type="input" class="form-control" id="Input" name="title" placeholder="제목을 입력해주세요">
         </div>
         
         <div class="form-group">
-            <input class="form-control" type="file" id="fileInput" name="fileInput" multiple>
+            <input class="form-control" type="file" id="fileInput" name="fileInput" multiple onchange="addFile()">
             <div class="selected-files">
 		        <ul id="selectedFiles"></ul>
 		    </div>
           </div>
         
-        <textarea id="summernote" name="editordata"></textarea>
+        <textarea id="summernote" ></textarea>
+        <textarea name="content"></textarea>
 
 
         <div class="text-right">
-            <input type="button" onclick="reg()" value="글쓰기" class="btn btn-info">
-            <input type="button" onclick="cancel()" value="취소" class="btn btn-info">
+            <!-- <input type="submit" value="글쓰기" class="btn btn-info"> -->
+            <input type="button" onclick="regPost()" value="글쓰기" class="btn btn-info">
+            <input type="button" onclick="window.location.href='/postList.do?boardId=${boardId}'" value="취소" class="btn btn-info">
         </div>
     </form>
 
@@ -64,32 +66,86 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- include summernote css/js -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#summernote').summernote();
-        });
-        
-        function reg(){
-            console.log(testform.title.value);
-            console.log(testform.editordata.value);
-        }   
-        
-        function cancel(){
-            console.log(testform.title.value);
-            console.log(testform.editordata.value);
-        }
-        
-        // 파일 첨부 시 선택한 파일명 표시
-        $("#fileInput").on("change", function() {
-            let fileNames = "";
-            for (let i = 0; i < this.files.length; i++) {
-                fileNames += "<li>" + this.files[i].name + "</li>";
-            }
-            $("#selectedFiles").html(fileNames);
-        });
-    </script>
-    
-    
+	<script type="text/javascript">
+	//업로드할 파일리스트
+	let uploadFileList = [];
+
+	$(document).ready(function() {
+		$('#summernote').summernote();
+	});
+
+	//게시글 쓰기 
+	function regPost() {
+		  let data = {
+			boardId : ${boardId},
+		    content: "content",
+		    title: "testTitle",
+		    projectId : 1,
+		    userid : 'hsh'
+		  };
+
+		  //게시글 저장
+		  fetch("/post/insert", {
+		    method: "POST",
+		    headers: {
+		      "Content-Type": "application/json",
+		    },
+		    body: JSON.stringify(data),
+		  })
+		    .then((response) => {
+		      if (response.ok) {
+		        return response.json();
+		      } else {
+		        throw new Error("게시글 저장에 실패했습니다.");
+		      }
+		    })
+		    .then((postId) => {
+		      console.log("생성된 postId:", postId);
+		      fileupload(postId);
+		    })
+		    .catch((error) => {
+		      console.error(error);
+		    });
+		}
+		
+	//파일저장
+	function flieUpload(postId){
+		let data = uploadFileList;		
+		
+		fetch("/file/insert"),{
+			method : "POST",
+			headers: {
+		      "Content-Type": "application/json",
+		    },
+		    body: JSON.stringify(data),
+		})
+	}  
+	
+	//파일 추가
+	function addFile() {
+		let files = testform.fileInput.files;
+
+		for (var i = 0; i < files.length; i++) {
+			uploadFileList.push(files[i]); // 파일을 전역 변수에 추가
+		}
+		
+		console.log(uploadFileList);
+	}
+
+	// 파일 첨부 시 선택한 파일명 표시
+	$("#fileInput").on("change",function() {
+		let fileNames = "";
+		for (let i = 0; i < this.files.length; i++) {
+			fileNames += "<li>"
+					+ this.files[i].name
+					+ "<input type='button' value ='삭제' onclick='deleteFile()'/></li>";
+		}
+		$("#selectedFiles").append(fileNames);
+	});
+	
+</script>
+
+
 </main>
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 		</div>

@@ -84,16 +84,11 @@ public class PostController {
 	
 	//글등록 페이지
 	@GetMapping(value="/postInsert.do")
-	public String postInsert(@RequestParam("boardId") int boardId) {
+	public String postInsert(@ModelAttribute("boardId") int boardId) {
+		
 		return "post/postInsert";
 	}
-	
-	//글등록
-	@PostMapping(value="/postInsert.do", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public String postInsert(@ModelAttribute Post post, Model model) {
-		postService.postInsert(post);
-		return "post/postDetail";
-	}
+
 	
 	//글수정 페이지
 	@GetMapping(value="/postUpdate.do")
