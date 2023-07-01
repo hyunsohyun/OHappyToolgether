@@ -4,20 +4,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<title>OHappyToolgether</title>
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-<link href="css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-<style>
-#full-image {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-</style>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>OHappyToolgether</title>
+	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+	<link href="css/styles.css" rel="stylesheet" />
+	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -73,7 +67,7 @@
 				$("#datatablesSimple").on('click', 'tbody tr', function() {
 					let postId = $(this).children().eq(0).text();
 
-					/* //조회수 업데이트
+					//조회수 업데이트
 					$.ajax({
 					    url: "post",
 					    type: "PUT",
@@ -85,12 +79,8 @@
 					    error: function(request, status, error) {
 					        alert("code:" + request.status + "\n" + "error:" + error);
 					    }
-					}); */
-					window.location.href = 'postDetail.do?boardId=' + $
-					{
-						boardId
-					}
-					+'&postId=' + postId;
+					});
+					window.location.href = 'postDetail.do?boardId=' + ${boardId} + '&postId=' + postId;
 				});
 			</script>
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
