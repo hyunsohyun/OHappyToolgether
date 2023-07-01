@@ -2,504 +2,359 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../common/header.jsp"%>
 <%@ include file="../common/sidenav.jsp"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- <script type="text/javascript">
-	$(document).ready(function(){
-		$("#userInvite").click(function(){
-			console.log("누름");
-			if($("#userSearch").val() == "" || $("#userSearch").val() == null){
-				empList();
-			}else{
-				selectUserById($("#userSearch").val());
-			}
-		});
-	});
-</script> -->
 
 <script>
-    $(document).ready(function() {
-    	var projectId = 400; // 프로젝트 ID를 설정
-    	var memberId = "hsh";
-        var tableBody = $("#memberList"); // tbody 요소 선택
-        var projectUserId = 'ndw';
-        
-        $.ajax({
-            url: "member/users/" + projectId,
-            type: "GET",
-            dataType: "json",
-            success: function(response) {
-                console.log("사용자 목록 가져오기 성공");
-                tableBody.empty(); // 기존 데이터 삭제
-                
-                // 사용자 목록을 순회하며 행을 생성하여 tbody에 추가
-                $.each(response, function(index, user) {
-                    var row = $("<tr>").addClass("table-active");
-                    var nameCell = $("<td>").text(user.name);
-                    var userIdCell = $("<td>").text(user.userid);
-                    var removeButtonCell = $("<td>").append($("<button>").addClass("btn btn-danger deleteUsersProject").text("추방"));
-                    
-                    row.append(nameCell);
-                    row.append(userIdCell);
-                    row.append(removeButtonCell);
-                    
-                    tableBody.append(row);
-                });
-            },
-            error: function(xhr, status, error) {
-                console.log("에러 메시지:", error);
+document.addEventListener("DOMContentLoaded", function() {
+	
+  //session값 대체 임시
+  const projectId = 500;
+  const memberId = "ndw";
+  const tableBody = document.getElementById("memberList");
+  const projectUserId = 'ndw';
+  
+  // 프로젝트 참가자 표시
+  let getUsersAndProjectInfo = function() {
+    // 프로젝트 정보 가져오기
+    let getProjectInfo = function() {
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", "project/" + projectUserId, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          let response = JSON.parse(xhr.responseText);
+          let projectName = "";
+
+          for (let i = 0; i < response.length; i++) {
+            if (response[i].projectId === projectId) {
+              projectName = response[i].projectName;
+              console.log(projectName);
+              document.getElementById("projectName").value = projectName;
+              break;
             }
-        });
-        
-        $.ajax({
-
-            url: "project/" + projectUserId,
-            type: "GET",
-            dataType: "json",
-            success: function(response) {
-                console.log("프로젝트정보 가져오기 성공");
-                var projectName = '';
-                for (var i = 0; i < response.length; i++) {
-                  if (response[i].projectId === projectId) {
-                     projectName = response[i].projectName;
-                     console.log(projectName);
-                     $("#projectName").val(projectName);
-                    break;
-                  }
-                }
-            },
-            error: function(xhr, status, error) {
-                console.log("에러 메시지:", error);
-            }
-        });
-        
-        
-        // 버튼 클릭 시 사용자 정보 가져오기
-       /*  $("#userSearchBtn").click(function(e) {
-            e.preventDefault(); // 폼 전송 방지
-            
-            var userid = $("#userSearch").val(); // 사용자 ID 입력값 가져오기
-            
-            // AJAX 요청
-            $.ajax({
-                url: "member/" + userid,
-                type: "GET",
-                dataType: "json",
-                success: function(response) {
-                    // 요청이 성공한 경우
-                    var user = response;
-                    console.log("받은 user 정보:", user);
-                    
-                    // 사용자 정보를 테이블에 추가
-                    addUserToTable(user);
-                },
-                error: function(xhr, status, error) {
-                    // 요청이 실패한 경우
-                    console.log("에러 메시지:", error);  
-                    addUserToTable("");
-                }
-            });
-        }); */
-        
-        $("#userSearchBtn").click(function(e) {
-            e.preventDefault(); // 폼 전송 방지
-
-            var userid = $("#userSearch").val(); // 사용자 ID 입력값 가져오기
-
-            var url = (userid !== "") ? "member/" + userid : "member";
-
-            // AJAX 요청
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                success: function(response) {
-                    // 요청이 성공한 경우
-                    var user = response;
-                    console.log("받은 user 정보:", user);
-
-                    // 사용자 정보를 테이블에 추가
-                    addUserToTable(user);
-                },
-                error: function(xhr, status, error) {
-                    // 요청이 실패한 경우
-                    console.log("에러 메시지:", error);
-                    addUserToTable("");
-                }
-            });
-        });
-
-
-        
-        $(document).ready(function() {
-        	  // 변경 버튼 클릭 이벤트 핸들러
-        	  $("#changeProjectNameBtn").click(function() {
-        	    var projectName = $("#projectName").val(); // 변경할 프로젝트명 가져오기
-        	    
-        	    $.ajax({
-        	      url: "project/" + projectId + "/" + memberId,
-        	      type: "PUT",
-        	      dataType: "json",
-        	      contentType: "application/json",
-        	      data: JSON.stringify({ projectName: projectName }), // 변경할 프로젝트명 전달
-        	      success: function(response) {
-        	        console.log("프로젝트명 변경 성공");
-
-        	      },
-        	      error: function(xhr, status, error) {
-        	        console.log("에러 메시지:", error);
-
-        	      }
-        	    });
-        	  });
-        	});
-        
-        // 버튼 클릭 시 input 안에 있는 프로젝트 명으로 변경
-        $("#userSearchBtn").click(function(e) {
-		    e.preventDefault(); // 폼 전송 방지
-		
-		    var userid = $("#userSearch").val(); // 사용자 ID 입력값 가져오기
-		
-		    var url = (userid !== "") ? "member/" + userid : "member";
-		
-		    // AJAX 요청
-		    $.ajax({
-		        url: url,
-		        type: "GET",
-		        dataType: "json",
-		        success: function(response) {
-		            // 요청이 성공한 경우
-		            var user = response;
-		            console.log("받은 user 정보:", user);
-		
-		            // 사용자 정보를 테이블에 추가
-		            addUserToTable(user);
-		        },
-		        error: function(xhr, status, error) {
-		            // 요청이 실패한 경우
-		            console.log("에러 메시지:", error);
-		            addUserToTable("");
-		        }
-		    });
-		});
-
-        
-        // 테이블에 사용자 정보 추가
-        /* function addUserToTable(user) {
-            var tableBody = $("#userTableBody");
-
-            // 기존의 테이블 내용 삭제
-            tableBody.empty();
-
-            // 사용자 정보 행 생성
-            if (user.userid !== "") {
-			    console.log(user.name);
-			    var row = $("<tr>");
-			    var userIdCell = $("<td>").text(user.userid);
-			    var nameCell = $("<td>").text(user.name);
-			    var inviteButtonCell = $("<td>").append($("<a>").addClass("btn btn-outline-primary userInvite").text("초대"));
-			
-			    row.append(userIdCell);
-			    row.append(nameCell);
-			    row.append(inviteButtonCell);
-			
-			    // 테이블에 행 추가
-			    tableBody.append(row);
-			} else (user.userid == "") {
-				
-			}
-        } */
-        
-        function addUserToTable(user) {
-            var tableBody = $("#userTableBody");
-
-            // 기존의 테이블 내용 삭제
-            tableBody.empty();
-
-            // 사용자 정보 행 생성
-            if (Array.isArray(user)) {
-                // 배열인 경우, 모든 사용자 정보를 반복하여 테이블에 행 추가
-                for (var i = 0; i < user.length; i++) {
-                    var currentUser = user[i];
-                    var row = $("<tr>");
-                    var userIdCell = $("<td>").text(currentUser.userid);
-                    var nameCell = $("<td>").text(currentUser.name);
-                    var inviteButtonCell = $("<td>").append($("<a>").addClass("btn btn-outline-primary userInvite").text("초대"));
-
-                    row.append(nameCell);
-                    row.append(userIdCell);
-                    row.append(inviteButtonCell);
-
-                    // 테이블에 행 추가
-                    tableBody.append(row);
-                }
-            } else {
-                // 단일 사용자인 경우, 테이블에 행 추가
-                if (user.userid !== "") {
-                    console.log(user.name);
-                    var row = $("<tr>");
-                    var userIdCell = $("<td>").text(user.userid);
-                    var nameCell = $("<td>").text(user.name);
-                    var inviteButtonCell = $("<td>").append($("<a>").addClass("btn btn-outline-primary userInvite").text("초대"));
-
-                    row.append(nameCell);
-                    row.append(userIdCell);
-                    row.append(inviteButtonCell);
-
-                    // 테이블에 행 추가
-                    tableBody.append(row);
-                }
-            }
+          }
+        } else {
+          console.log("에러 메시지:", xhr.status);
         }
+      };
 
+      xhr.onerror = function() {
+        console.log("요청 에러");
+      };
 
+      xhr.send();
+    };
+    
+    // 프로젝트 참가자 목록 가져오기
+    let getUsers = function() {
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", "member/users/" + projectId, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          tableBody.innerHTML = "";
+          
+          let response = JSON.parse(xhr.responseText);
+          response.forEach(function(user) {
+            let row = document.createElement("tr");
+            row.className = "table-active";
+            
+            let nameCell = document.createElement("td");
+            nameCell.textContent = user.name;
+            row.appendChild(nameCell);
+            
+            let userIdCell = document.createElement("td");
+            userIdCell.textContent = user.userid;
+            row.appendChild(userIdCell);
+            
+            let removeButtonCell = document.createElement("td");
+            let removeButton = document.createElement("button");
+            removeButton.className = "btn btn-danger deleteUsersProject";
+            removeButton.textContent = "추방";
+            removeButtonCell.appendChild(removeButton);
+            row.appendChild(removeButtonCell);
+            
+            tableBody.appendChild(row);
+          });
+        } else {
+          console.log("에러 메시지:", xhr.status);
+        }
+      };
+      
+      xhr.onerror = function() {
+        console.log("요청 에러");
+      };
+      
+      xhr.send();
+    };
+    
+    getProjectInfo();
+    getUsers();
+  };
 
+  getUsersAndProjectInfo();
 
-        	$(document).on("click", ".userInvite", function(e) {
-        	    let tableBody = $("#userTableBody");
-        	    e.preventDefault();
+  // 프로젝트 이름 변경
+  document.getElementById("changeProjectNameBtn").addEventListener("click", function() {
+    let projectName = document.getElementById("projectName").value;
 
-        	    var userId = $(this).closest("tr").find("td:eq(1)").text();
-        	    var usersProject = {
-        	        projectId: projectId,
-        	        userid: userId
-        	    };
+    let xhr = new XMLHttpRequest();
+    xhr.open("PUT", "project/" + projectId + "/" + memberId, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
 
-        	    $.ajax({
-        	        url: "project/" + projectId + "/" + userId,
-        	        type: "POST",
-        	        contentType: "application/json",
-        	        data: JSON.stringify(usersProject),
-        	        dataType: "json",
-        	        success: function(response) {
-        	            console.log("초대");
-        	            tableBody.empty();
-        	            alert("초대완료");
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        alert("변경 성공");
+        console.log("프로젝트명 변경 성공");
+      } else {
+        console.log("에러 메시지:", xhr.status);
+      }
+    };
 
-        	            // 비동기적으로 사용자 목록 갱신
-        	            refreshUserListAsync();
-        	        },
-        	        error: function(xhr, status, error) {
-        	            console.log("에러 메시지:", error);
-        	            tableBody.empty();
-        	            alert("이미 초대한 유저입니다.");
-        	        }
-        	    });
-        	});
+    xhr.onerror = function() {
+      console.log("요청 에러");
+    };
 
-        	async function refreshUserListAsync() {
-        	    try {
-        	        var response = await $.ajax({
-        	            url: "member/users/" + projectId,
-        	            type: "GET",
-        	            dataType: "json"
-        	        });
+    xhr.send(JSON.stringify({ projectName: projectName }));
+  });
 
-        	        console.log("사용자 목록 가져오기 성공");
-        	        var tableBody = $("#memberList");
-        	        tableBody.empty(); // 기존 데이터 삭제
+  // 초대를 위한 유저 목록 가져오기
+  document.getElementById("userSearchBtn").addEventListener("click", function(e) {
+    e.preventDefault();
+    let userid = document.getElementById("userSearch").value;
+    let url = (userid !== "") ? "member/" + userid : "member";
 
-        	        // 사용자 목록을 순회하며 행을 생성하여 tbody에 추가
-        	        $.each(response, function(index, user) {
-        	            var row = $("<tr>").addClass("table-active");
-        	            var nameCell = $("<td>").text(user.name);
-        	            var userIdCell = $("<td>").text(user.userid);
-        	            var removeButtonCell = $("<td>").append($("<button>").addClass("btn btn-danger deleteUsersProject").text("추방"));
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
 
-        	            row.append(nameCell);
-        	            row.append(userIdCell);
-        	            row.append(removeButtonCell);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        let user = JSON.parse(xhr.responseText);
+        console.log("받은 user 정보:", user);
+        addUserToTable(user);
+      } else {
+        console.log("에러 메시지:", xhr.status);
+        addUserToTable("");
+      }
+    };
 
-        	            tableBody.append(row);
-        	        });
-        	    } catch (error) {
-        	        console.log("에러 메시지:", error);
-        	    }
-        	}
+    xhr.onerror = function() {
+      console.log("요청 에러");
+      addUserToTable("");
+    };
 
-
-       
-        
-        $(document).on("click", ".deleteUsersProject", function(e) {
-            console.log("삭제버튼을 누름");
-            e.preventDefault();
-
-            var userId = $(this).closest("tr").find("td:eq(1)").text();
-            var usersProject = {
-                projectId: projectId,
-                userid: userId
-            };
-
-            var deleteButton = $(this); // 삭제 버튼 요소
-
-            $.ajax({
-                url: "project/" + projectId + "/" + userId,
-                type: "DELETE",
-                contentType: "application/json",
-                data: JSON.stringify(usersProject),
-                dataType: "json",
-                success: function(response) {
-                    console.log("삭제");
-                    deleteButton.closest("tr").remove(); // 해당 <tr> 요소 삭제
-                    alert("추방되었습니다.");
-                },
-                error: function(xhr, status, error) {
-                    console.log("에러 메시지:", error);
-                }
-            });
-        });
-    });
-</script>
+    xhr.send();
+  });
 	
-<!-- <style>
-	body{
-		background-color: lightgray;
-	}
-	main{
-		margin : 30px;
-		background: white;
-		padding : 30px;
-		box-shadow: 3px 3px 3px  grey;
-	}
-	#projectManagementTitle{
-		margin-left : 30px;
-		margin-bottom : 30px;
-	}
-	.projectinfo{
-		float : left;
-		width : 400px;
-		height : 600px;
-		margin-left: 30px;
-		border:5px solid green;
-		box-shadow: 5px 5px 5px  grey;
-	}
-	
-	#projectmember{
-		margin-left: 30px;
-		float : left;
-		width : 400px;
-		height : 600px;
-		padding : 20px;
-		border: 5px solid black;
-	}
-	
-	#memberlist{
-		margin-left: 10px;
-		float : left;
-		width : 330px;
-		height : 400px;
-		padding : 20px;
-		border: 5px solid black;
-	}
-	.member-info{
-		margin-bottom:20px;
-	}
-	.member-id{
-		margin-right: 30px;
-		margin-left: 30px;
-	}
-	
-	.btn-success{ 
-		float: right;
-		margin-top : 3px;
-	}
-	
-	.btn-danger{
-		float: right;
-	}
-	.card-header{
-		height : 60px;
-		font-size : 1.5em;
-		text-align: center;
-	}
-	.card-body{
-		padding:20px;
-	}
-	.projectinfo-header{
-	}
-</style class="card border-dark mb-3"> -->
-<%--  <main>
-	<div id="projectManagementTitle">
-		<h2>프로젝트관리</h2>
-	</div>
-	
-	<div class="card border-dark mb-3 projectinfo">
-		<div class="card-header projectinfo-header">프로젝트 정보</div>
-		<div class=" card-body">
-			<div class="form-group">
-				<label for="exampleInputEmail1" class="form-label mt-1">프로젝트
-					이름</label> <input type="email" class="form-control" id="exampleInputEmail1"
-					aria-describedby="emailHelp" placeholder="Enter email">
-				<button type="button" class="btn btn-success">변경</button>
-			</div>
-			<!-- <div class="form-group">
-				<label class="form-label mt-4" for="readOnlyInput">참여인원</label> <input
-					class="form-control"  type="text"
-					placeholder="5명" readonly="">
-			</div> -->
-			<button type="button" class="btn btn-danger">프로젝트 삭제</button>
-		</div>
-	</div>
-	
-	 <div class="card border-dark mb-3 projectinfo">
-		<div class="card-header projectinfo-header">프로젝트 참가자</div>
-			<div class=" card-body">
-			<div class="form-group">
-				<table class="table table-hover">
-				  <thead>
-				    <tr>
-				      <th scope="col">이름</th>
-				      <th scope="col">아이디</th>
-                      <th scope="col">추방</a></th> <!-- 수정: href="#" 추가 -->
-				    </tr>
-				  </thead>
-				  <tbody id ="memberList">
-					 
-				  </tbody>
-				</table>
-			</div>				
-		</div>
-	</div> 
+  //검색으로 받은 Users값에 따른 표시
+  function addUserToTable(user) {
+    let tableBody = document.getElementById("userTableBody");
+    tableBody.innerHTML = "";
 
-	<div class="card border-dark mb-3 projectinfo">
-    <div class="card-header projectinfo-header">참가자 초대하기</div>
-    <div class="card-body">
-        <form class="d-flex">
-            <input class="form-control me-sm-2" type="search" placeholder="Search" id="userSearch">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit" id="userSearchBtn">Search</button>
-        </form>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">이름</th>
-                    <th scope="col">아이디</th>
-                    <th scope="col">초대</th>
-                </tr>
-            </thead>
-            <tbody id="userTableBody">
-                <c:forEach items="${list}" var="l">
-                    <tr>
-                        <td>${l.userid}</td>
-                        <td>${l.name}</td>
-                        <td><a class="btn userInvite">초대</a></td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-    </div>
-</div>
+    if (Array.isArray(user)) {
+      for (let i = 0; i < user.length; i++) {
+        let currentUser = user[i];
+        let row = document.createElement("tr");
 
-</div>
+        let nameCell = document.createElement("td");
+        nameCell.textContent = currentUser.name;
+        row.appendChild(nameCell);
 
+        let userIdCell = document.createElement("td");
+        userIdCell.textContent = currentUser.userid;
+        row.appendChild(userIdCell);
 
-</main>
+        let inviteButtonCell = document.createElement("td");
+        let inviteButton = document.createElement("a");
+        inviteButton.className = "btn btn-outline-primary userInvite";
+        inviteButton.textContent = "초대";
+        inviteButtonCell.appendChild(inviteButton);
+        row.appendChild(inviteButtonCell);
 
+        tableBody.appendChild(row);
+      }
+    } else if (user.userid == null) {
+      tableBody.textContent = "검색 결과가 없습니다.";
+    } else {
+      if (user.userid !== "") {
+        let row = document.createElement("tr");
 
+        let userIdCell = document.createElement("td");
+        userIdCell.textContent = user.userid;
+        row.appendChild(userIdCell);
 
+        let nameCell = document.createElement("td");
+        nameCell.textContent = user.name;
+        row.appendChild(nameCell);
 
- --%>
+        let inviteButtonCell = document.createElement("td");
+        let inviteButton = document.createElement("a");
+        inviteButton.className = "btn btn-outline-primary userInvite";
+        inviteButton.textContent = "초대";
+        inviteButtonCell.appendChild(inviteButton);
+        row.appendChild(inviteButtonCell);
+
+        tableBody.appendChild(row);
+      }
+    }
+  }
+  //초대하기 기능
+  document.addEventListener("click", function(e) {
+    if (e.target && e.target.classList.contains("userInvite")) {
+      e.preventDefault();
+
+      let tableBody = e.target.closest("tr");
+      let userId = tableBody.querySelector("td:nth-child(2)").textContent;
+      let usersProject = {
+        projectId: projectId,
+        userid: userId
+      };
+
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "project/" + projectId + "/" + userId, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          console.log("초대");
+          tableBody.innerHTML = "";
+          alert("초대완료");
+          refreshUserListAsync();
+        } else {
+          console.log("에러 메시지:", xhr.status);
+          alert("이미 초대한 유저입니다.");
+        }
+      };
+
+      xhr.onerror = function() {
+        console.log("요청 에러");
+      };
+
+      xhr.send(JSON.stringify(usersProject));
+    }
+  });
  
+  //초대한 유저 참가자에 비동기적 추가
+  async function refreshUserListAsync() {
+    try {
+      let xhr = new XMLHttpRequest();
+      xhr.open("GET", "member/users/" + projectId, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          let response = JSON.parse(xhr.responseText);
+          console.log("사용자 목록 가져오기 성공");
+          let tableBody = document.getElementById("memberList");
+          tableBody.innerHTML = "";
+
+          response.forEach(function(user) {
+            let row = document.createElement("tr");
+            row.classList.add("table-active");
+
+            let nameCell = document.createElement("td");
+            nameCell.textContent = user.name;
+            row.appendChild(nameCell);
+
+            let userIdCell = document.createElement("td");
+            userIdCell.textContent = user.userid;
+            row.appendChild(userIdCell);
+
+            let removeButtonCell = document.createElement("td");
+            let removeButton = document.createElement("button");
+            removeButton.className = "btn btn-danger deleteUsersProject";
+            removeButton.textContent = "추방";
+            removeButtonCell.appendChild(removeButton);
+            row.appendChild(removeButtonCell);
+
+            tableBody.appendChild(row);
+          });
+        } else {
+          console.log("에러 메시지:", xhr.status);
+        }
+      };
+
+      xhr.onerror = function() {
+        console.log("요청 에러");
+      };
+
+      xhr.send();
+    } catch (error) {
+      console.log("에러 메시지:", error);
+    }
+  }
+	
+  //참가자 내쫓아 버리기
+  document.addEventListener("click", function(e) {
+    if (e.target && e.target.classList.contains("deleteUsersProject")) {
+      console.log("삭제버튼을 누름");
+      e.preventDefault();
+
+      let userId = e.target.closest("tr").querySelector("td:nth-child(2)").textContent;
+      let usersProject = {
+        projectId: projectId,
+        userid: userId
+      };
+
+      let deleteButton = e.target;
+      if (userId == memberId) {
+        alert("관리자는 추방할 수 없습니다.");
+        return;
+      }
+
+      let xhr = new XMLHttpRequest();
+      xhr.open("DELETE", "project/" + projectId + "/" + userId, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          console.log("삭제");
+          deleteButton.closest("tr").remove();
+          alert("추방되었습니다.");
+        } else {
+          console.log("에러 메시지:", xhr.status);
+        }
+      };
+
+      xhr.onerror = function() {
+        console.log("요청 에러");
+      };
+
+      xhr.send(JSON.stringify(usersProject));
+    }
+  });
+	
+  //프로젝트 삭제 (미완)
+  document.getElementById("projectDelteBtn").addEventListener("click", function() {
+    console.log("프로젝트 삭제 버튼을 누름");
+    let xhr = new XMLHttpRequest();
+    xhr.open("DELETE", "project/" + projectId, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        console.log("프로젝트 삭제");
+        alert("프로젝트가 삭제되었습니다.");
+        location.href = "/";
+      } else {
+        console.log("에러 메시지:", xhr.status);
+      }
+    };
+
+    xhr.onerror = function() {
+      console.log("요청 에러");
+    };
+
+    xhr.send();
+  });
+});
+</script>
+
+	
 <style>
     .projectinfo-header {
         background-color: #343a40;
@@ -520,6 +375,13 @@
     .table td {
         text-align: center;
     }
+    #changeProjectNameBtn{
+    	margin-left: 5px;
+    }
+    
+    .projectDelteBtn{
+    	float:right; 
+    }
 
     /* 반응형 레이아웃을 위한 미디어 쿼리 */
     @media (max-width: 767px) {
@@ -538,13 +400,13 @@
         <div class="card border-dark mb-3 projectinfo">
             <div class="card-header projectinfo-header">프로젝트 정보</div>
             <div class="card-body">
-                <div class="form-group">
-                    <label for="exampleInputEmail1" class="form-label mt-1">프로젝트 이름</label>
-                    <input type="email" class="form-control" id="projectName" aria-describedby="emailHelp" placeholder="Enter email">
-                    <button type="button" class="btn btn-success" id="changeProjectNameBtn">변경</button>
-                </div>
-                <button type="button" class="btn btn-danger">프로젝트 삭제</button>
-            </div>
+                <div><label for="exampleInputEmail1" class="form-label mt-1">프로젝트 이름</label></div>
+			    <div class="form-group d-flex">
+			        <input type="email" class="form-control" id="projectName" aria-describedby="emailHelp" placeholder="Enter email">
+			        <button type="button" class="btn btn-success ml-2" id="changeProjectNameBtn">변경</button>
+			    </div>
+			    <button type="button" class="btn btn-danger projectDelteBtn" id="projectDelteBtn" >프로젝트 삭제</button>
+			</div>
         </div>
 
         <div class="card border-dark mb-3 projectinfo">
