@@ -58,7 +58,15 @@
             <!-- <input type="submit" value="글쓰기" class="btn btn-info"> -->
             <input type="button" onclick="regPost()" value="글쓰기" class="btn btn-info">
             <input type="button" onclick="window.location.href='/postList.do?boardId=${boardId}'" value="취소" class="btn btn-info">
+            
+            
+            <!-- 파일업로드 테스트 버튼 -->
+            <input type="button" onclick="flieUpload(1)" value="파일업로드테스트" class="btn btn-info">
         </div>
+    </form>
+    
+    <form method="post" id="realFiles">
+    	
     </form>
 
 
@@ -93,11 +101,8 @@
 		    body: JSON.stringify(data),
 		  })
 		    .then((response) => {
-		      if (response.ok) {
-		        return response.json();
-		      } else {
-		        throw new Error("게시글 저장에 실패했습니다.");
-		      }
+		      if (response.ok){ return response.json();
+		      }else{ throw new Error("게시글 저장에 실패했습니다."); }
 		    })
 		    .then((postId) => {
 		      console.log("생성된 postId:", postId);
@@ -108,28 +113,40 @@
 		    });
 		}
 		
+	
 	//파일저장
 	function flieUpload(postId){
-		let data = uploadFileList;		
-		
-		fetch("/file/insert"),{
+		let data = JSON.stringify({
+	    	files : uploadFileList 
+	    	, postId : postId});
+			
+		console.log(data);
+
+		/* fetch("/file/insert"),{
 			method : "POST",
 			headers: {
 		      "Content-Type": "application/json",
 		    },
-		    body: JSON.stringify(data),
-		})
+		    body: data
+		    
+		}).then((response) => {
+			if (response.ok){ return response.json();
+		    }else{ throw new Error("파일 저장에 실패했습니다."); }
+		}) */ 
+
 	}  
 	
 	//파일 추가
 	function addFile() {
 		let files = testform.fileInput.files;
 
+		const copiedFiles = { ...files };
+		
 		for (var i = 0; i < files.length; i++) {
-			uploadFileList.push(files[i]); // 파일을 전역 변수에 추가
+			uploadFileList.push(copiedFiles[i]); // 파일을 전역 변수에 추가
 		}
 		
-		console.log(uploadFileList);
+		console.log(uploadFileList); 
 	}
 
 	// 파일 첨부 시 선택한 파일명 표시

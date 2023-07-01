@@ -1,25 +1,30 @@
 package kr.or.kosa.file;
 
-import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import kr.or.kosa.post.Post;
+
+@RestController
+@RequestMapping("/file")
 public class FileController {
 
 	private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-	private FileService FileService;
+	private FileService fileService;
 
 	@Autowired
 	public void setFileService(FileService FileService) {
-		this.FileService = FileService;
+		this.fileService = fileService;
 	}
 
 //	//파일리스트
@@ -45,6 +50,18 @@ public class FileController {
 //	}
 //	
 	
+	@PostMapping("/insert")
+	public ResponseEntity<Integer> postInsert(@RequestBody Map<String,String> param) {
+		try {
+			param.get("files");
+			//int postId = fileService.fileInsert(file);
+			return new ResponseEntity<Integer>(postId,HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Integer>(-1,HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 	
 }

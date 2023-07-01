@@ -48,21 +48,18 @@ public class FileService {
 	}
 
 	//파일쓰기
-	public File fileInsert(File File){
+	public int fileInsert(File File){
+		int result = 0;
+		
 		try {
 			FileDao filedao = sqlsession.getMapper(FileDao.class);
-			int n = filedao.fileInsert(File);
-			if(n>0) {
-				System.out.println("파일쓰기 성공");
-			}else {
-				System.out.println("파일쓰기 실패 ");
-			}
+			result = filedao.fileInsert(File);
 		}catch (Exception e) {
 			System.out.println("오류발생");
 			System.out.println(e.getMessage());
 		}
 
-		return File;
+		return result;
 	}
 	
 	//파일수정
