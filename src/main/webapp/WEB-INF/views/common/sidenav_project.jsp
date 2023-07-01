@@ -7,11 +7,14 @@
 		<div class="sb-sidenav-menu">
 			<div class="nav">
 				<div class="sb-sidenav-menu-heading">Core</div>
-				<a class="nav-link" href="${pageContext.request.contextPath}/projectList.do">
+				<a class="nav-link"
+					href="${pageContext.request.contextPath}/projectList.do">
 					<div class="sb-nav-link-icon">
 						<i class="fas fa-tachometer-alt"></i>
 					</div> Project List
 				</a>
+
+
 				<div class="sb-sidenav-menu-heading">Kanban Board</div>
 				<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
 					data-bs-target="#collapseLayouts" aria-expanded="false"
@@ -23,7 +26,7 @@
 						<i class="fas fa-angle-down"></i>
 					</div>
 				</a>
-		
+
 				<div class="collapse" id="collapsePages"
 					aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
 					<nav class="sb-sidenav-menu-nested nav accordion"
@@ -74,8 +77,10 @@
 					</div>
 				</a>
 				<div class="sb-sidenav-menu-heading" id="boardList">Board List</div>
-				
-			</div>
+
+			
+			
+			</div>		
 		</div>
 		<div class="sb-sidenav-footer">
 			<div class="small">Logged in as:</div>
