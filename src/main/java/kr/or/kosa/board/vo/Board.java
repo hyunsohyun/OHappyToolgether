@@ -1,11 +1,11 @@
 package kr.or.kosa.board.vo;
 
-
 public class Board {
 	
 	private int boardId;
 	private String boardName;
 	private int projectId;
+	
 	public int getBoardId() {
 		return boardId;
 	}
@@ -24,7 +24,5 @@ public class Board {
 	public void setProjectId(int projectId) {
 		this.projectId = projectId;
 	}
-	
-	
-	
+
 }
