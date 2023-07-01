@@ -5,8 +5,9 @@ public class File {
 	private int postId; 
 	private String realFileName; 
 	private String hashFileName; 
-	private String FilePath; 
+	private String filePath; 
 	private int boardId;
+	
 	public int getFileId() {
 		return fileId;
 	}
@@ -32,10 +33,10 @@ public class File {
 		this.hashFileName = hashFileName;
 	}
 	public String getFilePath() {
-		return FilePath;
+		return filePath;
 	}
 	public void setFilePath(String filePath) {
-		FilePath = filePath;
+		this.filePath = filePath;
 	}
 	public int getBoardId() {
 		return boardId;
