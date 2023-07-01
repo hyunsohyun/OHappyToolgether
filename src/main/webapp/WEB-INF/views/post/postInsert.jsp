@@ -51,7 +51,8 @@
           </div>
         
         <textarea id="summernote" name="editordata"></textarea>
-        
+
+
         <div class="text-right">
             <input type="button" onclick="reg()" value="글쓰기" class="btn btn-info">
             <input type="button" onclick="cancel()" value="취소" class="btn btn-info">
@@ -97,4 +98,5 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
+
 

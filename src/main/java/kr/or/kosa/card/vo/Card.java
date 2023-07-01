@@ -28,6 +28,7 @@ public class Card {
 	private Date startDate;
 	private Date endDate;
 	private String name;
+	private int pos;
 	
 	public int getCardId() {
 		return cardId;
@@ -82,6 +83,12 @@ public class Card {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public int getPos() {
+		return pos;
+	}
+	public void setPos(int pos) {
+		this.pos = pos;
 	}
 	
 }
