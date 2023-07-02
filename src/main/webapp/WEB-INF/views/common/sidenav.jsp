@@ -80,9 +80,9 @@
 		<div class="sb-sidenav-footer">
 			
 				<c:if test="${userid != 'anonymousUser'}">				
-					<a href="logout.do">
-						<button type='button' class='float-end btn btn-primary'>로그아웃</button>
-					</a>
+					<form action="/logout" method="POST">
+						<button type='submit' class='float-end btn btn-primary'>로그아웃</button>
+					</form>
 				</c:if>
 				<div class="small">Logged in as:</div>
 			${userid}

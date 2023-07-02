@@ -25,11 +25,14 @@
 			<main>
 				<div class="container-fluid px-4">반갑습니다 index페이지입니댱~</div>
 				<c:if test="${empty pageContext.request.userPrincipal}">
-					<li><a href="${pageContext.request.contextPath}/loginForm.do">로그인</a></li>
+					<a href="${pageContext.request.contextPath}/loginForm">로그인</a>
 				</c:if>
 
 				<c:if test="${not empty pageContext.request.userPrincipal}">
-					<li><a href="${pageContext.request.contextPath}/logout"> (${pageContext.request.userPrincipal.name})로그아웃</a></li>
+					${userid}
+					<form action="/logout" method="POST">
+						<button type='submit' class='btn btn-primary'>로그아웃</button>
+					</form>
 				</c:if>
 				<p>
 					<img id="full-image" src="/assets/img/together.png">

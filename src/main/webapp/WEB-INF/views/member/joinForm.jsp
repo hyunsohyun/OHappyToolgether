@@ -83,7 +83,7 @@
 	        data: JSON.stringify(formData),
 	        success: function(response) {
 	          alert("회원 가입이 완료되었습니다.");
-	          window.location.href = "/loginForm.do";
+	          window.location.href = "/loginForm";
 	        },
 	        error: function(xhr, status, error) {
 	          alert("회원 가입에 실패했습니다. 오류: " + xhr.responseText);
