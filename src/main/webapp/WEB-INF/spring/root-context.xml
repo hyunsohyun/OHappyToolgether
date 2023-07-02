@@ -31,7 +31,7 @@
 	<!-- Mybatis 설정 -->
 
 	<!-- 패스워드 암호화 -->
-	<!-- <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" /> -->
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
 	<!-- 파일 업로드 보조(반드시) -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
