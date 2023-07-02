@@ -27,5 +27,10 @@ public class TemplateController {
 	public String note() throws Exception{
 		return "templateContent/summernote";
 	}
+	
+	@RequestMapping("/projectManagement.do")
+	public String projectManagementView() throws Exception{
+		return "templateContent/projectManagement";
+	}
 
 }

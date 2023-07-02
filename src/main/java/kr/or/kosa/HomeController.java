@@ -35,24 +35,13 @@ public class HomeController {
 	    return "home";
 	}
 	
-	@RequestMapping(value="/projectList.do")
-	public String projectList() {
-		logger.info("projectList으로 이동");
-		return "project/projectList";
-	}
 	
-	@RequestMapping(value="/projectDetail.do/{projectId}")
-	public String projectList(@PathVariable("projectId") String projectId, HttpSession session) {
-		logger.info("projectId으로 이동");
-		session.setAttribute("projectId", projectId);
-	    System.out.println("projectId : " + projectId);
-		return "project/projectDetail";
-	}
 	
 	@RequestMapping(value="/logout.do")
 	public String logout(HttpSession session) {
 		logger.info("Logout으로 이동");
 		session.removeAttribute("userid");
+		session.removeAttribute("projectId");
 		return "home";
 	}
 	
