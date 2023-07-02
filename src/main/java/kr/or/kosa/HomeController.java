@@ -1,17 +1,11 @@
 package kr.or.kosa;
 
-import java.security.Principal;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,7 +61,11 @@ public class HomeController {
 		logger.info("LoginForm으로 이동");
 		return "member/loginForm";
 	}
-
 	
+	@GetMapping(value="/joinForm.do")
+	public String join() {
+		logger.info("joinForm으로 이동");
+		return "member/joinForm";
+	}
 
 }

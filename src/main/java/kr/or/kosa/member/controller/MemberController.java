@@ -1,7 +1,6 @@
 package kr.or.kosa.member.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.or.kosa.member.service.MemberService;
@@ -72,7 +70,7 @@ public class MemberController {
 		}		
 	}
 	
-	@PostMapping
+	@PostMapping("/joinForm.do")
 	public ResponseEntity<Integer> insertUser(@RequestBody Users user) {
 		int result = 0;
 		try {
@@ -115,7 +113,5 @@ public class MemberController {
 			return new ResponseEntity<Integer>(result,HttpStatus.BAD_REQUEST);
 		}		
 	}
-	
-	
 	
 }
