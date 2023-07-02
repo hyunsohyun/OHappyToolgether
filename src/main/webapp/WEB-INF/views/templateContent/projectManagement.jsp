@@ -32,10 +32,17 @@
   .projectinfo-container {
     display: flex;
     flex-wrap: wrap;
+    margin:auto;
+  }
+  
+  .projectinfo-container2 {
+    display: flex;
+    flex-wrap: wrap;
+    margin:auto;
+    width:1520px;
   }
   
   .projectinfo {
-/*     flex-basis: 85%; */
      margin: auto;
     margin-top: 50px;
     height: 620px;
@@ -47,23 +54,24 @@
   	
   }
   
+  .projectMemberManagement,
+.projectMemberManagement2 {
+  width: 48%;
+  margin-top: 30px;
+  height: 500px;
+}
+
+.projectinfo-container2::before,
+.projectinfo-container2::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.projectinfo-container2 > div {
+  margin-bottom: 30px;
+}
   
-  .projectMemberManagement{
- 	 width : 730px;
- 	 float : left;
- 	 margin-top: 30px;
- 	 margin-left: 94px;
- 	 height : 500px;
- 	 
-  }
-  .projectMemberManagement2{
- 	 width : 730px;
- 	 float : left;
- 	 margin-top: 30px;
- 	 margin-left: 30px;
- 	 height : 500px;
- 	 
-  }
   
   .table th,
   .table td {
@@ -162,152 +170,157 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-	
-  //session값 대체 임시
-  const projectId = ${sessionScope.projectId};
-  const memberId = '${sessionScope.userid}';
-  const tableBody = document.getElementById("memberList");
-  const projectUserId = 'ndw';
-  
-  // 프로젝트 정보
-	  let getUsersAndProjectInfo = function() {
-	  // 프로젝트 정보 가져오기
-	  let getProjectInfo = function() {
-	    let xhr = new XMLHttpRequest();
-	    xhr.open("GET", "project/" + projectUserId, true);
-	    xhr.setRequestHeader("Content-Type", "application/json");
-	
-	    xhr.onload = function() {
-	      if (xhr.status === 200) {
-	        let response = JSON.parse(xhr.responseText);
-	        let projectName = "";
-	
-	        for (let i = 0; i < response.length; i++) {
-	          if (response[i].projectId === projectId) {
-	            projectName = response[i].projectName;
-	            console.log(projectName);
-	            document.getElementById("projectName").value = projectName;
-	            break;
-	          }
-	        }
-	      } else {
-	        console.log("에러 메시지:", xhr.status);
-	      }
-	    };
-	
-	    xhr.onerror = function() {
-	      console.log("요청 에러");
-	    };
-	
-	    xhr.send();
-	  };
-  
-	  // 프로젝트 참가자 목록 가져오기
-	  let getUsers = function() {
-	    let xhr = new XMLHttpRequest();
-	    xhr.open("GET", "member/users/" + projectId, true);
-	    xhr.setRequestHeader("Content-Type", "application/json");
-	    
-	    xhr.onload = function() {
-	      if (xhr.status === 200) {
-	        tableBody.innerHTML = "";
-	        
-	        let response = JSON.parse(xhr.responseText);
-	        response.forEach(function(user) {
-	          let row = document.createElement("tr");
-	          row.className = "table-active";
-	          
-	          let nameCell = document.createElement("td");
-	          nameCell.textContent = user.name;
-	          row.appendChild(nameCell);
-	          
-	          let userIdCell = document.createElement("td");
-	          userIdCell.textContent = user.userid;
-	          row.appendChild(userIdCell);
-	          
-	          let removeButtonCell = document.createElement("td");
-	          let removeButton = document.createElement("button");
-	          removeButton.className = "btn btn-danger deleteUsersProject";
-	          removeButton.textContent = "추방";
-	          removeButtonCell.appendChild(removeButton);
-	          row.appendChild(removeButtonCell);
-	          
-	          tableBody.appendChild(row);
-	        });
-	
-	        // 프로젝트 참여인원 수 표시
-	        let participantsInput = document.getElementById("projectParticipants");
-	        participantsInput.value = response.length + " 명의 인원이 프로젝트에 참가중";
-	      } else {
-	        console.log("에러 메시지:", xhr.status);
-	      }
-	    };
-	    
-	    xhr.onerror = function() {
-	      console.log("요청 에러");
-	    };
-	    
-	    xhr.send();
-	  };
-  
-  	// 프로젝트 관리자 정보 가져오기
-	  let getProjectManager = function() {
-	    let xhr = new XMLHttpRequest();
-	    xhr.open("GET", "member/" + projectUserId, true);
-	    xhr.setRequestHeader("Content-Type", "application/json");
-	    
-	    xhr.onload = function() {
-	      if (xhr.status === 200) {
-	        let response = JSON.parse(xhr.responseText);
-	        let projectManagerName = response.name;
-	        console.log(projectManagerName);
-	        
-	        document.getElementById("projectManagerName").value = projectManagerName;
-	        document.getElementById("projectManagerId").value = projectUserId;
-	      } else {
-	        console.log("에러 메시지:", xhr.status);
-	      }
-	    };
-	    
-	    xhr.onerror = function() {
-	      console.log("요청 에러");
-	    };
-	    
-	    xhr.send();
-	  };
-	  
-	  //게시글 수 가져오기
-	  let getBoardCount = function() {
-		    let xhr = new XMLHttpRequest();
-		    xhr.open("GET", "board/" + projectId, true);
-		    xhr.setRequestHeader("Content-Type", "application/json");
+    // session값 대체 임시
+    const projectId = ${sessionScope.projectId};
+    const memberId = '${sessionScope.userid}'; 
+    const tableBody = document.getElementById("memberList");
 
-		    xhr.onload = function() {
-		      if (xhr.status === 200) {
-		        let response = JSON.parse(xhr.responseText);
-		        let boardCount = response.length;
+    
 
-		        let projectBoardCount = document.getElementById("projectBoardCount");
-		        projectBoardCount.value = boardCount+" 개의 게시글";
-		      } else {
-		        console.log("에러 메시지:", xhr.status);
-		      }
-		    };
+    // 프로젝트 정보
+    let getUsersAndProjectInfo = function() {
+        // 프로젝트 정보 가져오기
+        let getProjectInfo = function() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "project/" + memberId, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
 
-		    xhr.onerror = function() {
-		      console.log("요청 에러");
-		    };
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    let response = JSON.parse(xhr.responseText);
+                    let projectName = "";
 
-		    xhr.send();
-		  };
-	  
-	  getProjectInfo();
-	  getUsers();
-	  getProjectManager();
-	  getBoardCount();
-	};
-	
-	getUsersAndProjectInfo();
+                    for (let i = 0; i < response.length; i++) {
+                        if (response[i].projectId === projectId) {
+                            projectName = response[i].projectName;
+                            console.log(projectName);
+                            document.getElementById("projectName").value = projectName;
+                            break;
+                        }
+                    }
+                } else {
+                    console.log("에러 메시지:", xhr.status);
+                }
+            };
+
+            xhr.onerror = function() {
+                console.log("요청 에러");
+            };
+
+            xhr.send();
+        };
+
+        // 프로젝트 참가자 목록 가져오기
+        let getUsers = function(currentPage, pageSize) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", `member/users/${projectId}?page=${currentPage}&size=${pageSize}`, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    tableBody.innerHTML = "";
+
+                    let response = JSON.parse(xhr.responseText);
+                    response.forEach(function(user) {
+                        let row = document.createElement("tr");
+                        row.className = "table-active";
+
+                        let nameCell = document.createElement("td");
+                        nameCell.textContent = user.name;
+                        row.appendChild(nameCell);
+
+                        let userIdCell = document.createElement("td");
+                        userIdCell.textContent = user.userid;
+                        row.appendChild(userIdCell);
+
+                        let removeButtonCell = document.createElement("td");
+                        let removeButton = document.createElement("button");
+                        removeButton.className = "btn btn-danger deleteUsersProject";
+                        removeButton.textContent = "추방";
+                        removeButtonCell.appendChild(removeButton);
+                        row.appendChild(removeButtonCell);
+
+                        tableBody.appendChild(row);
+                    });
+                    
+                    
+
+                    // 프로젝트 참여인원 수 표시
+                    let participantsInput = document.getElementById("projectParticipants");
+					participantsInput.value = response.length + " 명의 인원이 프로젝트에 참가중";
+                } else {
+                    console.log("에러 메시지:", xhr.status);
+                }
+            };
+
+            xhr.onerror = function() {
+                console.log("요청 에러");
+            };
+
+            xhr.send();
+        };
+
+        // 프로젝트 관리자 정보 가져오기
+        let getProjectManager = function() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "member/" + memberId, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    let response = JSON.parse(xhr.responseText);
+                    let projectManagerName = response[0].name;
+                    console.log(projectManagerName);
+
+                    document.getElementById("projectManagerName").value = projectManagerName;
+                    document.getElementById("projectManagerId").value = memberId;
+                } else {
+                    console.log("에러 메시지:", xhr.status);
+                }
+            };
+
+            xhr.onerror = function() {
+                console.log("요청 에러");
+            };
+
+            xhr.send();
+        };
+
+        // 게시글 수 가져오기
+        let getBoardCount = function() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "board/" + projectId, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    let response = JSON.parse(xhr.responseText);
+                    let boardCount = response.length;
+
+                    let projectBoardCount = document.getElementById("projectBoardCount");
+                    projectBoardCount.value = boardCount + " 개의 게시글";
+                } else {
+                    console.log("에러 메시지:", xhr.status);
+                }
+            };
+
+            xhr.onerror = function() {
+                console.log("요청 에러");
+            };
+
+            xhr.send();
+        };
+
+        getProjectInfo();
+        getUsers();
+        getProjectManager();
+        getBoardCount();
+    };
+
+    getUsersAndProjectInfo();
+    
+
+
 
 
 
@@ -649,10 +662,7 @@ document.addEventListener("DOMContentLoaded", function() {
 									</div>
 								</div>
 
-
-
 								<hr class="hr2">
-								
 								
 								<button type="button"
 									class="btn btn-danger projectDelteBtn float-right mt-3"
@@ -671,52 +681,48 @@ document.addEventListener("DOMContentLoaded", function() {
 					</div>
 				</div>
 
-
-					<div class="card mb-3 projectinfo projectMemberManagement">
-						<div class="card-header projectinfo-header"><span class="sub-title-text">프로젝트 참가자</span></div>
-						<div class="card-body">
-							<div class="form-group">
-								<table class="table table-hover">
-									<thead>
-										<tr>
-											<th scope="col">이름</th>
-											<th scope="col">아이디</th>
-											<th scope="col">추방</th>
-										</tr>
-									</thead>
-									<tbody id="memberList">
-
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-
-					<div class="card mb-3 projectinfo projectMemberManagement2">
-						<div class="card-header projectinfo-header"><span class="sub-title-text">참가자 초대하기</span></div>
-						<div class="card-body">
-							<form class="d-flex">
-								<input class="form-control me-sm-2" type="search"
-									placeholder="id 검색" id="userSearch">
-								<button class="btn btn-secondary my-2 my-sm-0" type="submit"
-									id="userSearchBtn">검색</button>
-							</form>
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th scope="col">이름</th>
-										<th scope="col">아이디</th>
-										<th scope="col">초대</th>
-									</tr>
-								</thead>
-								<tbody id="userTableBody">
-								</tbody>
-							</table>
-						</div>
-					</div>
-
+				<div class="projectinfo-container2">
+				    <div class="card mb-3 projectinfo projectMemberManagement">
+				        <div class="card-header projectinfo-header"><span class="sub-title-text">프로젝트 참가자</span></div>
+				        <div class="card-body">
+				            <div class="form-group">
+				                <table class="table table-hover">
+				                    <thead>
+				                        <tr>
+				                            <th scope="col">이름</th>
+				                            <th scope="col">아이디</th>
+				                            <th scope="col">추방</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody id="memberList">
 				
-			</div>
+				                    </tbody>
+				                </table>
+				            </div>
+				        </div>
+				    </div>
+				
+				    <div class="card mb-3 projectinfo projectMemberManagement2">
+				        <div class="card-header projectinfo-header"><span class="sub-title-text">참가자 초대하기</span></div>
+				        <div class="card-body">
+				            <form class="d-flex">
+				                <input class="form-control me-sm-2" type="search" placeholder="id 검색" id="userSearch">
+				            </form>
+				            <table class="table table-hover">
+				                <thead>
+				                    <tr>
+				                        <th scope="col">이름</th>
+				                        <th scope="col">아이디</th>
+				                        <th scope="col">초대</th>
+				                    </tr>
+				                </thead>
+				                <tbody id="userTableBody">
+				                </tbody>
+				            </table>
+				        </div>
+				    </div>
+				</div>
+		</div>
 	</div>
 	</main>
 </body>

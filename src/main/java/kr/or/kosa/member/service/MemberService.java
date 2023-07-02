@@ -55,17 +55,17 @@ public class MemberService {
 		return list;		
 	}
 	
-	public Users selectUserById(String userid) {
+	public List<Users> selectUserById(String userid) {
 		UsersDao dao = sqlsession.getMapper(UsersDao.class);
-		Users user = null;
+		List<Users> list = null;
 		try {
-			user = dao.selectUserById(userid);
-			System.out.println("찾은 user 정보 :" + user.toString());
+			list = dao.selectUserById(userid);
+			System.out.println("찾은 user 정보 :" + list.toString());
 		} catch (Exception e) {
 			System.out.println("selectUserById에서 터짐");
 			e.printStackTrace();
 		}		
-		return user;
+		return list;
 	}
 	
 	public int insertUser(Users user) {
