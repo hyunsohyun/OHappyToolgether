@@ -34,9 +34,14 @@ public class HomeController {
 	@RequestMapping(value = "/login.do")
 	public String loginhome(@RequestParam("userid") String userid, HttpSession session) {
 	    logger.info("Welcome home!");
-	    // 세션 객체를 가져옵니다.
-	    // 홈 페이지로 이동합니다.
 	    return "member/loginForm";
+	}
+
+	
+	@GetMapping(value="/joinForm.do")
+	public String join() {
+		logger.info("joinForm으로 이동");
+		return "member/joinForm";
 	}
 
 }
