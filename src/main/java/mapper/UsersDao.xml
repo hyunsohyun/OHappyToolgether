@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="insertUser" parameterType="kr.or.kosa.member.vo.Users">
-		insert into users values(#{userid}, ${password}, ${name}, #{enabled}, ${email}, ${image})
+		insert into users(userid, password, name, enabled, email) values(#{userid}, #{password}, #{name}, #{enabled}, #{email})
 	</insert>
 	
 	<delete id="deleteUser" parameterType="String">

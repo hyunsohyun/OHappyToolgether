@@ -73,8 +73,8 @@ public class MemberController {
 		}		
 	}
 	
-	
-	@PostMapping
+
+	@PostMapping("/joinForm.do")
 	public ResponseEntity<Integer> insertUser(@RequestBody Users user) {
 		int result = 0;
 		user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
@@ -119,7 +119,5 @@ public class MemberController {
 			return new ResponseEntity<Integer>(result,HttpStatus.BAD_REQUEST);
 		}		
 	}
-	
-	
 	
 }
