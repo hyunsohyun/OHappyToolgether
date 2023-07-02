@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import kr.or.kosa.card.dao.CardDao;
-import kr.or.kosa.card.vo.Card;
 import kr.or.kosa.project.dao.ProjectDao;
 import kr.or.kosa.project.vo.Project;
 import kr.or.kosa.project.vo.UsersProject;
