@@ -29,22 +29,10 @@
 							           on m.USERID = r.userid
 							           where m.USERID=?" />
 			<!-- 패스워드 암호화 -->
-			<!-- <security:password-encoder ref="bCryptPasswordEncoder"/> -->
+			<security:password-encoder ref="bCryptPasswordEncoder"/>
 		</security:authentication-provider>
 	</security:authentication-manager>
-	
-	
 
-
-
-	<!-- <security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="user" password="1004" authorities="ROLE_USER" />
-				<security:user name="admin" password="1004" authorities="ROLE_ADMIN" />
-			</security:user-service>
-		</security:authentication-provider>
-	</security:authentication-manager> -->
 
 
 </beans>

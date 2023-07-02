@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,9 @@ public class MemberController {
 	public void setMemberService(MemberService memberService) {
 		this.memberService = memberService;
 	}
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@GetMapping
 	public ResponseEntity<List<Users>> selectAllUser() {
@@ -73,6 +77,7 @@ public class MemberController {
 	@PostMapping("/joinForm.do")
 	public ResponseEntity<Integer> insertUser(@RequestBody Users user) {
 		int result = 0;
+		user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
 		try {
 			result = memberService.insertUser(user);
 			System.out.println("requestBody의 user 정보 : " + user.toString());
@@ -102,6 +107,7 @@ public class MemberController {
 	@PutMapping
 	public ResponseEntity<Integer> updateUser(@RequestBody Users user) {
 		int result = 0;
+		user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
 		try {
 			result = memberService.updateUser(user);
 			System.out.println("requestBody의 user 정보 : " + user.toString());
