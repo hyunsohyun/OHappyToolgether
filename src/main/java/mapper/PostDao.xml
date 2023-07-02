@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="postInsert" parameterType="kr.or.kosa.post.Post" > 
 		INSERT INTO POST (POST_ID, BOARD_ID, TITLE, CONTENT, HIT, CREATE_DATE, PROJECT_ID, USERID) 
-		VALUES(#{postId}, #{boardId}, #{title}, #{content}, 0, sysdate, #{projectId}, #{userId});
+		VALUES(POST_SEQ.NEXTVAL, #{boardId}, #{title}, #{content}, 0, sysdate, #{projectId}, #{userid});
 	</insert>
 	
 	<delete id="postDelete" parameterType="kr.or.kosa.post.Post">
