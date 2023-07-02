@@ -53,7 +53,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 	
   //session값 대체 임시
-  const projectId = ${sessionScope.projectId};
+  const projectId = '${sessionScope.projectId}';
   const memberId = '${sessionScope.userid}';
   const tableBody = document.getElementById("memberList");
   const projectUserId = 'ndw';
