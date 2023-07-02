@@ -26,7 +26,7 @@
 				</div>
 
 				<div class="container px-4 mt-4">
-					<div class="col-md-4 offset-md-4">
+					<div class="col-md-4 offset-md-4 mt-5">
 						<div class="card">
 							<div class="card-header">
 								<i class="fas fa-user"></i>
@@ -42,6 +42,9 @@
 									</div>
 									<div class="form-group mt-4">
 										<button type="submit" class="btn btn-primary">Submit</button>
+										<a href="joinMember.do">
+											<button type="button" class="btn btn-primary float-end">Join</button>
+										</a>										
 									</div>
 								</form>
 							</div>
@@ -57,6 +60,3 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
-
-
-
