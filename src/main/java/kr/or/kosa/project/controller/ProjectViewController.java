@@ -1,5 +1,6 @@
 package kr.or.kosa.project.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -33,13 +34,13 @@ public class ProjectViewController {
 	}
 	
 	@RequestMapping(value="/projectList.do")
-	public String projectList(HttpSession session, Model model) {
+	public String projectList(Principal principal, HttpSession session) {
 		System.out.println("projectList으로 이동");
 		System.out.println("Request Mapping \"/projectList.do\"");
 		List<Project> list = null;
 		try {
-			list = projectService.selectAllProjectById((String)session.getAttribute("userid"));
-			model.addAttribute("projectList", list);
+			list = projectService.selectAllProjectById(principal.getName());
+			session.setAttribute("projectList", list);
 		} catch (Exception e) {
 			System.out.println("projectList()에서 터짐");
 			System.out.println(e.getMessage());
