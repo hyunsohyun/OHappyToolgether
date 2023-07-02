@@ -58,17 +58,16 @@ public class MemberController {
 	}
 	
 	@GetMapping("{userid}")
-	public ResponseEntity<Users> selectUserById(@PathVariable("userid") String userid) {
-		Users user = null;
+	public ResponseEntity<List<Users>> selectUserById(@PathVariable("userid") String userid) {
+		List<Users> list = null;
 		try {			
-			user = memberService.selectUserById(userid);
+			list = memberService.selectUserById(userid);
 			System.out.println("컨트롤러에서 받은 user 정보 : ");
-			System.out.println(user.toString());
-			return new ResponseEntity<Users>(user,HttpStatus.OK);
+			return new ResponseEntity<List<Users>>(list,HttpStatus.OK);
 		} catch (Exception e) {			
 			System.out.println("selectUserById()에서 터짐");
 			System.out.println(e.getMessage());
-			return new ResponseEntity<Users>(user,HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<Users>>(list,HttpStatus.BAD_REQUEST);
 		}		
 	}
 	
