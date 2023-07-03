@@ -42,7 +42,7 @@
 									</div>
 									<div class="form-group mt-4">
 										<button type="submit" class="btn btn-primary">Submit</button>
-										<a href="joinMember.do">
+										<a href="joinForm">
 											<button type="button" class="btn btn-primary float-end">Join</button>
 										</a>										
 									</div>

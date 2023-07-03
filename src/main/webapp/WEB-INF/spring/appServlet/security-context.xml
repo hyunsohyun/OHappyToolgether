@@ -14,7 +14,7 @@
 							 default-target-url="/"
 							 authentication-failure-url="/member/loginForm.do?error"
 							  username-parameter="userid"/>
-		<security:logout logout-url="logout.do" logout-success-url="/" />
+		<security:logout logout-url="/logout" logout-success-url="/" />
 
 		<security:access-denied-handler error-page="/accessDenied.do" />
 	</security:http>
