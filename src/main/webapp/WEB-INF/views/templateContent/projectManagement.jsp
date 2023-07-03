@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<!-- 현재 사용자의 ID를 가져옴 -->
+<sec:authentication property="name" var="userid" />
+
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -19,12 +23,15 @@
 
 
 $(document).ready(function() {
-    const projectId = 100;
-    const memberId = 'hsh';
+    const projectId = '${sessionScope.projectId}';
+    const memberId = '${userid}'; 
     const tableBody = $("#memberList");
     const userTableBody = $("#userTableBody");
     const paginationContainer = $("#paginationContainer");
     const pagination = $("#pagination");
+    
+    console.log(projectId);
+    console.log(memberId);
 
     // 프로젝트 정보
     let getUsersAndProjectInfo = function() {
@@ -36,11 +43,14 @@ $(document).ready(function() {
                 contentType: "application/json",
                 success: function(response) {
                     let projectName = "";
-
+					
+                    console.log("!"+projectName);
+                    console.log(response[0].projectId+"!@!@")
+                    
                     for (let i = 0; i < response.length; i++) {
-                        if (response[i].projectId === projectId) {
+                        if (response[i].projectId == projectId) {
                             projectName = response[i].projectName;
-                            console.log(projectName);
+                            console.log("?" + projectName);
                             $("#projectName").val(projectName);
                             break;
                         }
@@ -169,8 +179,8 @@ $(document).ready(function() {
 
 		document.addEventListener("DOMContentLoaded", function() {
 		    // session값 대체 임시
-		    //const projectId = ${sessionScope.projectId};
-		    //const memberId = '${sessionScope.userid}'; 
+		    const projectId = ${sessionScope.projectId};
+		    const memberId = '${userid}'; 
 		   // const tableBody = document.getElementById("memberList");
 		
 		    
@@ -524,10 +534,14 @@ $(document).ready(function() {
 		      e.preventDefault();
 		
 		      let userId = e.target.closest("tr").querySelector("td:nth-child(2)").textContent;
+		      console.log("")
 		      let usersProject = {
 		        projectId: projectId,
 		        userid: userId
 		      };
+		      
+		      console.log("userID ::" +userId);
+		      console.log("memberID ::" +memberId);
 		
 		      let deleteButton = e.target;
 		      if (userId == memberId) {
