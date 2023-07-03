@@ -73,7 +73,7 @@ public class PostRestController {
 
 	//글삭제
 	@DeleteMapping(value="/delete")
-	public ResponseEntity<Integer> postDelete(@ModelAttribute Post post, Model model) {
+	public ResponseEntity<Integer> postDelete(@RequestBody Post post, Model model) {
 		try {
 			int result = postService.postDelete(post);
 			if(result>0) {
