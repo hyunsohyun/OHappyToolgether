@@ -38,10 +38,10 @@
 					</a>
 
 					<div class="sb-sidenav-menu-heading">Kanban Board</div>
-					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+					<a class="nav-link collapsed" href="${pageContext.request.contextPath}/kanban.do" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-columns"></i>
-						</div> 칸반보드
+						</div> 칸반보드 (${projectId})
 						<div class="sb-sidenav-collapse-arrow">
 							<i class="fas fa-angle-down"></i>
 						</div>
