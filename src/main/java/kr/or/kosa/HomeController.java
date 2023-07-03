@@ -19,38 +19,29 @@ public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	@RequestMapping(value = "/home.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home!");
 		return "home";
 	}
+
+	@RequestMapping(value = "/loginForm.do")
+	public String login() {
+	    logger.info("Welcome home!");
+	    return "member/loginForm";
+	}
 	
-	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/login.do")
 	public String loginhome(@RequestParam("userid") String userid, HttpSession session) {
 	    logger.info("Welcome home!");
-	    // 세션 객체를 가져옵니다.
-	    session.setAttribute("userid", userid);
-	    System.out.println("userid : " + userid);
-	    // 홈 페이지로 이동합니다.
-	    return "home";
-	}
-	
-	
-	
-	@RequestMapping(value="/logout.do")
-	public String logout(HttpSession session) {
-		logger.info("Logout으로 이동");
-		session.removeAttribute("userid");
-		session.removeAttribute("projectId");
-		return "home";
-	}
-	
-	@GetMapping(value="/loginForm.do")
-	public String login() {
-		logger.info("LoginForm으로 이동");
-		return "member/loginForm";
+	    return "member/loginForm";
 	}
 
 	
+	@GetMapping(value="/joinForm.do")
+	public String join() {
+		logger.info("joinForm으로 이동");
+		return "member/joinForm";
+	}
 
 }

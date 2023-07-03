@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="userid" value="${sessionScope.userid}" />
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<!-- 현재 사용자의 ID를 가져옴 -->
+<sec:authentication property="name" var="userid" />
 <c:set var="projectId" value="${sessionScope.projectId}" />
 <c:set var="boardList" value="${sessionScope.boardList}" />
 <div id="layoutSidenav_nav">
 	<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
 		<div class="sb-sidenav-menu">
 			<div class="nav">
-
+		
 				<c:if test="${userid != null}">
 					<div class="sb-sidenav-menu-heading">Core</div>
 					<a class="nav-link" href="${pageContext.request.contextPath}/projectList.do">
@@ -21,7 +24,8 @@
 					<a class="nav-link" href="${pageContext.request.contextPath}/joinForm.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
-						</div> Member Join
+						</div> Member Join<br>
+											
 					</a>
 				</c:if>
 
@@ -74,15 +78,14 @@
 			</div>
 		</div>
 		<div class="sb-sidenav-footer">
-			<div class="small">Logged in as:</div>
-			<c:choose>
-				<c:when test="${userid != null}">				
-					${userid} <a href="logout.do">로그아웃</a>
-				</c:when>
-				<c:otherwise>
-					Anonymous
-				</c:otherwise>
-			</c:choose>
+			
+				<c:if test="${userid != 'anonymousUser'}">				
+					<a href="logout.do">
+						<button type='button' class='float-end btn btn-primary'>로그아웃</button>
+					</a>
+				</c:if>
+				<div class="small">Logged in as:</div>
+			${userid}
 		</div>
 	</nav>
 </div>

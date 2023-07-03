@@ -4,18 +4,17 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- security:intercept-url 우선순위 ... 작은것에서 > 큰것으로 ..... -->
-	<security:http auto-config="true">
-		<security:csrf disabled="true" />
-		<security:intercept-url pattern="/loginForm.do" access="permitAll" />
-		<security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" />
+	<security:http>
+		<security:csrf disabled="true" />				
+		<!-- <security:intercept-url pattern="/common/**" access="permitAll" />
+		<security:intercept-url pattern="/*/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" /> -->
 		<!-- <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" /> -->
 
-		<security:form-login login-page="/loginForm.do"
-							 default-target-url="/login.do"
+		<security:form-login login-page="/loginForm"
+							 default-target-url="/"
 							 authentication-failure-url="/member/loginForm.do?error"
-							 username-parameter="userid"
-							 password-parameter="password" />
-		<security:logout logout-url="/logout.do" logout-success-url="/" />
+							  username-parameter="userid"/>
+		<security:logout logout-url="logout.do" logout-success-url="/" />
 
 		<security:access-denied-handler error-page="/accessDenied.do" />
 	</security:http>
@@ -30,20 +29,10 @@
 							           on m.USERID = r.userid
 							           where m.USERID=?" />
 			<!-- 패스워드 암호화 -->
-			<!-- <security:password-encoder ref="bCryptPasswordEncoder"/> -->
+			<security:password-encoder ref="bCryptPasswordEncoder"/>
 		</security:authentication-provider>
 	</security:authentication-manager>
 
-
-
-	<!-- <security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="user" password="1004" authorities="ROLE_USER" />
-				<security:user name="admin" password="1004" authorities="ROLE_ADMIN" />
-			</security:user-service>
-		</security:authentication-provider>
-	</security:authentication-manager> -->
 
 
 </beans>

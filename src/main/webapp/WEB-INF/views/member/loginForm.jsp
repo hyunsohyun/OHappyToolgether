@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <title>OHappyToolgether</title>
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-<link href="css/styles.css" rel="stylesheet" />
+<link href="/css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
@@ -33,7 +33,7 @@
 								User Login
 							</div>
 							<div class="card-body">
-								<form name='f' action='${pageContext.request.contextPath}/login.do' method='POST'>
+								<form name='f' action='/login' method='POST'>
 									<div class="form-group">
 										<label for="userid" class="form-label mt-4">User ID</label> <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID">
 									</div>
@@ -56,10 +56,7 @@
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 		</div>
 	</div>
-	<script src="js/scripts.js"></script>
+	<script src="/js/scripts.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
-
-
-

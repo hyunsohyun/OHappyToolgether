@@ -60,7 +60,6 @@ public class MemberService {
 		List<Users> list = null;
 		try {
 			list = dao.selectUserById(userid);
-			System.out.println("찾은 user 정보 :" + list.toString());
 		} catch (Exception e) {
 			System.out.println("selectUserById에서 터짐");
 			e.printStackTrace();
