@@ -24,15 +24,15 @@
         display: flex;
     }
 
-    .card-wrap {
-        min-width: 500px;
+    .card-size {
+        min-width: 400px;
     }
 </style>
 
 <body>
     <div class="main-container">
         <div class="content-container">
-			<div class="card">
+			<div class="card card-size">
 				<div class="card-header">
 					<div class="text-center">
 						<h3>로그인</h3>

@@ -15,16 +15,7 @@
 </head>
 
 <style>
-    .font {
-        --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Solid";
-        --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Regular";
-        --fa-font-light: normal 300 1em/1 "Font Awesome 6 Light";
-        --fa-font-thin: normal 100 1em/1 "Font Awesome 6 Thin";
-        --fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone";
-        --fa-font-sharp-solid: normal 900 1em/1 "Font Awesome 6 Sharp";
-        --fa-font-sharp-regular: normal 400 1em/1 "Font Awesome 6 Sharp";
-        --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
-    }
+
 	.main-container {
 		display: flex;
         height: 100%;
@@ -84,12 +75,12 @@
         </div>
     </div>
 
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 	  $(document).ready(function() {
 	    $("#joinForm").submit(function(event) {
 	      event.preventDefault(); // 폼 기본 동작 방지
-	      var formData = {
+	      const formData = {
 	        "userid": $("#userid").val(),
 	        "password": $("#password").val(),
 	        "name": $("#name").val(),
