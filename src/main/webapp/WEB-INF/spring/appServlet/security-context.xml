@@ -12,7 +12,7 @@
 
 		<security:form-login login-page="/loginForm"
 							 default-target-url="/projectList.do"
-							 authentication-failure-url="/member/loginForm.do?error"
+							 authentication-failure-url="/loginForm?error"
 							  username-parameter="userid"/>
 		<security:logout logout-url="/logout" logout-success-url="/" />
 

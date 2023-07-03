@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,26 +13,27 @@
 </head>
 
 <style>
-	.main-container {
-		display: flex;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(178.6deg, rgb(20, 36, 50) 11.8%, rgb(124, 143, 161) 83.8%);
-	}
+.main-container {
+	display: flex;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(178.6deg, rgb(20, 36, 50) 11.8%,
+		rgb(124, 143, 161) 83.8%);
+}
 
-    .content-container {
-        display: flex;
-    }
+.content-container {
+	display: flex;
+}
 
-    .card-size {
-        min-width: 400px;
-    }
+.card-size {
+	min-width: 400px;
+}
 </style>
 
 <body>
-    <div class="main-container">
-        <div class="content-container">
+	<div class="main-container">
+		<div class="content-container">
 			<div class="card card-size">
 				<div class="card-header">
 					<div class="text-center">
@@ -39,6 +41,9 @@
 					</div>
 				</div>
 				<div class="card-body">
+					<c:if test="${param.error != null}">
+						<div class="text-bg-danger p-3">입력한 계정 정보가 없습니다</div>
+					</c:if>
 					<form name='f' action='/login' method='POST'>
 						<div class="form-group">
 							<label for="userid" class="form-label mt-4">아이디</label> <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID">
@@ -50,7 +55,7 @@
 							<button type="submit" class="btn btn-primary">로그인</button>
 							<a href="joinForm">
 								<button type="button" class="btn btn-primary float-end">회원가입</button>
-							</a>										
+							</a>
 						</div>
 					</form>
 				</div>
