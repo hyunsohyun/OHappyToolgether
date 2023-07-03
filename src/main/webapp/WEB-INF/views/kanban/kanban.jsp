@@ -315,9 +315,9 @@
         margin-left: auto;
     }
     .bg-trello-mountain{
-        background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1281x1920/f4713e4c8cebdb8cdba78f37495a9238/photo-1686922187671-510b88dfc927.jpg");
-        background-size: cover;
-        background-position: left;
+        /* background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1281x1920/f4713e4c8cebdb8cdba78f37495a9238/photo-1686922187671-510b88dfc927.jpg"); */
+        /* background-size: cover; */
+        /* background-position: left; */
     }
 </style>
 <!-- 스타일 끝 -->
