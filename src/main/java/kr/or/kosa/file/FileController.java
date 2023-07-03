@@ -1,7 +1,5 @@
 package kr.or.kosa.file;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -69,12 +67,10 @@ public class FileController {
                 fileInfo.setFilePath(filepath);
                 fileInfo.setFileSize(file.getSize());
     			
-	    		result = fileService.fileInsert(fileInfo);
-	    	
+	    		result += fileService.fileInsert(fileInfo);
 	    	}
-	    	
+	    	//파일갯수
 	        return new ResponseEntity<Integer>(result, HttpStatus.OK);
-
 	    } catch (Exception e) {
 	        System.out.println(e.getMessage());
 	        return new ResponseEntity<Integer>(result, HttpStatus.BAD_REQUEST);
