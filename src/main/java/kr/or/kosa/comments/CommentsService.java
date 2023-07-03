@@ -17,11 +17,11 @@ public class CommentsService {
 	}
 
 	//댓글 리스트
-	public List<Comments> commentList(int postId) {
+	public List<Comments> commentList(Comments comment) {
 		List<Comments> commentList = null;
 		try {
 			CommentsDao Commentsdao = sqlsession.getMapper(CommentsDao.class);
-			commentList = Commentsdao.commentList(postId);
+			commentList = Commentsdao.commentList(comment);
 		} catch(Exception e) {
 			System.out.println("댓글 리스트 오류발생");
 			System.out.println(e.getMessage());
@@ -30,12 +30,12 @@ public class CommentsService {
 	}
 	
 	//댓글 상세
-	public Comments commentDetail(String commentId){
+	public Comments commentDetail(Comments comment){
 		Comments Comments = null;
 		try {
 			//댓글정보 테이블 등록
 			CommentsDao commentsdao = sqlsession.getMapper(CommentsDao.class);
-			Comments = commentsdao.commentDetail(commentId);
+			Comments = commentsdao.commentDetail(comment);
 		}catch (Exception e) {
 			System.out.println("오류발생");
 			System.out.println(e.getMessage());

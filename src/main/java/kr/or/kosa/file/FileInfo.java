@@ -1,12 +1,14 @@
 package kr.or.kosa.file;
 
-public class File {
+public class FileInfo {
 	private int fileId; 
 	private int postId; 
 	private String realFileName; 
 	private String hashFileName; 
 	private String filePath; 
 	private int boardId;
+	private long fileSize;
+	private String userid;
 	
 	public int getFileId() {
 		return fileId;
@@ -43,6 +45,26 @@ public class File {
 	}
 	public void setBoardId(int boardId) {
 		this.boardId = boardId;
+	}
+	public long getFileSize() {
+		return fileSize;
+	}
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
+	
+	
+	
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	@Override
+	public String toString() {
+		return "File [fileId=" + fileId + ", postId=" + postId + ", realFileName=" + realFileName + ", hashFileName="
+				+ hashFileName + ", filePath=" + filePath + ", boardId=" + boardId + ", fileSize=" + fileSize + "]";
 	} 
 	
 }
