@@ -19,7 +19,8 @@
 				<span class="three"></span>
 				<div class="circle">
 					<h1 class="OHappyToolgether">OHappy Toolgether</h1>
-					<p>douzone 5 - team 3</p>
+					<p>Douzone 5 (Team 3)</p>
+					<p>Second Project</p>
 				</div>
 			</div>
 
