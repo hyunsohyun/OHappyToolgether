@@ -581,18 +581,20 @@
                   <form class="d-flex">
                     <input class="form-control me-sm-2" type="search" placeholder="id 검색" id="userSearch">
                   </form>
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th scope="col">이름</th>
-                        <th scope="col">아이디</th>
-                        <th scope="col">초대</th>
-                      </tr>
-                    </thead>
-                    <tbody id="userTableBody">
-                      <!-- 페이징 처리로 동적으로 추가될 내용 -->
-                    </tbody>
-                  </table>
+                  <div class="table-wrapper" style="max-height: 350px; overflow-y: auto;">
+	                  <table class="table table-hover">
+	                    <thead>
+	                      <tr>
+	                        <th scope="col">이름</th>
+	                        <th scope="col">아이디</th>
+	                        <th scope="col">초대</th>
+	                      </tr>
+	                    </thead>
+	                    <tbody id="userTableBody">
+	                      <!-- 페이징 처리로 동적으로 추가될 내용 -->
+	                    </tbody>
+	                  </table>
+                  </div>
                   <div id="pagination"></div>
                 </div>
               </div>
