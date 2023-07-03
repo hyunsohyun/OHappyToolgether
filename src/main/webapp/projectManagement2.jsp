@@ -28,6 +28,7 @@
 		    const tableBody = $("#memberList");
 		    const userTableBody = $("#userTableBody");
 		    const pageSize = 6; 
+		    
 
 		    // 프로젝트 정보
 		    let getUsersAndProjectInfo = function() {
@@ -53,6 +54,8 @@
 		                }
 		            });
 		        };
+		        
+		        
 		
 		        // 프로젝트 참가자 목록 가져오기
 			let getUsers = function(page, pageSize) {
