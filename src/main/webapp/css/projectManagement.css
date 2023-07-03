@@ -39,7 +39,7 @@
   }
 
   .sub-title-text {
-
+	margin-left: 20px;
   }
 
   .projectMemberManagement,
@@ -75,7 +75,7 @@
   }
 
   #layoutSidenav {
-    background-color: #ebebeb;
+    background-color: #fffff0;
     height: 1350px;
   }
 
