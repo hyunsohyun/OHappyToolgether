@@ -60,7 +60,7 @@
     Body Section Styles
     ***********************************************************/
     .body-section {
-        padding: 20px;
+        padding: 0px 20px 20px 20px;
     }
 
 
@@ -83,7 +83,7 @@
         display: inline-block;
         vertical-align: top;
         white-space: nowrap;
-        background-color: #ebecf0;
+        background-color: #ebece0;
         border-radius: 12px;
     }
 
@@ -91,7 +91,8 @@
         font-family: "Lato";
         font-size: 24px;
         font-weight: 600;
-        padding: 4px 8px 4px 12px
+        padding: 4px 0px 8px 0px;
+        text-align: center;
     }
 
     /* 크기 */
@@ -122,6 +123,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-bottom: 20px;
     }
 
     .job-block {
@@ -131,7 +133,7 @@
         cursor: pointer;
         display: block;
         margin-bottom: 6px;
-        width: 94%;
+        /* width: 94%; */
         max-width: 300px;
         min-height: 20px;
         position: relative;
@@ -236,6 +238,7 @@
         padding-top: 5px;
         padding-left: 5px;
         padding-bottom: 5px;
+        padding-right: 5px;
     }
 
     .ui-sortable-handle {
@@ -268,6 +271,54 @@
     #done-jobs-list>li>div {
         background-color: #577590;
     }
+
+    .kanban-root {
+        /* --board-header-background-color: #0000003d; */
+    }
+
+    .kanban-root-content {
+        height: auto;
+        position: relative;
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        gap: 4px;
+        width: calc(100% - 23px);
+        align-items: center;
+        padding: 12px 10px 12px 30px;
+
+        backdrop-filter: blur(4px);
+        background: var(--board-header-background-color);
+        
+    }
+
+    .title-span {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 32px;
+        max-width: 100%;
+    }
+
+    .project-text {
+        font-size: 20px;
+        font-weight: 600;
+        padding-right: 15px;
+    }
+
+    .title-span-auto {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 32px;
+        margin-left: auto;
+    }
+    .bg-trello-mountain{
+        background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1281x1920/f4713e4c8cebdb8cdba78f37495a9238/photo-1686922187671-510b88dfc927.jpg");
+        background-size: cover;
+        background-position: left;
+    }
 </style>
 <!-- 스타일 끝 -->
 
@@ -277,14 +328,21 @@
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 		
-			<main>
-				<div class="container mt-2" id="projectContainer">
+			<main class="bg-trello-mountain">
+				<div class="container" id="projectContainer">
 <!-- 칸반 영역-->
-<button id="saveBtn">saveBtn</button>
-<div>
-    <div>프로젝트 ${sessionScope.projectId}</div>
-    <div>관리자이름 ${userid}</div>
+<div class="kanban-root">
+    <div class="kanban-root-content">
+        <span class="title-span">
+            <div class="project-text">프로젝트 ${sessionScope.projectId}</div>
+        </span>
+        <span class="title-span-auto">
+            <div class="project-text">관리자이름 ${userid}</div>
+            <button class="btn btn-success" id="saveBtn">saveBtn</button>
+        </span>
+    </div>
 </div>
+
 
 
 <div class="body-section">
@@ -299,7 +357,7 @@
             </div>
             <div class="jobs-list-footer">
                 <div>
-                    <button id="plusBtn1" class="btn btn-primary 10">+</button>
+                    <button id="plusBtn1" class="btn btn-secondary 10">+</button>
                 </div>
             </div>
         </div>
@@ -313,7 +371,7 @@
             </div>
             <div class="jobs-list-footer">
                 <div>
-                    <button id="plusBtn2" class="btn btn-primary 20">+</button>
+                    <button id="plusBtn2" class="btn btn-secondary 20">+</button>
                 </div>
             </div>
         </div>
@@ -327,7 +385,7 @@
             </div>
             <div class="jobs-list-footer">
                 <div>
-                    <button id="plusBtn3" class="btn btn-primary 30">+</button>
+                    <button id="plusBtn3" class="btn btn-secondary 30">+</button>
                 </div>
             </div>
         </div>
@@ -341,7 +399,7 @@
             </div>
             <div class="jobs-list-footer">
                 <div>
-                    <button id="plusBtn4" class="btn btn-primary 40">+</button>
+                    <button id="plusBtn4" class="btn btn-secondary 40">+</button>
                 </div>
             </div>
         </div>
@@ -355,7 +413,7 @@
             </div>
             <div class="jobs-list-footer">
                 <div>
-                    <button id="plusBtn5" class="btn btn-primary 50">+</button>
+                    <button id="plusBtn5" class="btn btn-secondary 50">+</button>
                 </div>
             </div>
         </div>
@@ -376,7 +434,7 @@
 
 <script>
 $(document).ready(function () {
-    console.log(2);
+    console.log(3);
     fetchDataAndRenderKanban();
 
     // 드래그 & 드롭 인터페이스를 위한 정렬 가능한 함수
