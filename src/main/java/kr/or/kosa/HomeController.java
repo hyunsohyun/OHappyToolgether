@@ -56,6 +56,12 @@ public class HomeController {
 		return "member/joinForm";
 	}
 	
+	@GetMapping(value = "/editForm")
+	public String editForm() {
+		logger.info("editForm으로 이동");
+		return "member/editForm";
+	}
+	
 	
 
 }
