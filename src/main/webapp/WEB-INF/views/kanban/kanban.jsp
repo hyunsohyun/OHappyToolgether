@@ -2,6 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<!-- 현재 사용자의 ID를 가져옴 -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authentication property="name" var="userid" />
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +15,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-<title>OHappyToolgether</title>
+<title>Kanban</title>
 
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="css/styles.css" rel="stylesheet" />
@@ -55,7 +60,7 @@
     Body Section Styles
     ***********************************************************/
     .body-section {
-        padding: 20px;
+        padding: 0px 20px 20px 20px;
     }
 
 
@@ -78,15 +83,16 @@
         display: inline-block;
         vertical-align: top;
         white-space: nowrap;
-        background-color: #ebecf0;
+        background-color: #ebece0;
         border-radius: 12px;
     }
 
     h2.jobs-list-heading {
         font-family: "Lato";
-        font-size: 12px;
+        font-size: 24px;
         font-weight: 600;
-        padding: 4px 8px 4px 12px
+        padding: 4px 0px 8px 0px;
+        text-align: center;
     }
 
     /* 크기 */
@@ -117,6 +123,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-bottom: 20px;
     }
 
     .job-block {
@@ -126,7 +133,7 @@
         cursor: pointer;
         display: block;
         margin-bottom: 6px;
-        width: 94%;
+        /* width: 94%; */
         max-width: 300px;
         min-height: 20px;
         position: relative;
@@ -231,6 +238,7 @@
         padding-top: 5px;
         padding-left: 5px;
         padding-bottom: 5px;
+        padding-right: 5px;
     }
 
     .ui-sortable-handle {
@@ -263,6 +271,54 @@
     #done-jobs-list>li>div {
         background-color: #577590;
     }
+
+    .kanban-root {
+        /* --board-header-background-color: #0000003d; */
+    }
+
+    .kanban-root-content {
+        height: auto;
+        position: relative;
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        gap: 4px;
+        width: calc(100% - 23px);
+        align-items: center;
+        padding: 12px 10px 12px 30px;
+
+        backdrop-filter: blur(4px);
+        background: var(--board-header-background-color);
+        
+    }
+
+    .title-span {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 32px;
+        max-width: 100%;
+    }
+
+    .project-text {
+        font-size: 20px;
+        font-weight: 600;
+        padding-right: 15px;
+    }
+
+    .title-span-auto {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 32px;
+        margin-left: auto;
+    }
+    .bg-trello-mountain{
+        background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1281x1920/f4713e4c8cebdb8cdba78f37495a9238/photo-1686922187671-510b88dfc927.jpg");
+        background-size: cover;
+        background-position: left;
+    }
 </style>
 <!-- 스타일 끝 -->
 
@@ -272,15 +328,21 @@
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 		
-			<main>
-				<div class="container mt-2" id="projectContainer">
+			<main class="bg-trello-mountain">
+				<div class="container" id="projectContainer">
 <!-- 칸반 영역-->
-<button id="searchBtn">searchBtn</button>
-<button id="saveBtn">saveBtn</button>
-<div>
-    <div>임시 프로젝트 100 [추후로그인정보에서 가져와야함]</div>
-    <div>임시 관리자이름 sjd [추후로그인정보에서 가져와야함]</div>
+<div class="kanban-root">
+    <div class="kanban-root-content">
+        <span class="title-span">
+            <div class="project-text">프로젝트 ${sessionScope.projectId}</div>
+        </span>
+        <span class="title-span-auto">
+            <div class="project-text">관리자이름 ${userid}</div>
+            <button class="btn btn-success" id="saveBtn">saveBtn</button>
+        </span>
+    </div>
 </div>
+
 
 
 <div class="body-section">
@@ -295,7 +357,7 @@
             </div>
             <div class="jobs-list-footer">
                 <div>
-                    <button id="plusBtn1" class="btn btn-primary 10">+</button>
+                    <button id="plusBtn1" class="btn btn-secondary 10">+</button>
                 </div>
             </div>
         </div>
@@ -309,7 +371,7 @@
             </div>
             <div class="jobs-list-footer">
                 <div>
-                    <button id="plusBtn2" class="btn btn-primary 20">+</button>
+                    <button id="plusBtn2" class="btn btn-secondary 20">+</button>
                 </div>
             </div>
         </div>
@@ -323,7 +385,7 @@
             </div>
             <div class="jobs-list-footer">
                 <div>
-                    <button id="plusBtn3" class="btn btn-primary 30">+</button>
+                    <button id="plusBtn3" class="btn btn-secondary 30">+</button>
                 </div>
             </div>
         </div>
@@ -337,7 +399,7 @@
             </div>
             <div class="jobs-list-footer">
                 <div>
-                    <button id="plusBtn4" class="btn btn-primary 40">+</button>
+                    <button id="plusBtn4" class="btn btn-secondary 40">+</button>
                 </div>
             </div>
         </div>
@@ -351,7 +413,7 @@
             </div>
             <div class="jobs-list-footer">
                 <div>
-                    <button id="plusBtn5" class="btn btn-primary 50">+</button>
+                    <button id="plusBtn5" class="btn btn-secondary 50">+</button>
                 </div>
             </div>
         </div>
@@ -372,7 +434,8 @@
 
 <script>
 $(document).ready(function () {
-    console.log(1);
+    console.log(3);
+    fetchDataAndRenderKanban();
 
     // 드래그 & 드롭 인터페이스를 위한 정렬 가능한 함수
     // https://jqueryui.com/sortable/
@@ -527,16 +590,15 @@ $(document).ready(function () {
     });
 });
 
-// 전체검색버튼
-$("#searchBtn").on("click", async () => { // 이벤트 핸들러를 async 함수로 만듭니다
-    console.log("searchBtn 클릭");
-    const data10 = await getKanban(100, 10);
-    const data20 = await getKanban(100, 20);
-    const data30 = await getKanban(100, 30);
-    const data40 = await getKanban(100, 40);
-    const data50 = await getKanban(100, 50);
+
+const fetchDataAndRenderKanban = async () => {
+    const data10 = await getKanban(${sessionScope.projectId}, 10);
+    const data20 = await getKanban(${sessionScope.projectId}, 20);
+    const data30 = await getKanban(${sessionScope.projectId}, 30);
+    const data40 = await getKanban(${sessionScope.projectId}, 40);
+    const data50 = await getKanban(${sessionScope.projectId}, 50);
     await renderKanban(data10, data20, data30, data40, data50);
-});
+}
 
 
 const getKanban = (projectId, kanbanboardId) => {
@@ -631,12 +693,12 @@ const createListItem = (item) => {
     divJobInfoBlock.className = 'job-info-block';
     divJobInfoBlock.style.display = 'none';
 
-    let keys = ['cardId', 'projectId', 'kanbanboardId', 'title', 'content', 'createDate', 'startDate', 'endDate', 'pos'];
+    let keys = ['cardId', 'projectId', 'kanbanboardId', 'title', 'content', 'createDate', 'startDate', 'endDate', 'pos', 'completeDate'];
     keys.forEach(key => {
         let divKanbanItem = document.createElement('div');
         divKanbanItem.className = 'kanban-item ' + key;
 
-        if (key === 'createDate' || key === 'startDate' || key === 'endDate') {
+        if (key === 'createDate' || key === 'startDate' || key === 'endDate' || key === 'completeDate') {
             divKanbanItem.textContent = formatDate(item[key]);
         } else {
             divKanbanItem.textContent = item[key];
@@ -684,6 +746,7 @@ $(document).on('click', '.job-block', async function () {
     const startDate = $(this).closest('.job-block').find('.startDate').text();
     const endDate = $(this).closest('.job-block').find('.endDate').text();
     const name = $(this).closest('.job-block').find('.kanban-name').text();
+    const completeDate = $(this).closest('.job-block').find('.completeDate').text();
 
     const { value: formValues } = await Swal.fire({
         title: '카드보기',
@@ -702,7 +765,10 @@ $(document).on('click', '.job-block', async function () {
             '<input type="text" id="swal-input4" name="to" class="swal2-input" value="' + endDate + '" disabled>' +
 
             '<div class="pt-3">담당자이름</div>' +
-            '<input id="swal-input5" class="swal2-input" value="' + name + '" disabled>',
+            '<input id="swal-input5" class="swal2-input" value="' + name + '" disabled>' +
+
+            '<div class="pt-3">완료날짜</div>' +
+            '<input type="text" id="swal-input6" name="to" class="swal2-input" value="' + completeDate + '" disabled>',
 
         focusConfirm: false,
         preConfirm: () => {
@@ -730,6 +796,7 @@ $(document).on('click', '.job-edit', async function (event) {
     const startDate = $(this).closest('.job-block').find('.startDate').text();
     const endDate = $(this).closest('.job-block').find('.endDate').text();
     const name = $(this).closest('.job-block').find('.kanban-name').text();
+    const completeDate = $(this).closest('.job-block').find('.completeDate').text();
 
     const { value: formValues } = await Swal.fire({
         title: '카드수정',
@@ -748,7 +815,10 @@ $(document).on('click', '.job-edit', async function (event) {
             '<input type="text" id="swal-input4" name="to" class="swal2-input" value="' + endDate + '">' +
 
             '<div class="pt-3">담당자이름</div>' +
-            '<input id="swal-input5" class="swal2-input" value="' + name + '">',
+            '<input id="swal-input5" class="swal2-input" value="' + name + '">' +
+
+            '<div class="pt-3">완료날짜</div>' +
+            '<input type="text" id="swal-input6" name="to" class="swal2-input" value="' + completeDate + '">',
 
 
         focusConfirm: false,
@@ -761,6 +831,7 @@ $(document).on('click', '.job-edit', async function (event) {
             targetLi.find('.startDate').text(document.getElementById('swal-input3').value);
             targetLi.find('.endDate').text(document.getElementById('swal-input4').value);
             targetLi.find('.kanban-name').text(document.getElementById('swal-input5').value);
+            targetLi.find('.completeDate').text(document.getElementById('swal-input6').value);
 
             Swal.fire({
                 icon: 'success',
@@ -777,17 +848,6 @@ $(document).on('click', '.job-edit', async function (event) {
     }
 });
 
-
-// 가데이터
-let jsonData = {
-    "title": "up_test",
-    "content": "up_testdesc",
-    "kanbanboardId": "10",
-    "startDate": "",
-    "endDate": "",
-    "name": "sjd",
-    "pos": 1
-}
 // 버튼
 $("#saveBtn").on("click", () => {
     let listIds = ["#backLog-list", "#ToDo-jobs-list", "#inProgress-jobs-list", "#testing-jobs-list", "#done-jobs-list"];
@@ -804,7 +864,8 @@ $("#saveBtn").on("click", () => {
                 "startDate": task.querySelector(".startDate").innerText,
                 "endDate": task.querySelector(".endDate").innerText,
                 "name": task.querySelector(".kanban-name").innerText,
-                "pos": index + 1
+                "pos": index + 1,
+                "completeDate": task.querySelector(".completeDate").innerText
                 //"listId": listIds[i]  // 어떤 리스트에서 작업이 왔는지 추적하기 위해 리스트 ID를 추가
             };
             jsonDataSets.push(taskData);  // 생성된 객체를 dataSet에 추가
@@ -812,11 +873,10 @@ $("#saveBtn").on("click", () => {
     }
 
     // dataSet 출력
-    console.log("jsonDataSets", jsonDataSets);
-
+    //console.log("jsonDataSets", jsonDataSets);
 
     const cardIdList = Array.from(document.querySelectorAll('.jobs-list-wrapper .ui-sortable-handle')).map(handle => handle.id);
-    console.log(cardIdList);
+    //console.log(cardIdList);
 
     //updateKanban시작
     for (i = 0; i < jsonDataSets.length; i++) {
@@ -884,7 +944,7 @@ $("[id^='plusBtn']").click(function () {
         focusConfirm: false,
         preConfirm: async () => {
 
-            const projectId = 100; //projectId 100 -> [추후 아이디에서 가져오기]
+            const projectId = ${sessionScope.projectId};
             const kanbanboardId = btnValue;
             const title = document.getElementById('swal-input1').value;
             const content = document.getElementById('swal-input2').value;
@@ -924,13 +984,7 @@ $("[id^='plusBtn']").click(function () {
                 });
             });
 
-            console.log("searchBtn 클릭");
-            const data10 = await getKanban(100, 10);
-            const data20 = await getKanban(100, 20);
-            const data30 = await getKanban(100, 30);
-            const data40 = await getKanban(100, 40);
-            const data50 = await getKanban(100, 50);
-            await renderKanban(data10, data20, data30, data40, data50);
+            fetchDataAndRenderKanban();
 
             Swal.fire({
                 icon: 'success',
