@@ -2,16 +2,17 @@ package kr.or.kosa.post;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.or.kosa.comments.Comments;
 import kr.or.kosa.comments.CommentsService;
@@ -44,11 +45,10 @@ public class PostController {
 
 
 	//글리스트
-	@RequestMapping("/postList/{projectId}/{boardId}")
-	public String postList(@PathVariable("projectId") String projectId,@PathVariable("boardId") String boardId, Model model) throws Exception{
+	@RequestMapping("/postList/{boardId}")
+	public String postList(@PathVariable("boardId") String boardId, Model model) throws Exception{
 		
 		model.addAttribute("boardId", boardId);
-		model.addAttribute("projectId", projectId);
 
 		//글 리스트
 		List<Post> postlist = postService.postlist(boardId);
@@ -61,17 +61,22 @@ public class PostController {
 	}
 	
 	//글상세 페이지
-	@RequestMapping(value="/postDetail")
-	public String postDetail(@ModelAttribute Post postParam, Model model) throws Exception{
+	@RequestMapping(value="/postDetail/{boardId}/{postId}")
+	public String postDetail(@PathVariable("boardId") int boardId,@PathVariable("postId") int postId, Model model,HttpSession session) throws Exception{
 		
 		//글 info
-		Post post = postService.postDetail(postParam);
+		Post post = new Post();
+		post.setProjectId((int)session.getAttribute("projectId"));
+		post.setBoardId(boardId);
+		post.setPostId(postId);
+		
+		post = postService.postDetail(post);
 		model.addAttribute("post", post);
 
 		//파일리스트
 		FileInfo file = new FileInfo();
-		file.setBoardId(postParam.getBoardId());
-		file.setPostId(postParam.getPostId());
+		file.setBoardId(post.getBoardId());
+		file.setPostId(post.getPostId());
 		
 		List<FileInfo> fileList = fileService.filelist(file);
 		if(fileList != null) {
@@ -80,8 +85,8 @@ public class PostController {
 		
 		//댓글리스트
 		Comments comment = new Comments();
-		comment.setBoardId(postParam.getBoardId());
-		comment.setPostId(postParam.getPostId());
+		comment.setBoardId(post.getBoardId());
+		comment.setPostId(post.getPostId());
 
 		List<Comments> commentList = commentsService.commentList(comment);
 		if(commentList != null) {
@@ -92,41 +97,26 @@ public class PostController {
 	}
 	
 	//글등록 페이지
-	@GetMapping(value="/postInsert/{projectId}/{boardId}")
-	public String postInsert(@PathVariable("boardId") int boardId, @PathVariable("projectId") int projectId, Model model) {
-		model.addAttribute("projectId", projectId);
+	@GetMapping(value="/postInsert/{boardId}")
+	public String postInsert(@PathVariable("boardId") int boardId, Model model) {
+		
 		model.addAttribute("boardId", boardId);
 		return "post/postInsert";
 	}
 	
-	
 	//글수정 페이지
-	@GetMapping(value="/postUpdate.do")
-	public String postUpdate(@ModelAttribute int boardId) {
-		return "post/postUpdate";
+	@GetMapping(value="/postUpdate")
+	public String postUpdate(@RequestParam("boardId") int boardId, @RequestParam("postId") int postId, Model model) {
+		
+		//상세정보 담기
+		Post post = new Post();
+	    post.setBoardId(boardId);
+	    post.setPostId(postId);
+	    post = postService.postDetail(post);
+	    
+	    model.addAttribute("post", post);
+
+	    return "post/postUpdate";
 	}
-	
-	//글수정
-	@PostMapping(value="/postUpdate")
-	public String postUpdate(@ModelAttribute Post post, Model model) {
-		try {
-			postService.postUpdate(post);
-		}catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return "redirect:postDetail/" + post.getProjectId()+ "/" + post.getBoardId();
-	}
-	
-	//글삭제
-	@GetMapping(value="/postDelete")
-	public String postDelete(@ModelAttribute Post post, Model model) {
-		try {
-			postService.postDelete(post);
-		}catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return "redirect:postList/" + post.getProjectId()+ "/" + post.getBoardId();
-	}
-	
 	
 }

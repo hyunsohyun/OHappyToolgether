@@ -71,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="postUpdate" parameterType="kr.or.kosa.post.Post">
 		UPDATE POST SET 
-			TITEL = #{title}
+			TITLE = #{title}
 			, CONTENT = #{content}
 			, MODIFY_DATE = sysdate
 		WHERE POST_ID = #{postId}

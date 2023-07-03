@@ -68,7 +68,6 @@
 
 	//게시글 쓰기 
 	function regPost() {
-		
 		let data = {
 			boardId: '${boardId}',
 			projectId: '${projectId}',
@@ -97,7 +96,7 @@
 				} 
 		   })
 		   .then((response) => {
-				window.location.href="<%=request.getContextPath()%>/postList/${projectId}/${boardId}";
+				window.location.href="<%=request.getContextPath()%>/postList/${boardId}";
 			})
 		   .catch((error) => {
 		     console.error(error);
@@ -133,15 +132,14 @@
 		let files = postForm.fileInput.files;
 		
 		for (var i = 0; i < files.length; i++) {
-			if (!fileRemoveIndex.includes(i)) { 
+			if (!fileRemoveIndex.includes(i)) {
 				data.append('uploadFiles', files[i]);
 			}
 		}
-		
 		data.append('postId', postId);
 		data.append('boardId', '${boardId}');
 
-		fetch('<%=request.getContextPath()%>/file/upload', {
+		fetch('<%=request.getContextPath()%>/post/upload', {
 			  method: 'POST',
 			  body: data
 		})

@@ -1,5 +1,7 @@
 package kr.or.kosa.file;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -9,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,14 +35,19 @@ public class FileController {
 		this.fileService = fileService;
 	}
 
-//	//파일리스트
-//	@RequestMapping("/FileList.do")
-//	public String FileList(Model model) throws Exception{
-//		List<File> Filelist = FileService.Filelist();
-//		model.addAttribute("list", Filelist);
-//		return "File/FileList";
-//	}
-//	
+	//파일리스트
+	@GetMapping("/FileList.do")
+	public ResponseEntity<List<FileInfo>> FileList(@RequestParam FileInfo file, Model model) throws Exception{
+		List<FileInfo> Filelist = null;
+		try {
+			Filelist = fileService.filelist(file);
+			return new ResponseEntity<List<FileInfo>>(Filelist, HttpStatus.OK);
+		}catch (Exception e) {
+	        System.out.println(e.getMessage());
+	        return new ResponseEntity<List<FileInfo>>(Filelist, HttpStatus.BAD_REQUEST);
+	    }
+	}
+	
 	
 	@PostMapping("post/upload")
 	public ResponseEntity<Integer> postInsert(@RequestParam("uploadFiles") List<MultipartFile> files, String postId, int boardId, HttpSession session) {
@@ -55,15 +64,13 @@ public class FileController {
 	    		fileInfo.setPostId(Integer.parseInt(postId));
 	    		fileInfo.setRealFileName(file.getOriginalFilename());
 	    		fileInfo.setHashFileName(filepath);
-	    		
-	    		//fileInfo.setUserid((String)session.getAttribute("userid"));
-	    		fileInfo.setUserid("hsh");
-	    		
+	    		fileInfo.setUserid((String)session.getAttribute("userid"));
 	    		fileInfo.setBoardId(boardId);
                 fileInfo.setFilePath(filepath);
                 fileInfo.setFileSize(file.getSize());
     			
 	    		result = fileService.fileInsert(fileInfo);
+	    	
 	    	}
 	    	
 	        return new ResponseEntity<Integer>(result, HttpStatus.OK);

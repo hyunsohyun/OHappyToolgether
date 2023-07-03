@@ -20,5 +20,5 @@ public interface PostDao {
 	public int postUpdate(Post post) throws ClassNotFoundException, SQLException;
 	
 	//게시판 조회수 업데이트
-	public void postHitUpdate(int postId) throws ClassNotFoundException, SQLException;
+	public void postHitUpdate(Post post) throws ClassNotFoundException, SQLException;
 }

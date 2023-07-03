@@ -2,6 +2,8 @@ package kr.or.kosa.comments;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,16 +48,12 @@ public class CommentsRestController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Integer> commentInsert(@RequestBody Comments comments) {
+	public ResponseEntity<Integer> commentInsert(@RequestBody Comments comments, HttpSession session) {
 		System.out.println(comments.toString());
 		int result = 0;
 
 		try {
-			//임시 데이터
-			comments.setBoardId(0);
-			comments.setWriterId("hsh");
-			//////
-			
+			comments.setWriterId((String)session.getAttribute("userid"));
 			result = commentsService.commentInsert(comments);
 			return new ResponseEntity<Integer>(result,HttpStatus.OK);
 		} catch (Exception e) {			
