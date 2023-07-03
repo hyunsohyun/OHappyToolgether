@@ -30,11 +30,11 @@ public class PostService {
 	}
 	
 	//상세보기
-	public Post postDetail(int postId){
+	public Post postDetail(Post postParam){
 		Post post = null;
 		try {
 			PostDao Postdao = sqlsession.getMapper(PostDao.class);
-			post = Postdao.postDetail(postId);
+			post = Postdao.postDetail(postParam);
 		}catch (Exception e) {
 			System.out.println("글상세 오류발생");
 			System.out.println(e.getMessage());
@@ -85,12 +85,12 @@ public class PostService {
 	}
 	
 	//삭제하기
-	public String postDelete(int postId){
+	public String postDelete(Post post){
 		String message = "";
 		
 		try {
 			PostDao Postdao = sqlsession.getMapper(PostDao.class);
-			int n = Postdao.postDelete(postId);
+			int n = Postdao.postDelete(post);
 			if(n>0) {
 				message = "삭제 성공";
 			}else {

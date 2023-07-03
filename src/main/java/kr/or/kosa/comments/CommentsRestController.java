@@ -29,11 +29,15 @@ public class CommentsRestController {
 		this.commentsService = commentsService;
 	}
 	
-	@GetMapping("{postId}")
-	public ResponseEntity<List<Comments>> commentList(@PathVariable("postId") int postId) {
+	@GetMapping("{boardId}/{postId}")
+	public ResponseEntity<List<Comments>> commentList(@PathVariable("postId") int postId,@PathVariable("boardId") int boardId) {
 		List<Comments> list = null;
 		try {
-			list = commentsService.commentList(postId);
+			Comments comment = new Comments();
+			comment.setBoardId(boardId);
+			comment.setPostId(postId);
+			
+			list = commentsService.commentList(comment);
 			return new ResponseEntity<List<Comments>>(list,HttpStatus.OK);
 		} catch (Exception e) {			
 			System.out.println(e.getMessage());

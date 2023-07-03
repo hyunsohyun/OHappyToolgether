@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE BOARD_ID = #{boardId}
 	</select>
 	
-	<select id="postDetail" resultType="kr.or.kosa.post.Post">
+	<select id="postDetail" parameterType="kr.or.kosa.post.Post" resultType="kr.or.kosa.post.Post">
 	    SELECT POST_ID 
 	    , BOARD_ID
 	    , TITLE
@@ -31,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    , USERID
 	    FROM POST
 	    WHERE POST_ID = #{postId}
+	    AND BOARD_ID = #{boardId}
 	</select>
 
 	<insert id="postInsert" parameterType="kr.or.kosa.post.Post" useGeneratedKeys="true" keyProperty="postId">
@@ -58,12 +59,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE 
 		FROM POST 
 		WHERE POST_ID = #{postId}
+		AND BOARD_ID = #{boardId}
 	</delete>
 	
 	<update id ="postHitUpdate">
 		UPDATE POST 
 			SET HIT = HIT + 1
 		WHERE POST_ID = #{postId}
+		AND BOARD_ID = #{boardId}
 	</update>
 	
 	<update id="postUpdate" parameterType="kr.or.kosa.post.Post">
@@ -72,6 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			, CONTENT = #{content}
 			, MODIFY_DATE = sysdate
 		WHERE POST_ID = #{postId}
+		AND BOARD_ID = #{boardId}
 	</update>
 	
 </mapper>

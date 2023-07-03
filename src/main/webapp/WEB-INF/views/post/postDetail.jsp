@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<title>OHappyToolgether</title>
 	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-	<link href="css/styles.css" rel="stylesheet" />
+	<link href="/css/styles.css" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
@@ -75,6 +75,8 @@
 		</c:forEach>
 	</table>
 	<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="deletePost()">글삭제</button>
+	<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="updatePost()">글삭제</button>
+
 	<div>
 		<!-- 댓글 리스트존 -->
 		<div>
@@ -100,15 +102,6 @@
 			</form>
 		</div>
 	</div>
-	<%-- 
-	${commentList.commentId}
-	${commentList.postId}
-	${commentList.content}
-	${commentList.createDate}
-	${commentList.modifyDate}
-	${commentList.writerId}
-	${commentList.boardId} --%>
-	
 	
 </div>
 </main>
@@ -123,7 +116,7 @@
 	function deletePost(){
 		const boardId = "${post.boardId}";
 		const postId = "${post.postId}";
-		window.location.href="postDelete.do?boardId=" + boardId + "&postId=" + postId;
+		window.location.href="postDelete?boardId=" + boardId + "&postId=" + postId;
 	}
 	
 	///////////////////////////////////
@@ -136,6 +129,7 @@
 	//댓글리스트
 	function commentList(){
 		const postId = "${post.postId}";
+		const boardId = "${post.boardId}";
 		
 		$.ajax({
             url : "comments/" + postId,
@@ -164,15 +158,16 @@
 		const postId = "${post.postId}";
 		
 		$.ajax({
-            url : "comments",
+            url : "/comments",
             type : 'POST',
             dataType : "json",
-            data : JSON.stringify({ 
+            data : JSON.stringify({
             		postId : postId,
             		 content : $("#commentContent").val()
             		}),
             contentType:  'application/json; charset=UTF-8',
             success : function(data) {
+            	//비우기
             	$("commentContent").val("");
             	commentList();
             }

@@ -1,18 +1,22 @@
 package kr.or.kosa.file;
 
-import java.util.Map;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import kr.or.kosa.post.Post;
+import kr.or.kosa.utils.FileIO;
 
 @RestController
 @RequestMapping("/file")
@@ -23,7 +27,7 @@ public class FileController {
 	private FileService fileService;
 
 	@Autowired
-	public void setFileService(FileService FileService) {
+	public void setFileService(FileService fileService) {
 		this.fileService = fileService;
 	}
 
@@ -35,32 +39,72 @@ public class FileController {
 //		return "File/FileList";
 //	}
 //	
-//	//파일상세 페이지
-//	@RequestMapping("/FileDetail.do")
-//	public String FileDetail(String FileId, Model model) throws Exception{
-//		File File = FileService.FileDetail(FileId);
-//		model.addAttribute("File", File);
-//		return "File/FileDetail";
-//	}
-//	
-//	//파일등록 페이지
-//	@GetMapping(value="/FileInsert.do")
-//	public String FileInsert() {
-//		return "File/FileInsert";
-//	}
-//	
 	
-	@PostMapping("/insert")
-	public ResponseEntity<Integer> postInsert(@RequestBody Map<String,String> param) {
-		try {
-			param.get("files");
-			//int postId = fileService.fileInsert(file);
-			return new ResponseEntity<Integer>(postId,HttpStatus.OK);
+	@PostMapping("post/upload")
+	public ResponseEntity<Integer> postInsert(@RequestParam("uploadFiles") List<MultipartFile> files, String postId, int boardId, HttpSession session) {
+	   
+	    int result = 0;
+	    try {
+	    	for(MultipartFile file : files) {
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<Integer>(-1,HttpStatus.BAD_REQUEST);
-		}
+	    		// FileIO에 요청해서 업로드하기
+	    		String filepath = FileIO.uploadFiles(file, "post");
+	    		
+	    		// FileService에 요청해서 DB에 insert 하기
+	    		FileInfo fileInfo = new FileInfo();
+	    		fileInfo.setPostId(Integer.parseInt(postId));
+	    		fileInfo.setRealFileName(file.getOriginalFilename());
+	    		fileInfo.setHashFileName(filepath);
+	    		
+	    		//fileInfo.setUserid((String)session.getAttribute("userid"));
+	    		fileInfo.setUserid("hsh");
+	    		
+	    		fileInfo.setBoardId(boardId);
+                fileInfo.setFilePath(filepath);
+                fileInfo.setFileSize(file.getSize());
+    			
+	    		result = fileService.fileInsert(fileInfo);
+	    	}
+	    	
+	        return new ResponseEntity<Integer>(result, HttpStatus.OK);
+
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	        return new ResponseEntity<Integer>(result, HttpStatus.BAD_REQUEST);
+	    }	
+	}
+	
+	@PostMapping("{key}/upload")
+	public ResponseEntity<Integer> postInsert(@RequestParam("uploadFile") MultipartFile file, @PathVariable("key") String key) {
+	   
+	    int result = 0;
+	    try {
+
+    		// FileIO에 요청해서 업로드하기
+    		String filepath = FileIO.uploadFiles(file, key);
+    		if(!filepath.equals("")) result = 1;
+    		// FileService에 요청해서 DB에 insert 하기
+//    		FileInfo fileInfo = new FileInfo();
+//    		fileInfo.setPostId(Integer.parseInt(postId));
+//    		fileInfo.setRealFileName(file.getOriginalFilename());
+//    		fileInfo.setHashFileName(FileIO.getUuid());
+//    		
+//    		//fileInfo.setUserid((String)session.getAttribute("userid"));
+//    		fileInfo.setUserid("hsh");
+//    		
+//    		fileInfo.setBoardId(boardId);
+//    		fileInfo.setFilePath(filepath);
+//    		fileInfo.setFileSize(file.getSize());
+//    		System.out.println(fileInfo.toString());
+//			
+//    		result = fileService.fileInsert(fileInfo);
+	    	
+	        return new ResponseEntity<Integer>(result, HttpStatus.OK);
+
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	        return new ResponseEntity<Integer>(result, HttpStatus.BAD_REQUEST);
+	    }	
 	}
 	
 	

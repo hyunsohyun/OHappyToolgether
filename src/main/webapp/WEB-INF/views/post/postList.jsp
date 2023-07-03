@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<title>OHappyToolgether</title>
 	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-	<link href="css/styles.css" rel="stylesheet" />
+	<link href="/css/styles.css" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 						<i class="fas fa-table me-1"></i>${boardName}
 					</div>
 					<div>
-						<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="location.href='/postInsert.do?boardId=${boardId}'">글쓰기</button>
+						<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="location.href='/postInsert/${projectId}/${boardId}'">글쓰기</button>
 					</div>
 					<div class="card-body">
 						<table id="datatablesSimple">
@@ -62,13 +62,13 @@
 				
 			</main>
 			<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-			<script src="js/datatables-simple-demo.js"></script>
+			<script src="/js/datatables-simple-demo.js"></script>
 			<script type="text/javascript">
 				$("#datatablesSimple").on('click', 'tbody tr', function() {
 					let postId = $(this).children().eq(0).text();
 
 					//조회수 업데이트
-					$.ajax({
+					/* $.ajax({
 					    url: "post",
 					    type: "PUT",
 					    dataType : "json",
@@ -81,14 +81,15 @@
 					    error: function(request, status, error) {
 					        alert("code:" + request.status + "\n" + "error:" + error);
 					    }
-					});
-					//window.location.href = 'postDetail.do?boardId=' + ${boardId} + '&postId=' + postId;
+					}); */
+					
+					window.location.href = '/postDetail?projectId=${projectId}&boardId=${boardId}&postId=' + postId;
 				});
 			</script>
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 		</div>
 	</div>
-	<script src="js/scripts.js"></script>
+	<script src="/js/scripts.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

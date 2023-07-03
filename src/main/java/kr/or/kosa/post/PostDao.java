@@ -8,13 +8,13 @@ public interface PostDao {
 	public List<Post> postList(String postId) throws ClassNotFoundException, SQLException;
 	
 	//글상세
-	public Post postDetail(int postId) throws ClassNotFoundException, SQLException;
+	public Post postDetail(Post post) throws ClassNotFoundException, SQLException;
 	
 	//글등록
 	public int postInsert(Post post) throws ClassNotFoundException, SQLException;
 	
 	//글삭제
-	public int postDelete(int postId) throws ClassNotFoundException, SQLException;
+	public int postDelete(Post post) throws ClassNotFoundException, SQLException;
 	
 	//글수정
 	public int postUpdate(Post post) throws ClassNotFoundException, SQLException;

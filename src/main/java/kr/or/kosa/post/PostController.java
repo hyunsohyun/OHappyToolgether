@@ -5,18 +5,17 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.or.kosa.comments.Comments;
 import kr.or.kosa.comments.CommentsService;
-import kr.or.kosa.file.File;
+import kr.or.kosa.file.FileInfo;
 import kr.or.kosa.file.FileService;
 
 @Controller
@@ -32,49 +31,59 @@ public class PostController {
 	public void setPostService(PostService postService) {
 		this.postService = postService;
 	}
-	@Autowired
-	public void setFileService(FileService fileService) {
-		this.fileService = fileService;
-	}
+	
 	@Autowired
 	public void setCommentsService(CommentsService commentsService) {
 		this.commentsService = commentsService;
 	}
+	
+	@Autowired
+	public void setCommentsService(FileService fileService) {
+		this.fileService = fileService;
+	}
+
 
 	//글리스트
-	@RequestMapping("/postList.do")
-	public String postList(String boardId, Model model) throws Exception{
+	@RequestMapping("/postList/{projectId}/{boardId}")
+	public String postList(@PathVariable("projectId") String projectId,@PathVariable("boardId") String boardId, Model model) throws Exception{
 		
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("projectId", projectId);
+
 		//글 리스트
 		List<Post> postlist = postService.postlist(boardId);
 		model.addAttribute("list", postlist);
-		model.addAttribute("boardId", boardId);
 		
 		//게시판 이름
-		//의진오빠가 했겠지
 		model.addAttribute("boardName", "공지사항게시판");
 		
 		return "post/postList";
 	}
 	
 	//글상세 페이지
-	@RequestMapping("/postDetail.do")
+	@RequestMapping(value="/postDetail")
 	public String postDetail(@ModelAttribute Post postParam, Model model) throws Exception{
 		
-		int postId = postParam.getPostId();
-		
 		//글 info
-		Post post = postService.postDetail(postId);
+		Post post = postService.postDetail(postParam);
 		model.addAttribute("post", post);
 
 		//파일리스트
-		List<File> fileList = fileService.filelist(postId);
+		FileInfo file = new FileInfo();
+		file.setBoardId(postParam.getBoardId());
+		file.setPostId(postParam.getPostId());
+		
+		List<FileInfo> fileList = fileService.filelist(file);
 		if(fileList != null) {
 			model.addAttribute("fileList", fileList);
 		}
 		
 		//댓글리스트
-		List<Comments> commentList = commentsService.commentList(postId);
+		Comments comment = new Comments();
+		comment.setBoardId(postParam.getBoardId());
+		comment.setPostId(postParam.getPostId());
+
+		List<Comments> commentList = commentsService.commentList(comment);
 		if(commentList != null) {
 			model.addAttribute("commentList", commentList);
 		}
@@ -83,12 +92,13 @@ public class PostController {
 	}
 	
 	//글등록 페이지
-	@GetMapping(value="/postInsert.do")
-	public String postInsert(@ModelAttribute("boardId") int boardId) {
-		
+	@GetMapping(value="/postInsert/{projectId}/{boardId}")
+	public String postInsert(@PathVariable("boardId") int boardId, @PathVariable("projectId") int projectId, Model model) {
+		model.addAttribute("projectId", projectId);
+		model.addAttribute("boardId", boardId);
 		return "post/postInsert";
 	}
-
+	
 	
 	//글수정 페이지
 	@GetMapping(value="/postUpdate.do")
@@ -97,17 +107,26 @@ public class PostController {
 	}
 	
 	//글수정
-	@PostMapping(value="/postUpdate.do")
+	@PostMapping(value="/postUpdate")
 	public String postUpdate(@ModelAttribute Post post, Model model) {
-		postService.postUpdate(post);
-		return "post/postDetail";
+		try {
+			postService.postUpdate(post);
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "redirect:postDetail/" + post.getProjectId()+ "/" + post.getBoardId();
 	}
 	
 	//글삭제
-	@GetMapping(value="/postDelete.do")
+	@GetMapping(value="/postDelete")
 	public String postDelete(@ModelAttribute Post post, Model model) {
-		postService.postDelete(post.getPostId());
-		return "redirect:postList.do?boardId=" + post.getBoardId();
+		try {
+			postService.postDelete(post);
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "redirect:postList/" + post.getProjectId()+ "/" + post.getBoardId();
 	}
+	
 	
 }
