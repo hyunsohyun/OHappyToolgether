@@ -43,7 +43,6 @@ public class PostController {
 		this.fileService = fileService;
 	}
 
-
 	//글리스트
 	@RequestMapping("/postList/{boardId}")
 	public String postList(@PathVariable("boardId") String boardId, Model model) throws Exception{

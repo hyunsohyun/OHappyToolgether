@@ -199,8 +199,15 @@
 		const boardId = "${post.boardId}";
 		const postId = "${post.postId}";
 		
-		fetch("/postDelete?boardId=" + boardId + "&postId=" + postId, {
+		fetch("/post/delete", {
 			  method: "DELETE",
+			  headers : {
+			    "Content-Type": "application/json"
+			  },
+			  body : JSON.stringify({
+			  		boardId : boardId
+			  		,postId : postId
+				})
 			})
 			  .then(response => response.json())
 			  .then(data => {
@@ -275,7 +282,7 @@
 		const postId = "${post.postId}";
 		const boardId = "${post.boardId}";
 		//console.log(commentId);
-		fetch("comments", {
+		fetch("/comments", {
 		  method: "DELETE",
 		  headers: {
 		    "Content-Type": "application/json"
@@ -326,7 +333,7 @@
 		const boardId = "${post.boardId}";
 		const postId = "${post.postId}";
 		
-		fetch("comments", {
+		fetch("/comments", {
 		  method: "PUT",
 		  headers: {
 		    "Content-Type": "application/json"
@@ -340,7 +347,7 @@
 		})
 		  .then(response => response.json())
 		  .then(data => {
-		    if (data > 0) {
+		    if (data> 0) {
 		      alert("댓글수정 완료");
 		    } else {
 		      alert("댓글수정 실패");
