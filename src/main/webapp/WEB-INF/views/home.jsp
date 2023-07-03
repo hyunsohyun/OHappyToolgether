@@ -25,7 +25,8 @@
 			</div>
 
 			<div class="center-buttons">
-				<a href="/loginForm" class="button">login</a> <a href="/joinForm" class="button">sign up</a>
+				<a href="/loginForm" class="button">로그인</a>
+				<a href="/joinForm" class="button">회원가입</a>
 			</div>
 		</div>
 	</div>
