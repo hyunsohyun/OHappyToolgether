@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.or.kosa.board.service.BoardService;
+import kr.or.kosa.board.vo.Board;
 import kr.or.kosa.comments.Comments;
 import kr.or.kosa.comments.CommentsService;
 import kr.or.kosa.file.FileInfo;
@@ -27,6 +29,7 @@ public class PostController {
 	private PostService postService;
 	private FileService fileService;
 	private CommentsService commentsService;
+	private BoardService boardService;
 	
 	@Autowired
 	public void setPostService(PostService postService) {
@@ -42,10 +45,15 @@ public class PostController {
 	public void setCommentsService(FileService fileService) {
 		this.fileService = fileService;
 	}
+	
+	@Autowired
+	public void setBoardService(BoardService boardService) {
+		this.boardService = boardService;
+	}
 
 	//글리스트
 	@RequestMapping("/postList/{boardId}")
-	public String postList(@PathVariable("boardId") String boardId, Model model) throws Exception{
+	public String postList(@PathVariable("boardId") int boardId, Model model,HttpSession session) throws Exception{
 		
 		model.addAttribute("boardId", boardId);
 
@@ -54,7 +62,10 @@ public class PostController {
 		model.addAttribute("list", postlist);
 		
 		//게시판 이름
-		model.addAttribute("boardName", "공지사항게시판");
+		Board board = new Board();
+		board.setBoardId(boardId);
+		board.setProjectId((int)session.getAttribute("projectId"));
+		model.addAttribute("boardName", boardService.getBoardName(board));
 		
 		return "post/postList";
 	}

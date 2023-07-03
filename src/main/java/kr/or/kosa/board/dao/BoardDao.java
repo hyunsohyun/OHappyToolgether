@@ -13,4 +13,6 @@ public interface BoardDao {
 	int updateBoard(Board board);
 
 	int deleteBoard(int boardId);
+	
+	String getBoardName(Board board);
 }

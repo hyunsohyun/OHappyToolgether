@@ -48,8 +48,8 @@
 
         <div class="text-right">
             <!-- <input type="submit" value="글쓰기" class="btn btn-info"> -->
-            <input type="button" onclick="updatePost()" value="글쓰기" class="btn btn-info">
-            <input type="button" onclick="window.location.href='<%=request.getContextPath()%>/postDetail?projectId=${post.projectId}&boardId=${post.boardId}&postId=${post.postId}'" value="취소" class="btn btn-info">
+            <input type="button" onclick="updatePost()" value="수정하기" class="btn btn-info">
+            <input type="button" onclick="window.location.href='<%=request.getContextPath()%>/postDetail/${post.boardId}/${post.postId}'" value="취소" class="btn btn-info">
         </div>
     </form>
 
@@ -156,7 +156,6 @@
 			console.error('ERROR:', error);
 			alert('파일 업로드 실패');
 		});
-		
 	}
 	
 </script>
