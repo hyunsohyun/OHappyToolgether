@@ -4,7 +4,9 @@
 
 <configuration> 
 	<settings>
-	  <!-- 자동으로 카멜케이스 규칙으로 변환 -->
+	  	<!-- 자동으로 카멜케이스 규칙으로 변환 -->
 	    <setting name="mapUnderscoreToCamelCase" value="true"/>
+	    <!-- db null 입력시 처리 -->
+	    <setting name="jdbcTypeForNull" value="NULL" />
 	 </settings>
 </configuration>

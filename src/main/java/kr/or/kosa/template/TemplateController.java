@@ -32,5 +32,10 @@ public class TemplateController {
 	public String projectManagementView() throws Exception{
 		return "templateContent/projectManagement";
 	}
+	
+	@RequestMapping("/kanban.do")
+	public String kanbanView() throws Exception{
+		return "kanban/kanban";
+	}
 
 }
