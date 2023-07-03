@@ -10,53 +10,53 @@
 <link href="/css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<body class="sb-nav-fixed">
-	<%@ include file="/WEB-INF/views/common/header.jsp"%>
-	<div id="layoutSidenav">
-		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
-		<div id="layoutSidenav_content">
-			<main>
-				<div>
-					<c:if test="${param.error != null}">
-						<p>아이디와 비번이 잘못 되었어요</p>
-					</c:if>
-					<c:if test="${param.logout != null}">
-						<p>로그아웃 하였습니다</p>
-					</c:if>
-				</div>
 
-				<div class="container px-4 mt-4">
-					<div class="col-md-4 offset-md-4 mt-5">
-						<div class="card">
-							<div class="card-header">
-								<i class="fas fa-user"></i>
-								User Login
-							</div>
-							<div class="card-body">
-								<form name='f' action='/login' method='POST'>
-									<div class="form-group">
-										<label for="userid" class="form-label mt-4">User ID</label> <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID">
-									</div>
-									<div class="form-group">
-										<label for="password" class="form-label mt-4">Password</label> <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-									</div>
-									<div class="form-group mt-4">
-										<button type="submit" class="btn btn-primary">Submit</button>
-										<a href="joinForm">
-											<button type="button" class="btn btn-primary float-end">Join</button>
-										</a>										
-									</div>
-								</form>
-							</div>
-							<div class="card-footer small text-muted">OHappyToolgether</div>
-						</div>
+<style>
+	.main-container {
+		display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(178.6deg, rgb(20, 36, 50) 11.8%, rgb(124, 143, 161) 83.8%);
+	}
+
+    .content-container {
+        display: flex;
+    }
+
+    .card-size {
+        min-width: 400px;
+    }
+</style>
+
+<body>
+    <div class="main-container">
+        <div class="content-container">
+			<div class="card card-size">
+				<div class="card-header">
+					<div class="text-center">
+						<h3>로그인</h3>
 					</div>
 				</div>
-			</main>
-			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+				<div class="card-body">
+					<form name='f' action='/login' method='POST'>
+						<div class="form-group">
+							<label for="userid" class="form-label mt-4">아이디</label> <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID">
+						</div>
+						<div class="form-group">
+							<label for="password" class="form-label mt-4">비밀번호</label> <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+						</div>
+						<div class="form-group mt-4">
+							<button type="submit" class="btn btn-primary">로그인</button>
+							<a href="joinForm">
+								<button type="button" class="btn btn-primary float-end">회원가입</button>
+							</a>										
+						</div>
+					</form>
+				</div>
+				<div class="card-footer small text-muted text-center">OHappyToolgether</div>
+			</div>
 		</div>
 	</div>
-	<script src="/js/scripts.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

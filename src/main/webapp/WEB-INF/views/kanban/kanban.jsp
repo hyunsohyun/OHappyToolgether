@@ -938,7 +938,10 @@ $("[id^='plusBtn']").click(function () {
             '<input type="text" id="swal-input4" name="to" class="swal2-input" >' +
 
             '<div class="pt-3">담당자이름</div>' +
-            '<input id="swal-input5" class="swal2-input" >',
+            '<input id="swal-input5" class="swal2-input" >' +
+            
+            '<div class="pt-3">완료날짜</div>' +
+            '<input type="text" id="swal-input6" name="to" class="swal2-input" >' ,
 
 
         focusConfirm: false,
@@ -952,6 +955,7 @@ $("[id^='plusBtn']").click(function () {
             const endDate = document.getElementById('swal-input4').value;
             const name = document.getElementById('swal-input5').value;
             const pos = itemCountMap.get(Number(btnValue)) + 1; // 잘계산..
+            const completeDate = document.getElementById('swal-input6').value;
 
             const jsonPostData = {
                 "projectId": projectId,
@@ -962,6 +966,7 @@ $("[id^='plusBtn']").click(function () {
                 "endDate": endDate,
                 "name": name,
                 "pos": pos,
+                "completeDate":completeDate,
             }
 
             const response = await new Promise((resolve, reject) => {
