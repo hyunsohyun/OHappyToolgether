@@ -21,11 +21,10 @@
 				</c:if>
 				<c:if test="${userid == 'anonymousUser'}">
 					<div class="sb-sidenav-menu-heading">Core</div>
-					<a class="nav-link" href="${pageContext.request.contextPath}/joinForm.do">
+					<a class="nav-link" href="${pageContext.request.contextPath}/joinForm">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
 						</div> Member Join<br>
-
 					</a>
 				</c:if>
 
@@ -43,9 +42,6 @@
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-columns"></i>
 						</div> 칸반보드 (${projectId})
-						<div class="sb-sidenav-collapse-arrow">
-							<i class="fas fa-angle-down"></i>
-						</div>
 					</a>
 
 

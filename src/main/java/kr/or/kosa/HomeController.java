@@ -1,6 +1,7 @@
 package kr.or.kosa;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -8,30 +9,38 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import kr.or.kosa.project.service.ProjectService;
+import kr.or.kosa.member.service.MemberService;
+import kr.or.kosa.member.vo.Users;
 
 @Controller
 public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
-	ProjectService projectService;
-
+	
+	MemberService memberService;
+	
 	@Autowired
-	public void setProjectService(ProjectService projectService) {
-		this.projectService = projectService;
+	public void setMemberService(MemberService memberService) {
+		this.memberService = memberService;
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(Locale locale, HttpSession session, Principal principal) {
 		logger.info("Welcome home!");
+		if(principal != null) {
+			String userid = principal.getName();
+			System.out.println("홈에 접속한 userid : " + userid);
+			if(!userid.equals("anonymousUser")) {
+				session.setAttribute("userid", userid);
+			}
+			
+		}
 		return "home";
 	}
 
@@ -41,15 +50,6 @@ public class HomeController {
 		return "member/loginForm";
 	}
 
-	@RequestMapping(value = "/login")
-	public String loginhome(HttpSession session, Principal principal) {
-		System.out.println("로그인 성공");
-		System.out.println("userid : " + principal.getName());
-		session.setAttribute("userid",principal.getName());
-		return "member/loginForm";
-	}
-
-
 	@GetMapping(value = "/joinForm")
 	public String join() {
 		logger.info("joinForm으로 이동");
@@ -57,8 +57,19 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/editForm")
-	public String editForm() {
+	public String editForm(Model model, HttpSession session) {
 		logger.info("editForm으로 이동");
+		String userid = (String)session.getAttribute("userid");
+		System.out.println("editForm으로 이동");
+		System.out.println("userid :" + userid);
+		List<Users> list = null;
+		try {
+			list = memberService.selectUserById(userid);
+			model.addAttribute("user", list.get(0));
+		} catch (Exception e) {
+			System.out.println("editForm에서 터짐");
+			System.out.println(e.getMessage());
+		}
 		return "member/editForm";
 	}
 	

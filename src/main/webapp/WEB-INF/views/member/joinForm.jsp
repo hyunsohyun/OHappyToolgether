@@ -26,7 +26,7 @@
                             <div class="card-header">
                                 <div class="text-center">
                                     <h2>회원가입</h2>
-                                    <p>계정이 이미 있는 경우에는 <a href="/loginForm.do" class="color-green">로그인</a>해주세요. </p>
+                                    <p>계정이 이미 있는 경우에는 <a href="/loginForm" class="color-green">로그인</a>해주세요. </p>
                                     <p>가입 후 아이디는 변경할 수 없습니다.</p>
                                 </div>
                             </div>

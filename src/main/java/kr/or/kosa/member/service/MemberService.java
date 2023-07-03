@@ -67,6 +67,7 @@ public class MemberService {
 		return list;
 	}
 	
+	
 	public int insertUser(Users user) {
 		int result = 0;
 		UsersDao dao = sqlsession.getMapper(UsersDao.class);

@@ -32,7 +32,7 @@
                                 <form id="editForm">
                                     <div class="form-group">
                                         <label for="userid" class="form-label mt-4">아이디</label>
-                                        <input type="text" class="form-control" id="userid" name="userid" value="${userid}" disabled>
+                                        <input type="text" class="form-control" id="userid" name="userid" value="${user.userid}" disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="password" class="form-label mt-4">비밀번호</label>
@@ -40,14 +40,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="name" class="form-label mt-4">이름</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+                                        <input type="text" class="form-control" id="name" name="name" value="${user.name}"placeholder="Enter your name">
                                     </div>
                                     <div class="form-group">
                                         <label for="email" class="form-label mt-4">이메일</label>
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                                        <input type="email" class="form-control" id="email" name="email" value="${user.email}" placeholder="Enter your email">
                                     </div>
                                     <div class="form-group mt-4 text-center">
-                                        <button type="submit" class="btn btn-primary">가입하기</button>
+                                        <button type="submit" class="btn btn-primary">수정하기</button>
                                     </div>
                                 </form>
                             </div>
@@ -64,6 +64,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 	  $(document).ready(function() {
+		
+		  
 	    $("#editForm").submit(function(event) {
 	      event.preventDefault(); // 폼 기본 동작 방지
 	      var formData = {
@@ -75,13 +77,13 @@
 	      console.log(formData.userid);
 	
 	      $.ajax({
-	        url: "${pageContext.request.contextPath}/member/editForm.do",
+	        url: "${pageContext.request.contextPath}/member",
 	        type: "PUT",
 	        contentType: "application/json",
 	        data: JSON.stringify(formData),
 	        success: function(response) {
-	          alert("회원 가입이 완료되었습니다.");
-	          window.location.href = "/loginForm";
+	          alert("수정이 완료되었습니다.");
+	          window.location.href = "/";
 	        },
 	        error: function(xhr, status, error) {
 	          alert("회원 가입에 실패했습니다. 오류: " + xhr.responseText);

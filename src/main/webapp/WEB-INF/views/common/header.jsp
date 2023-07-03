@@ -32,7 +32,7 @@
 			aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
 			<ul class="dropdown-menu dropdown-menu-end"
 				aria-labelledby="navbarDropdown">
-				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/editForm">Settings</a></li>
+				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/editForm">Edit Profile</a></li>
 				<li><a class="dropdown-item" href="#!">Activity Log</a></li>
 				<li><hr class="dropdown-divider" /></li>
 				<li class="text-center"><form action="/logout" method="POST">
