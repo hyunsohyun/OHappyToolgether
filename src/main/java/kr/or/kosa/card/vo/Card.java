@@ -13,7 +13,9 @@ CREATE TABLE card (
 	create_date DATE,  				작성날짜 
 	start_date DATE,  				시작날짜 
 	end_date DATE,  				종료날짜 
-	name VARCHAR2(100)  			담당자 이름 
+	name VARCHAR2(100),  			담당자 이름
+	pos NUMBER,						포지션
+	complete_date DATE				완료
 );
 */
 
@@ -29,6 +31,7 @@ public class Card {
 	private Date endDate;
 	private String name;
 	private int pos;
+	private Date completeDate;
 	
 	public int getCardId() {
 		return cardId;
@@ -89,6 +92,12 @@ public class Card {
 	}
 	public void setPos(int pos) {
 		this.pos = pos;
+	}
+	public Date getCompleteDate() {
+		return completeDate;
+	}
+	public void setCompleteDate(Date completeDate) {
+		this.completeDate = completeDate;
 	}
 	
 }
