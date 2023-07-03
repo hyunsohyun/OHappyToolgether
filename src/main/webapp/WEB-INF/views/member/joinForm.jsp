@@ -13,57 +13,78 @@
 <link href="css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<body class="sb-nav-fixed">
 
-    <%@ include file="/WEB-INF/views/common/header.jsp"%>
-    <div id="layoutSidenav">
-        <%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container px-4 mt-4" style="width: 200%">
-                    <div class="col-md-4 offset-md-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="text-center">
-                                    <h2>회원가입</h2>
-                                    <p>계정이 이미 있는 경우에는 <a href="/loginForm" class="color-green">로그인</a>해주세요. </p>
-                                    <p>가입 후 아이디는 변경할 수 없습니다.</p>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <form id="joinForm" action="/" method="POST">
-                                    <div class="form-group">
-                                        <label for="userid" class="form-label mt-4">아이디</label>
-                                        <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password" class="form-label mt-4">비밀번호</label>
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="name" class="form-label mt-4">이름</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email" class="form-label mt-4">이메일</label>
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
-                                    </div>
-                                    <div class="form-group mt-4 text-center">
-                                        <button type="submit" class="btn btn-primary">가입하기</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="card-footer small text-muted text-center">OHappyToolgether</div>
-                        </div>
+<style>
+    .font {
+        --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Solid";
+        --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Regular";
+        --fa-font-light: normal 300 1em/1 "Font Awesome 6 Light";
+        --fa-font-thin: normal 100 1em/1 "Font Awesome 6 Thin";
+        --fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone";
+        --fa-font-sharp-solid: normal 900 1em/1 "Font Awesome 6 Sharp";
+        --fa-font-sharp-regular: normal 400 1em/1 "Font Awesome 6 Sharp";
+        --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+    }
+	.main-container {
+		display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(178.6deg, rgb(20, 36, 50) 11.8%, rgb(124, 143, 161) 83.8%);
+	}
+
+    .content-container {
+        display: flex;
+        height: 654px;
+    }
+
+    .card-wrap {
+        min-width: 500px;
+    }
+</style>
+
+<body>
+
+    <div class="main-container font">
+        <div class="content-container">
+            <div class="card card-wrap">
+                <div class="card-header">
+                    <div class="text-center">
+                        <h2>회원가입</h2>
+                        <p>계정이 이미 있는 경우에는 <a href="/loginForm" class="color-green">로그인</a>해주세요. </p>
+                        <p>가입 후 아이디는 변경할 수 없습니다.</p>
                     </div>
                 </div>
-            </main>
-            <%@ include file="/WEB-INF/views/common/footer.jsp"%>
+                <div class="card-body">
+                    <form id="joinForm" action="/" method="POST">
+                        <div class="form-group">
+                            <label for="userid" class="form-label mt-4">아이디</label>
+                            <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="form-label mt-4">비밀번호</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="form-label mt-4">이름</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label mt-4">이메일</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group mt-4 text-center">
+                            <button type="submit" class="btn btn-primary">가입하기</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer small text-muted text-center">OHappyToolgether</div>
+            </div>
         </div>
     </div>
-    <script src="js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+	
 	<script>
 	  $(document).ready(function() {
 	    $("#joinForm").submit(function(event) {
