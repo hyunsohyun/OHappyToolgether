@@ -28,23 +28,24 @@
 											
 					</a>
 				</c:if>
+				
+				<c:if test="${projectId != null}">
+					<div class="sb-sidenav-menu-heading">KANBAN</div>
+					<a class="nav-link" href="${pageContext.request.contextPath}/kanban.do">
+						<div class="sb-nav-link-icon">
+							<i class="fas fa-tachometer-alt"></i>
+						</div> 
+						kanban (${projectId})
+					</a>
+				</c:if>				
 
 				<c:if test="${projectId != null}">
+					<div class="sb-sidenav-menu-heading">PROJECTMANAGEMENT</div>
 					<a class="nav-link" href="${pageContext.request.contextPath}/projectManagement.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
 						</div> 
 						Project Management (${projectId})
-					</a>
-
-					<div class="sb-sidenav-menu-heading">Kanban Board</div>
-					<a class="nav-link collapsed" href="${pageContext.request.contextPath}/kanban.do" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-						<div class="sb-nav-link-icon">
-							<i class="fas fa-columns"></i>
-						</div> 칸반보드 (${projectId})
-						<div class="sb-sidenav-collapse-arrow">
-							<i class="fas fa-angle-down"></i>
-						</div>
 					</a>
 
 
