@@ -6,6 +6,7 @@
 <sec:authentication property="name" var="userid" />
 <c:set var="projectId" value="${sessionScope.projectId}" />
 <c:set var="boardList" value="${sessionScope.boardList}" />
+<c:set var="managerId" value="${sessionScope.managerId}" />
 <div id="layoutSidenav_nav">
 	<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
 		<div class="sb-sidenav-menu">
@@ -27,25 +28,23 @@
 						</div> Member Join<br>
 					</a>
 				</c:if>
-				
+
 				<c:if test="${projectId != null}">
 					<div class="sb-sidenav-menu-heading">KANBAN</div>
 					<a class="nav-link" href="${pageContext.request.contextPath}/kanban.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
-						</div> 
-						kanban (${projectId})
-					</a>
-				</c:if>				
-
-				<c:if test="${projectId != null}">
-					<div class="sb-sidenav-menu-heading">PROJECTMANAGEMENT</div>
-					<a class="nav-link" href="${pageContext.request.contextPath}/projectManagement.do">
-						<div class="sb-nav-link-icon">
-							<i class="fas fa-tachometer-alt"></i>
-						</div> Project Management (${projectId})
+						</div> kanban (${projectId})
 					</a>
 
+					<c:if test="${managerId == userid}">
+						<div class="sb-sidenav-menu-heading">PROJECTMANAGEMENT</div>
+						<a class="nav-link" href="${pageContext.request.contextPath}/projectManagement.do">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-tachometer-alt"></i>
+							</div> Project Management (${projectId})
+						</a>
+					</c:if>
 
 					<div class="sb-sidenav-menu-heading">Calendar</div>
 					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
