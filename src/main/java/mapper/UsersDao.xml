@@ -16,11 +16,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectUserById" resultType="kr.or.kosa.member.vo.Users">
-		select userid, password, name, enabled, email, image from users where userid = #{userid}
+		select userid, password, name, enabled, email, image from users where userid like '%' || #{userid} || '%'
 	</select>
 	
 	<insert id="insertUser" parameterType="kr.or.kosa.member.vo.Users">
-		insert into users values(#{userid}, ${password}, ${name}, #{enabled}, ${email}, ${image})
+		insert into users(userid, password, name, enabled, email) values(#{userid}, #{password}, #{name}, #{enabled}, #{email})
 	</insert>
 	
 	<delete id="deleteUser" parameterType="String">

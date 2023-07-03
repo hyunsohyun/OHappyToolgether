@@ -53,8 +53,8 @@
 document.addEventListener("DOMContentLoaded", function() {
 	
   //session값 대체 임시
-  const projectId = 500;
-  const memberId = "ndw";
+  const projectId = '${sessionScope.projectId}';
+  const memberId = '${sessionScope.userid}';
   const tableBody = document.getElementById("memberList");
   const projectUserId = 'ndw';
   
@@ -166,17 +166,20 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // 초대를 위한 유저 목록 가져오기
-  document.getElementById("userSearchBtn").addEventListener("click", function(e) {
+  document.getElementById("userSearch").addEventListener("keyup", function(e) {
     e.preventDefault();
     let userid = document.getElementById("userSearch").value;
-    let url = (userid !== "") ? "member/" + userid : "member";
+    let url = (userid != "") ? "member/" + userid : "member";
 
     let xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.onload = function() {
-      if (xhr.status === 200) {
+      console.log("xhr 데이터")
+      console.log(xhr.reponseText);      
+      if (xhr.status === 200 && !xhr.reponseText) {
+    	  
         let user = JSON.parse(xhr.responseText);
         console.log("받은 user 정보:", user);
         addUserToTable(user);
