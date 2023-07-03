@@ -28,7 +28,7 @@
 							<div class='row mt-5'>
 						</c:if>
 						<div class="col-sm-3">
-							<div class="card border-dark mb-3 projectinfo">
+							<div class="card border-dark projectinfo shadow mb-5 rounded">
 								<div class="card-header projectinfo-header bg-warning">project id : ${item.projectId}</div>
 								<div class="card-body">
 									<div>
