@@ -85,11 +85,7 @@
         <form action="/insertProject" method="POST">
           <div class="mb-3">
             <label for="recipient-name" class="col-form-label">프로젝트명:</label>
-            <input type="text" class="form-control" id="projectName">
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">프로젝트파일:</label>
-            <input type="file" class="form-control" id="projectImage"></input>
+            <input type="text" class="form-control" id="projectName" name="projectName">
           </div>
         </form>
       </div>
@@ -109,6 +105,7 @@
 	</div>
 	
 	<script src="js/scripts.js">
+		
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>

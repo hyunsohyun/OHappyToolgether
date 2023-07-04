@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.or.kosa.board.service.BoardService;
 import kr.or.kosa.board.vo.Board;
@@ -93,12 +94,20 @@ public class ProjectViewController {
 	}
 	
 	@RequestMapping(value="/insertProject")
-	public String insertProject(HttpSession session, @RequestBody Project project) {
+	public String insertProject(HttpSession session, @RequestParam("projectName") String projectName) {
 		System.out.println("@RequestMapping(value=\"/insertProject\") 진입");
 		int result = 0;
+		String userid = (String)session.getAttribute("userid");
+		Project project = new Project();
+		project.setProjectName(projectName);
+		project.setManagerId(userid);
 		try {
 			result = projectService.insertProject(project);
 			System.out.println("프로젝트 삽입 : "+ result);
+			if(result > 0) {
+				session.setAttribute("projectList", projectService.selectAllProjectById(userid));
+				System.out.println("세션의 프로젝트 리스트 갱신");
+			}
 		} catch (Exception e) {
 			System.out.println("insertProject()에서 터짐");
 			System.out.println(e.getMessage());
