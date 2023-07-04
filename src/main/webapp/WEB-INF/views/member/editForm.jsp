@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<sec:authentication property="name" var="userid" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +37,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="password" class="form-label mt-4">비밀번호</label>
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="name" class="form-label mt-4">이름</label>
@@ -93,7 +94,7 @@
 	        success: function(response) {
 	          uploadImg();
 	          alert("수정이 완료되었습니다.");
-	          window.location.href = "/";
+	          window.location.href = "/projectList.do";
 	        },
 	        error: function(xhr, status, error) {
 	          alert("회원 가입에 실패했습니다. 오류: " + xhr.responseText);

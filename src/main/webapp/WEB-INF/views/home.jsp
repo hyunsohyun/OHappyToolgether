@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
+<!-- 현재 사용자의 ID를 가져옴 -->
+<sec:authentication property="name" var="userid" />
+<c:set var="projectId" value="${sessionScope.projectId}" />
+<c:set var="boardList" value="${sessionScope.boardList}" />
+<c:set var="managerId" value="${sessionScope.managerId}" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,9 +33,22 @@
 			</div>
 
 			<div class="center-buttons">
-				<a href="/loginForm" class="button">로그인</a>
-				<a href="/joinForm" class="button">회원가입</a>
+			
+				<c:if test="${userid == 'anonymousUser'}">
+					<a href="/loginForm" class="button">로그인</a>
+				</c:if>
+				
+				<c:if test="${userid == 'anonymousUser'}">
+					<a href="/joinForm" class="button">회원가입</a>
+				</c:if>
+				
+				<c:if test="${userid != 'anonymousUser'}">
+					<a href="${pageContext.request.contextPath}/projectList.do" class="button" >
+					프로젝트
+					</a>
+				</c:if>
 			</div>
 		</div>
 	</div>
 </body>
+</html>

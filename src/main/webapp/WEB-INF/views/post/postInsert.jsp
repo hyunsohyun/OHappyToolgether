@@ -11,8 +11,7 @@
 	<link href="/css/styles.css" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"	crossorigin="anonymous"></script>
 	<style>
-        .note-editor .note-editing-area {  height: 500px; } 
-       /*  .note-editor{  height: 500px;} */
+        .note-editor .note-editing-area {  height: 500px; }
     </style>
 </head>
 <body class="sb-nav-fixed">
@@ -21,8 +20,8 @@
 	
 	<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 	<div id="layoutSidenav_content">
-<main class="container mt-4">
-    <!-- <h1 class="mt-4" id='qwerqwer'>게시판 글쓰기</h1> -->
+<main>
+    <h1 class="mt-4" id='qwerqwer'>게시판 글쓰기</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/kanvan.do">칸반보드</a></li>
         <li class="breadcrumb-item"><a href="/board.do">게시판</a></li>
@@ -39,7 +38,7 @@
         
         <div class="form-group">
             <input class="form-control" type="file" id="fileInput" name="fileInput" multiple onchange="addFile()">
-            <div class="selected-files" >
+            <div class="selected-files">
 		        <ul id="selectedFiles"></ul>
 		    </div>
           </div>
