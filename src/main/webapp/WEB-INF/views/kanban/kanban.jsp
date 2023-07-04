@@ -65,6 +65,7 @@
 
 
     .jobs-list-wrapper {
+        padding-top: 20px;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -273,7 +274,7 @@
     }
 
     .kanban-root {
-        /* --board-header-background-color: #0000003d; */
+        --board-header-background-color: #0000003d;
     }
 
     .kanban-root-content {
@@ -332,13 +333,12 @@
 				<div class="container" id="projectContainer">
 <!-- 칸반 영역-->
 <div class="kanban-root">
-    <div class="kanban-root-content">
+    <div class="kanban-root-content" style="display: none;">
         <span class="title-span">
             <div class="project-text">프로젝트 ${sessionScope.projectId}</div>
         </span>
         <span class="title-span-auto">
             <div class="project-text">관리자이름 ${userid}</div>
-            <button class="btn btn-success" id="saveBtn">saveBtn</button>
         </span>
     </div>
 </div>
@@ -434,7 +434,7 @@
 
 <script>
 $(document).ready(function () {
-    console.log(3);
+    //console.log(3);
     fetchDataAndRenderKanban();
 
     // 드래그 & 드롭 인터페이스를 위한 정렬 가능한 함수
@@ -476,6 +476,7 @@ $(document).ready(function () {
         stop: function (event, ui) {
             var elementId = ui.item[0].id;
             $('#' + elementId).css('transform', 'rotate(0deg)');
+            saveBtnClick();
         }
     });
 
@@ -502,6 +503,7 @@ $(document).ready(function () {
             stop: function (event, ui) {
                 var elementId = ui.item[0].id;
                 $('#' + elementId).css('transform', 'rotate(0deg)');
+                saveBtnClick();
             }
         });
     });
@@ -530,6 +532,7 @@ $(document).ready(function () {
             stop: function (event, ui) {
                 var elementId = ui.item[0].id;
                 $('#' + elementId).css('transform', 'rotate(0deg)');
+                saveBtnClick();
             }
         });
     });
@@ -556,6 +559,7 @@ $(document).ready(function () {
             stop: function (event, ui) {
                 var elementId = ui.item[0].id;
                 $('#' + elementId).css('transform', 'rotate(0deg)');
+                saveBtnClick();
             }
         });
     });
@@ -565,26 +569,29 @@ $(document).ready(function () {
             connectWith: ["#backLog-list", "#ToDo-jobs-list", "#inProgress-jobs-list", "#testing-jobs-list"],
             over: function (event, ui) {
                 $('#done').css('background-color', 'rgba(0,0,0,.1)');
-                console.log(51);
+                //console.log(51);
                 $("#new-job-" + ui.item[0].id).css('background-color', '#577590');
             },
             out: function (event, ui) {
                 $('#done').css('background-color', 'rgba(0,0,0,.0)');
-                console.log(52);
+                //console.log(52);
             },
             receive: function (event, ui) {
                 $('#done').css('background-color', 'rgba(0,0,0,.0)');
                 $("#new-job-" + ui.item[0].id).find('.kanbanboardId').text('50');
-                console.log(53);
+                //console.log(53);
             },
             revert: 100,
             start: function (event, ui) {
                 var elementId = ui.item[0].id;
                 $('#' + elementId).css('transform', 'rotate(4deg)');
+                //console.log(54);
             },
             stop: function (event, ui) {
                 var elementId = ui.item[0].id;
                 $('#' + elementId).css('transform', 'rotate(0deg)');
+                saveBtnClick();
+                //console.log(55);
             }
         });
     });
@@ -609,12 +616,12 @@ const getKanban = (projectId, kanbanboardId) => {
             dataType: 'json', // 받아올 데이터 타입
 
             success: function (data) {
-                console.log(data); // 요청 성공 시 콘솔에 데이터 출력
+                //console.log(data); // 요청 성공 시 콘솔에 데이터 출력
                 resolve(data); // 데이터를 Promise의 결과 값으로 설정합니다
             },
 
             error: function (error) {
-                console.log('Error:', error); // 요청 실패 시 콘솔에 오류 메시지 출력
+                //console.log('Error:', error); // 요청 실패 시 콘솔에 오류 메시지 출력
                 reject(error); // 오류를 Promise의 결과 값으로 설정합니다
             }
         });
@@ -662,7 +669,7 @@ const renderKanban = (data10, data20, data30, data40, data50) => {
 
 
 const createListItem = (item) => {
-    console.log(item);
+    //console.log(item);
     let li = document.createElement('li');
     li.className = 'ui-sortable-handle';
     li.id = item.cardId;
@@ -737,7 +744,7 @@ const formatDate = (timestamp) => {
 $(document).on('click', '.job-block', async function () {
     const id = this.id;
     const number = id.replace('new-job-', '');
-    console.log(number);
+    //console.log(number);
 
     // 클릭한 요소의 텍스트 가져오기
     const cardId = $(this).closest('.job-block').find('.cardId').text();
@@ -749,7 +756,7 @@ $(document).on('click', '.job-block', async function () {
     const completeDate = $(this).closest('.job-block').find('.completeDate').text();
 
     const { value: formValues } = await Swal.fire({
-        title: '카드보기',
+        title: '카드 보기',
 
         html:
             '<div class="pt-3">제목</div>' +
@@ -787,7 +794,7 @@ $(document).on('click', '.job-edit', async function (event) {
 
     const id = this.id;
     const number = id.replace('edit', '');
-    console.log(number);
+    //console.log(number);
 
     // 클릭한 요소의 텍스트 가져오기
     const cardId = $(this).closest('.job-block').find('.cardId').text();
@@ -799,7 +806,7 @@ $(document).on('click', '.job-edit', async function (event) {
     const completeDate = $(this).closest('.job-block').find('.completeDate').text();
 
     const { value: formValues } = await Swal.fire({
-        title: '카드수정',
+        title: '카드 수정',
 
         html:
             '<div class="pt-3">제목</div>' +
@@ -822,7 +829,7 @@ $(document).on('click', '.job-edit', async function (event) {
 
 
         focusConfirm: false,
-        preConfirm: () => {
+        preConfirm: async () => {
 
             const targetLi = $('li.ui-sortable-handle[id$="' + cardId + '"]');
             targetLi.find('.kanban-title').text(document.getElementById('swal-input1').value);
@@ -839,6 +846,11 @@ $(document).on('click', '.job-edit', async function (event) {
                 showConfirmButton: false,
                 timer: 1500
             })
+
+            console.log("카드수정 완료");
+            await saveBtnClick();
+            await fetchDataAndRenderKanban();
+
             return null;
         }
     })
@@ -849,7 +861,7 @@ $(document).on('click', '.job-edit', async function (event) {
 });
 
 // 버튼
-$("#saveBtn").on("click", () => {
+const saveBtnClick = () => {
     let listIds = ["#backLog-list", "#ToDo-jobs-list", "#inProgress-jobs-list", "#testing-jobs-list", "#done-jobs-list"];
     let jsonDataSets = [];  // 단일 배열로 데이터를 저장
 
@@ -882,7 +894,8 @@ $("#saveBtn").on("click", () => {
     for (i = 0; i < jsonDataSets.length; i++) {
         updateKanban(cardIdList[i], jsonDataSets[i]);
     }
-});
+    console.log("업데이트 완료");
+}
 
 // 함수
 const updateKanban = (cardId, jsonData) => {
@@ -894,10 +907,10 @@ const updateKanban = (cardId, jsonData) => {
         data: JSON.stringify(jsonData), // 서버에 보낼 데이터
 
         success: function (data) {// 요청 성공 시 콘솔에 데이터 출력
-            console.log(data);
+            //console.log(data);
         },
         error: function (error) { // 요청 실패 시 콘솔에 오류 메시지 출력
-            console.log('Error:', error);
+            //console.log('Error:', error);
         }
     });
 }
@@ -922,7 +935,7 @@ $("[id^='plusBtn']").click(function () {
     //console.log(itemCountMap.get(Number(btnValue)));
 
     const { value: formValues } = Swal.fire({
-        title: '카드등록',
+        title: '카드 등록',
 
         html:
             '<div class="pt-3">제목</div>' +
@@ -978,18 +991,20 @@ $("[id^='plusBtn']").click(function () {
                     data: JSON.stringify(jsonPostData), // 서버에 보낼 데이터
 
                     success: function (data) {
-                        console.log(data); // 요청 성공 시 콘솔에 데이터 출력
+                        //console.log(data); // 요청 성공 시 콘솔에 데이터 출력
                         resolve(data);
                     },
 
                     error: function (error) {
-                        console.log('Error:', error); // 요청 실패 시 콘솔에 오류 메시지 출력
+                        //console.log('Error:', error); // 요청 실패 시 콘솔에 오류 메시지 출력
                         reject(error);
                     }
                 });
             });
 
-            fetchDataAndRenderKanban();
+            console.log("등록 완료");
+            await saveBtnClick();
+            await fetchDataAndRenderKanban();
 
             Swal.fire({
                 icon: 'success',
@@ -997,6 +1012,7 @@ $("[id^='plusBtn']").click(function () {
                 showConfirmButton: false,
                 timer: 1500
             })
+            
             return null;
         }
     })

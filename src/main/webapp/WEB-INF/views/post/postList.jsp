@@ -30,9 +30,7 @@
 					<div class="card-header">
 						<i class="fas fa-table me-1"></i>${boardName}
 					</div>
-					<div>
-						<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="location.href='/postInsert/${boardId}'">글쓰기</button>
-					</div>
+					
 					<div class="card-body">
 						<table id="datatablesSimple">
 							<thead>
@@ -57,6 +55,11 @@
 							</tbody>
 						</table>
 					</div>
+				</div>
+				<div class="text-right">
+					<input type="button" onclick="location.href='/postInsert/${boardId}'" value="글쓰기" class="btn btn-info">
+		        </div>
+				<div>
 				</div>
 			</div>
 				

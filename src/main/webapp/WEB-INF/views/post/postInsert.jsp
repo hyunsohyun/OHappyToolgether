@@ -44,8 +44,8 @@
 
         <div class="text-right">
             <!-- <input type="submit" value="글쓰기" class="btn btn-info"> -->
-            <input type="button" onclick="regPost()" value="글쓰기" class="btn btn-info">
-            <input type="button" onclick="window.location.href='<%=request.getContextPath()%>/postList/${projectId}/${boardId}'" value="취소" class="btn btn-info">
+            <input type="button" onclick="regPost()" value="저장" class="btn btn-info">
+            <input type="button" onclick="window.location.href='<%=request.getContextPath()%>/postList/${boardId}'" value="취소" class="btn btn-info">
         </div>
     </form>
 	
@@ -104,7 +104,7 @@
 	$("#fileInput").on("change",function() {
 		let fileNames = "";
 		for (let i = 0; i < this.files.length; i++) {
-			fileNames += "<li>" + this.files[i].name + "<input type='button' value ='삭제' onclick='deleteFile(" + i + ")'/></li>";
+			fileNames += "<li style='list-style-type: none;'><span style='color: gray;'>" + this.files[i].name + "</span>&nbsp;&nbsp;&nbsp;<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteFile(" + i + ")'></i></li>";
 		}
 		$("#selectedFiles").append(fileNames);
 	});
@@ -147,7 +147,7 @@
 		})
 		.catch(function(error) {
 			console.error('ERROR:', error);
-			alert('파일 업로드 실패');
+			/* alert('파일 업로드 실패'); */
 		});
 		
 	}
