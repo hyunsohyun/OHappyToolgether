@@ -21,8 +21,8 @@
 	
 	<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 	<div id="layoutSidenav_content">
-<main>
-    <h1 class="mt-4" id='qwerqwer'>게시판 수정</h1>
+<main class="container mt-4">
+    <!-- <h1 class="mt-4" id='qwerqwer'>게시판 수정</h1> -->
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/kanvan.do">칸반보드</a></li>
         <li class="breadcrumb-item"><a href="/board.do">게시판</a></li>
