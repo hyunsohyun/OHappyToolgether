@@ -31,8 +31,7 @@
 		
 			<main>
 				<div class="container" id="fullcalendarContainer">
-                    <!-- fullcalendar 영역-->
-                    <div>풀캘영역</div>
+                    <!-- fullcalendar 영역-->                    
                     <div id='calendar'></div>
                     <!-- fullcalendar 영역 끝 -->
                 </div>
