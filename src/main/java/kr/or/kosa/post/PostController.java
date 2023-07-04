@@ -116,7 +116,7 @@ public class PostController {
 	
 	//글수정 페이지
 	@GetMapping(value="/postUpdate")
-	public String postUpdate(@RequestParam("boardId") int boardId, @RequestParam("postId") int postId, Model model) {
+	public String postUpdate(@RequestParam("boardId") int boardId, @RequestParam("postId") int postId, Model model) throws Exception{
 		
 		//상세정보 담기
 		Post post = new Post();
@@ -125,6 +125,16 @@ public class PostController {
 	    post = postService.postDetail(post);
 	    
 	    model.addAttribute("post", post);
+	    
+	    //파일리스트
+  		FileInfo file = new FileInfo();
+  		file.setBoardId(post.getBoardId());
+  		file.setPostId(post.getPostId());
+  		
+  		List<FileInfo> fileList = fileService.filelist(file);
+  		if(fileList != null) {
+  			model.addAttribute("fileList", fileList);
+  		}
 
 	    return "post/postUpdate";
 	}
