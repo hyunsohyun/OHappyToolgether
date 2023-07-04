@@ -50,6 +50,25 @@ $(document).ready(function() {
                             projectManagerId = response[i].managerId;
                             $("#projectName").val(projectName);
                             $("#projectManagerId").val(projectManagerId);
+                            $.ajax({
+                		        url: "member/" + projectManagerId,
+                		        type: "GET",
+                		        contentType: "application/json",
+                		        success: function(response) {
+                		            let projectManagerName = "";
+                		            for (let i = 0; i < response.length; i++) {
+                		                if (response[i].userid == projectManagerId) {
+                		                    projectManagerName = response[i].name;
+                		                    console.log(projectManagerName);
+                		                }
+                		            }
+                		            $("#projectManagerName").val(projectManagerName);
+                		        },
+                		        error: function(xhr, status, error) {
+                		            console.log("에러 메시지:", xhr.status);
+                		            $("#projectManagerName").val("에러 발생"); 
+                		        }
+                		    }); 
                             break;
                         }
                     }
@@ -143,7 +162,7 @@ $(document).ready(function() {
 
 
         // 프로젝트 관리자 정보 가져오기
-        let getProjectManager = function() {
+         let getProjectManager = function() {
 		     $.ajax({
 		        url: "member/" + projectManagerId,
 		        type: "GET",
@@ -156,14 +175,12 @@ $(document).ready(function() {
 		                    console.log(projectManagerName);
 		                }
 		            }
-		            $("#projectManagerName").val(projectManagerName);
 		        },
 		        error: function(xhr, status, error) {
 		            console.log("에러 메시지:", xhr.status);
-		            $("#projectManagerName").val("에러 발생"); 
 		        }
 		    }); 
-		};
+		}; 
 
 
         // 게시판 수 가져오기
