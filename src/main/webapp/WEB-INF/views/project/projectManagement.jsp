@@ -270,6 +270,23 @@ $(document).ready(function() {
 		        }
 		    });
 		};
+		
+		let getBoardCount = function() {
+            $.ajax({
+                url: "board/" + projectId,
+                type: "GET",
+                contentType: "application/json",
+                success: function(response) {
+                    let boardCount = response.length;
+
+                    let projectBoardCount = $("#projectBoardCount");
+                    projectBoardCount.val(boardCount + " 개의 게시글");
+                },
+                error: function(xhr, status, error) {
+                    console.log("에러 메시지:", xhr.status);
+                }
+            });
+        };
 
 
     	  // 프로젝트 이름 변경
@@ -481,18 +498,21 @@ $(document).ready(function() {
 		
 		      // 서버로 AJAX POST 요청 보내기
 		      $.ajax({
-		        url: '/board',
-		        type: 'POST',
-		        contentType: 'application/json',
-		        data: JSON.stringify(boardData),
-		        success: function() {
-		          console.log('게시판이 성공적으로 추가되었습니다.');
-		          // 추가적인 동작 수행 또는 성공 메시지 표시
-		        },
-		        error: function() {
-		          console.log('게시판 추가에 실패했습니다.');
-		          // 에러 처리 또는 에러 메시지 표시
-		        }
+		    	  url: '/board',
+		    	  type: 'POST',
+		    	  contentType: 'application/json',
+		    	  data: JSON.stringify(boardData),
+		    	  success: function() {
+		    		getBoardCount();
+		    	    console.log('게시판이 성공적으로 추가되었습니다.');
+		    	    alert("게시판이 생성되었습니다.");
+		    	    $("#modal").css("display", "none"); 
+		    	  },
+		    	  error: function() {
+		    	    console.log('게시판 추가에 실패했습니다.');
+		    	    alert("생성 실패!");
+		    	    $("#modal").css("display", "none"); 
+		    	  }
 		      });
 		    });
 
@@ -710,7 +730,7 @@ $(document).ready(function() {
               <div id="pagination"></div>
             </div>
           </div>          
-		    <div id="modal" class="modal-overlay">
+		    <div id="modal" class="modal-overlay" style="display: none;">
 		        <div class="modal-window">
 		            <div class="title">
 		                <h2>게시판생성</h2>
