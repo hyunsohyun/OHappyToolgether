@@ -71,9 +71,7 @@
               </a>
             </c:forEach>
           </c:if>
-
         </c:if>
-
       </div>
     </div>
   </nav>
