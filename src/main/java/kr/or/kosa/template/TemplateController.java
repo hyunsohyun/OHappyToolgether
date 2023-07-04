@@ -30,7 +30,7 @@ public class TemplateController {
 	
 	@RequestMapping("/projectManagement.do")
 	public String projectManagementView() throws Exception{
-		return "templateContent/projectManagement";
+		return "project/projectManagement";
 	}
 
 }

@@ -36,7 +36,7 @@
     	border: 1px solid #ccc; 
     	background-color: white; 
     	margin-top: 15px;
-    	border-radius: 10px; 
+    	/* border-radius: 10px;  */
     	padding: 20px;
     }
     
@@ -161,20 +161,20 @@
 							</div>
 						</div>
 					</div>
-					
+				</div>
+				<div id="writer">
+					<c:if test="${userid == post.userid}">
+						<button type="button" class="btn btn-sm btn btn-warning" id="updateBtn" onclick="updatePost()">글수정</button>
+						<button type="button" class="btn btn-sm btn btn-danger" id="deleteBtn" onclick="deletePost()">글삭제</button>
+					</c:if>
+				</div>
+				</div>
+			</main>
+			</div>
 				</div>
 				
 			<!-- 글수정 삭제 -->
-			</div>
-				<c:if test="${userid == post.userid}">
-					<div id="writer">
-						<button type="button" class="btn btn-sm btn-warning" id="deleteBtn" onclick="deletePost()">글삭제</button>
-						<button type="button" class="btn btn-sm btn-warning" id="updateBtn" onclick="updatePost()">글수정</button>
-					</div>
-				</c:if>
-			</main>
-			</div>
-		</div>
+			
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 	<script src="js/scripts.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
@@ -267,6 +267,7 @@
 			})
 		  .then(response => response.json())
 		  .then(data => {
+			$("#commentContent").val("");
 		    commentList();
 		  })
 		  .catch(error => {
