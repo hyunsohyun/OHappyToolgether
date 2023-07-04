@@ -150,7 +150,7 @@
 						
 						<!-- 댓글입력존 -->
 						<div id="comment-insert">
-							<span style="font-weight: bold;">작성자ID : ${post.userid}</span>
+							<span style="font-weight: bold;">작성자ID : ${userid}</span>
 							<div class="mb-3 row">
 								<div class="col">
 									<input type="input" class="form-control" id="commentContent" name="commentContent" placeholder="댓글을 입력해주세요">

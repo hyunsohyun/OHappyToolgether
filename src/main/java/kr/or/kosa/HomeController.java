@@ -57,9 +57,9 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "/editForm")
-	public String editForm(Model model, HttpSession session) {
+	public String editForm(Model model, Principal principal) {
 		logger.info("editForm으로 이동");
-		String userid = (String)session.getAttribute("userid");
+		String userid = principal.getName();
 		System.out.println("editForm으로 이동");
 		System.out.println("userid :" + userid);
 		List<Users> list = null;

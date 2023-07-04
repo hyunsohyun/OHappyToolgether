@@ -149,8 +149,7 @@
 		  } 
 		})
 		.catch(function(error) {
-			console.error('ERROR:', error);
-			alert('파일 업로드 실패');
+			console.error('ERROR:', error);		
 		});
 		
 	}

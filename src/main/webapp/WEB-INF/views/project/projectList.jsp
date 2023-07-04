@@ -29,7 +29,7 @@
 						</c:if>
 						<div class="col-sm-3">
 							<div class="card border-dark projectinfo shadow mb-5 rounded">
-								<div class="card-header projectinfo-header bg-warning">project id : ${item.projectId}</div>
+								<div class="card-header projectinfo-header bg-warning">Project ID : ${item.projectId}</div>
 								<div class="card-body">
 									<div>
 										<label class="form-label mt-1">${item.projectName}</label>
@@ -49,42 +49,7 @@
 			</main>
 		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 		<script src="js/datatables-simple-demo.js"></script>
-		<!-- <script type="text/javascript">
-				$(document).ready(
-						function() {
-							let userid = "${sessionScope.userid}";
-							console.log(userid);
-							$.ajax({
-								url : "project/" + userid,
-								type : "GET",
-								success : function(list) {
-									console.log(list);									
-									let projectContainer = $('#projectContainer');
-									let colNum = 4; // 한 줄에 보일 카드의 수
-									$(projectContainer).empty();
-									let str = "";
-									$.each(list, function(index, item){										
-										if(index%colNum==0) str += "<div class='row'>";
-										str += "<div class='col-md-"+ 12/colNum +"'>";
-										str += "<div class='card' style='width: 18rem;'>";
-										str += "<img src='" + item.projectImage + "' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>";
-										str += "<div class='card-body'>";
-										str += "<h4 class='card-title'>" + item.projectName + "</h4>";
-										str += "<p class='card-text'>프로젝트 설명</p>";
-										str += "<a href='projectDetail.do/"+ item.projectId +"' class='btn btn-primary'>Go somewhere</a>";
-										str += "</div></div></div>";
-										if(index%colNum==colNum-1) str += "</div>";										
-									});
-									$(projectContainer).append(str);
-								},
-								error : function(request, status, error) {
-									alert("code:" + request.status + "\n"
-											+ "error:" + error);
-								}
-							});
-						});
-				
-			</script> -->
+
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 	</div>
 	</div>
