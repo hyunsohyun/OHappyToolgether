@@ -37,7 +37,7 @@ public class FileController {
 	}
 
 	//파일리스트
-	@GetMapping("/FileList.do")
+	@GetMapping("/fileList.do")
 	public ResponseEntity<List<FileInfo>> FileList(@RequestParam FileInfo file, Model model) throws Exception{
 		List<FileInfo> Filelist = null;
 		try {
@@ -58,7 +58,7 @@ public class FileController {
 	    	for(MultipartFile file : files) {
 
 	    		// FileIO에 요청해서 업로드하기
-	    		String filepath = FileIO.uploadFiles(file, "post");
+	    		String filepath = FileIO.uploadFiles(file, "post" ,session);
 	    		
 	    		// FileService에 요청해서 DB에 insert 하기
 	    		FileInfo fileInfo = new FileInfo();
@@ -81,30 +81,13 @@ public class FileController {
 	}
 	
 	@PostMapping("{key}/upload")
-	public ResponseEntity<Integer> postInsert(@RequestParam("uploadFile") MultipartFile file, @PathVariable("key") String key) {
+	public ResponseEntity<Integer> postInsert(@RequestParam("uploadFile") MultipartFile file, @PathVariable("key") String key, HttpSession session) {
 	   
 	    int result = 0;
 	    try {
-
     		// FileIO에 요청해서 업로드하기
-    		String filepath = FileIO.uploadFiles(file, key);
+    		String filepath = FileIO.uploadFiles(file, key, session);
     		if(!filepath.equals("")) result = 1;
-    		// FileService에 요청해서 DB에 insert 하기
-//    		FileInfo fileInfo = new FileInfo();
-//    		fileInfo.setPostId(Integer.parseInt(postId));
-//    		fileInfo.setRealFileName(file.getOriginalFilename());
-//    		fileInfo.setHashFileName(FileIO.getUuid());
-//    		
-//    		//fileInfo.setUserid((String)session.getAttribute("userid"));
-//    		fileInfo.setUserid("hsh");
-//    		
-//    		fileInfo.setBoardId(boardId);
-//    		fileInfo.setFilePath(filepath);
-//    		fileInfo.setFileSize(file.getSize());
-//    		System.out.println(fileInfo.toString());
-//			
-//    		result = fileService.fileInsert(fileInfo);
-	    	
 	        return new ResponseEntity<Integer>(result, HttpStatus.OK);
 
 	    } catch (Exception e) {

@@ -8,10 +8,10 @@
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
 
-			value="jdbc:log4jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1521)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=gf2a91e2c0ac50a_oshdb_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))"></property>
+			value="jdbc:log4jdbc:oracle:thin:@192.168.0.11:1521:XE"></property>
 		<property name="username" value="HAPPY"></property>
 
-		<property name="password" value="Toolgether1004"></property>
+		<property name="password" value="1004"></property>
 	</bean>
 
 	<bean id="driverManagerDataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">

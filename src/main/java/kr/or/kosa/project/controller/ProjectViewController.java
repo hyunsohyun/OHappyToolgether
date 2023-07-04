@@ -37,6 +37,9 @@ public class ProjectViewController {
 	public String projectList(Principal principal, HttpSession session) {
 		System.out.println("projectList으로 이동");
 		System.out.println("Request Mapping \"/projectList.do\"");
+		String userid = principal.getName();
+		System.out.println("홈에 접속한 userid : " + userid);
+		session.setAttribute("userid", userid);
 		List<Project> list = null;
 		try {
 			list = projectService.selectAllProjectById(principal.getName());

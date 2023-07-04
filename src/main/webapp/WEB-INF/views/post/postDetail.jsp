@@ -74,7 +74,7 @@
 				<div id="postInfo" class="mb-3" >
 						<table>
 							<tr>
-								<td rowspan="3" style="width: 10%;"><img src="https://www.hsh" /></td>
+								<td rowspan="3" style="width: 10%;"><img style="width: 30px;" src="/resource/users/${userid}.png" /></td>
 								<td style="width: 80%;"><span style="font-weight: bold;">${post.userid}</span></td>
 							</tr>
 							<tr>
@@ -97,13 +97,6 @@
 				<div id="files" class="mb-3">
 					<c:forEach var="fileList" items="${fileList}">
 						<span><a href="/file/download/${fileList.postId}/${fileList.fileId}">${fileList.realFileName}</a></span><br>
-						<%-- <tr>
-							<td>${fileList.fileId}</td>
-							<td>${fileList.postId}</td>
-							<td>${fileList.realFileName}</td>
-							<td>${fileList.filePath}</td>
-							<td>${fileList.boardId}</td>
-						</tr> --%>
 					</c:forEach>
 				</div>
 				
@@ -150,7 +143,7 @@
 						
 						<!-- 댓글입력존 -->
 						<div id="comment-insert">
-							<span style="font-weight: bold;">작성자ID : ${post.userid}</span>
+							<span style="font-weight: bold;">작성자ID :${userid}</span>
 							<div class="mb-3 row">
 								<div class="col">
 									<input type="input" class="form-control" id="commentContent" name="commentContent" placeholder="댓글을 입력해주세요">
@@ -232,7 +225,7 @@
 		    data.forEach(value => {
 		      let str = '';
 		      str += '<tr>';
-		      str += '<td rowspan="3" style="width:10%;"><img src="https://www.hsh"/></td>';
+		      str += '<td rowspan="3" style="width:10%;"><img style="width:30px;" src="/resource/users/${userid}.png"/></td>';
 		      str += '<td style="width:75%;"><span style="font-weight: bold;">' + value.writerId + '</span></td>';
 		      str += '<td rowspan="3" style="width: 15%;">';
 		      str += (value.writerId === '${userid}') ? '<input type="button" class="btn btn-light" value="수정" onclick="commentUpdateMode(' + value.commentId + ', this)"><input type="button" class="btn btn-light" value="삭제" onclick="commentDelete(' + value.commentId + ')">' : '';
@@ -260,6 +253,7 @@
 			    "Content-Type": "application/json"
 			  },
 			  body: JSON.stringify({
+				writerId : '${userid}',
 			    postId: postId,
 			    boardId: boardId,
 			    content: $("#commentContent").val()
@@ -356,6 +350,7 @@
 		    console.log(error);
 		  });
 	}
+	
 </script>
 </body>
 </html>

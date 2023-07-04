@@ -68,6 +68,17 @@
 			<script src="/js/datatables-simple-demo.js"></script>
 			<script type="text/javascript">
 			
+				$(document).ready(function() {
+				  $('#myTable').DataTable({
+				    language: {
+				      // 옵션을 설정합니다.
+				      "lengthMenu": "한 페이지에 _MENU_ 개씩 보기",
+				      "info": "총 _TOTAL_ 개 중 _START_ - _END_ 표시",
+				      // 추가적인 옵션들...
+				    }
+				  });
+				});
+			
 				$("#datatablesSimple").on('click', 'tbody tr', function() {
 					let postId = $(this).children().eq(0).text();
 					let boardId = '${boardId}';
