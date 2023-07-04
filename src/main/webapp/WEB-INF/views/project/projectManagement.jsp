@@ -50,6 +50,25 @@ $(document).ready(function() {
                             projectManagerId = response[i].managerId;
                             $("#projectName").val(projectName);
                             $("#projectManagerId").val(projectManagerId);
+                            $.ajax({
+                		        url: "member/" + projectManagerId,
+                		        type: "GET",
+                		        contentType: "application/json",
+                		        success: function(response) {
+                		            let projectManagerName = "";
+                		            for (let i = 0; i < response.length; i++) {
+                		                if (response[i].userid == projectManagerId) {
+                		                    projectManagerName = response[i].name;
+                		                    console.log(projectManagerName);
+                		                }
+                		            }
+                		            $("#projectManagerName").val(projectManagerName);
+                		        },
+                		        error: function(xhr, status, error) {
+                		            console.log("에러 메시지:", xhr.status);
+                		            $("#projectManagerName").val("에러 발생"); 
+                		        }
+                		    }); 
                             break;
                         }
                     }
@@ -143,7 +162,7 @@ $(document).ready(function() {
 
 
         // 프로젝트 관리자 정보 가져오기
-        let getProjectManager = function() {
+         let getProjectManager = function() {
 		     $.ajax({
 		        url: "member/" + projectManagerId,
 		        type: "GET",
@@ -156,43 +175,41 @@ $(document).ready(function() {
 		                    console.log(projectManagerName);
 		                }
 		            }
-		            $("#projectManagerName").val(projectManagerName);
 		        },
 		        error: function(xhr, status, error) {
 		            console.log("에러 메시지:", xhr.status);
-		            $("#projectManagerName").val("에러 발생"); 
 		        }
 		    }); 
-		};
+		}; 
 
 
         // 게시판 수 가져오기
         let getBoardCount = function() {
-            $.ajax({
-                url: "board/" + projectId,
-                type: "GET",
-                contentType: "application/json",
-                success: function(response) {
-                    let boardCount = response.length;
+	            $.ajax({
+	                url: "board/" + projectId,
+	                type: "GET",
+	                contentType: "application/json",
+	                success: function(response) {
+	                    let boardCount = response.length;
+	
+	                    let projectBoardCount = $("#projectBoardCount");
+	                    projectBoardCount.val(boardCount + " 개의 게시판");
+	                },
+	                error: function(xhr, status, error) {
+	                    console.log("에러 메시지:", xhr.status);
+	                }
+	            });
+	        };
+	
+	        getProjectInfo();
+	        getUsers(1, pageSize);
+	        getProjectManager();
+	        getBoardCount();
+	    };
 
-                    let projectBoardCount = $("#projectBoardCount");
-                    projectBoardCount.val(boardCount + " 개의 게시판");
-                },
-                error: function(xhr, status, error) {
-                    console.log("에러 메시지:", xhr.status);
-                }
-            });
-        };
-
-        getProjectInfo();
-        getUsers(1, pageSize);
-        getProjectManager();
-        getBoardCount();
-    };
-
-    getUsersAndProjectInfo();
-    currentPage =1;
-    let getUsers = function(page, pageSize) {
+    			getUsersAndProjectInfo();
+    			currentPage =1;
+    	let getUsers = function(page, pageSize) {
 		    $.ajax({
 		        url: `member/users/${projectId}`,
 		        type: "GET",
@@ -384,36 +401,56 @@ $(document).ready(function() {
     	    }
     	  }
 
-    	  // 초대하기 기능
-    	  $(document).on("click", ".userInvite", function(e) {
-			  e.preventDefault();
-			
-			  let tableBody = $(this).closest("tr");
-			  let userId = tableBody.find("td:nth-child(2)").text();
-			  let usersProject = {
-			    projectId: projectId,
-			    userid: userId
-			  };
-			
-			  $.ajax({
-			    url: "project/" + projectId + "/" + userId,
-			    type: "POST",
-			    contentType: "application/json",
-			    data: JSON.stringify(usersProject),
-			    success: function() {
-			      console.log("초대");
-			      tableBody.remove();
-			      alert("초대완료");
-			      updateProjectParticipantsAsync();
-			      getUsers(currentPage, pageSize); // 페이징 처리 유지
-			    },
-			    error: function(xhr) {
-			      console.log("에러 메시지:", xhr.status);
-			      alert("이미 초대한 유저입니다.");
-			    }
-			  });
+    	 	//초대하기 기능
+			$(document).on("click", ".userInvite", function(e) {
+			    e.preventDefault();
+			    
+			    let tableBody = $(this).closest("tr");
+			    let userId = tableBody.find("td:nth-child(2)").text();
+			    let usersProject = {
+			        projectId: projectId,
+			        userid: userId
+			    };
+			    
+			    $.ajax({
+			        url: "project/" + userId,
+			        type: "GET",
+			        contentType: "application/json",
+			        success: function(response) {
+			            for (let i = 0; i < response.length; i++) {
+			                if (response[i].projectId == projectId) {
+			                    console.log("이미 초대한 유저입니다.");
+			                    alert("이미 초대한 유저입니다.");
+			                    return;
+			                }
+			            }
+			            
+			            $.ajax({
+			                url: "project/" + projectId + "/" + userId,
+			                type: "POST",
+			                contentType: "application/json",
+			                data: JSON.stringify(usersProject),
+			                success: function() {
+			                    console.log("초대");
+			                    tableBody.remove();
+			                    alert("초대완료");
+			                    updateProjectParticipantsAsync();
+			                    getUsers(currentPage, pageSize); // 페이징 처리 유지
+			                },
+			                error: function(xhr) {
+			                    console.log("에러 메시지:", xhr.status);
+			                    alert("에러가 발생했습니다.");
+			                }
+			            });
+			        },
+			        error: function(xhr, status, error) {
+			            console.log("에러 메시지:", xhr.status);
+			            alert("에러가 발생했습니다.");
+			        }
+			    });
 			});
 
+ 
     	  // 초대한 유저 참가자에 비동기적 추가
     	  async function updateProjectParticipantsAsync() {
     	    try {
@@ -457,7 +494,6 @@ $(document).ready(function() {
     	  }
     	  
     	  //모달창
-
     	  	function modalOn() {
     		     modal.style.display = "flex"
     		 }
@@ -487,56 +523,66 @@ $(document).ready(function() {
     		     }
     		 }) 
     		 
-			//게시판생성하기
-		   $('#boardInsertBtn').click(function() {
-			  let boardName = $('#boardInsertName').val();
-			  let getBoardCountSuper = $("#projectBoardCount").val();
-			  let boardCount = getBoardCountSuper.substring(0, getBoardCountSuper.indexOf(' '));
-			  
-			  if (boardCount >= 10) {
-			    alert("게시판은 최대 10개까지만 생성 가능합니다!");
-			    $("#modal").css("display", "none");
-			    return;
-			  } else {
-			    let boardData = {
-			      projectId: projectId,
-			      boardName: boardName
-			    };
-			    
-			    // 서버로 AJAX POST 요청 보내기
-			    $.ajax({
-			      url: '/board',
-			      type: 'POST',
-			      contentType: 'application/json',
-			      data: JSON.stringify(boardData),
-			      success: function() {
-			        //getBoardCount();
-			        console.log('게시판이 성공적으로 추가되었습니다.');
-			        alert("게시판이 생성되었습니다.");
-			        $("#modal").css("display", "none");
-			        
-			        // 추가 요청을 보내는 부분
-			        $.ajax({
-			          url: '/projectDetail.do/' + projectId,
-			          type: 'GET',
-			          success: function() {
-			            console.log('프로젝트 상세 정보를 성공적으로 가져왔습니다.');
-						window.location.reload();
-			          },
-			          error: function() {
-			            console.log('프로젝트 상세 정보 가져오기에 실패했습니다.');
 
-			          }
-			        });
+    		 //현소현
+			$('#projectImageInsertBtn').click(function() {
+			  var fileInput = document.getElementById('projectImage');
+			
+			  fileInput.addEventListener('change', function(event) {
+			    var files = event.target.files;
+			    var file = files[0];
+			
+			    var data = new FormData();
+			    data.append('uploadFile', file);
+			
+			    $.ajax({
+			      url: "${pageContext.request.contextPath}/file/projectimg/upload",
+			      type: "POST",
+			      contentType: false,
+			      processData: false,
+			      data: data,
+			      success: function(response) {
+			        // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
 			      },
-			      error: function() {
-			        console.log('게시판 추가에 실패했습니다.');
-			        alert("생성 실패!");
-			        $("#modal").css("display", "none");
+			      error: function(xhr, status, error) {
+			        alert("이미지파일업로드에 실패하였습니다. 오류: " + xhr.responseText);
+			        return;
 			      }
 			    });
-			  }
+			  });
 			});
+
+    		 
+		    $('#boardInsertBtn').click(function() {
+		      let boardName = $('#boardInsertName').val();
+			
+		      console.log(projectId);
+		      
+		      let boardData = {
+		        projectId: projectId,
+		        boardName: boardName
+		      };
+		
+		      // 서버로 AJAX POST 요청 보내기
+		      $.ajax({
+		    	  url: '/board',
+		    	  type: 'POST',
+		    	  contentType: 'application/json',
+		    	  data: JSON.stringify(boardData),
+		    	  success: function() {
+		    		getBoardCount();
+		    	    console.log('게시판이 성공적으로 추가되었습니다.');
+		    	    alert("게시판이 생성되었습니다.");
+		    	    $("#modal").css("display", "none"); 
+		    	  },
+		    	  error: function() {
+		    	    console.log('게시판 추가에 실패했습니다.');
+		    	    alert("생성 실패!");
+		    	    $("#modal").css("display", "none"); 
+		    	  }
+		      });
+		    });
+
 
     	  // 참가자 내쫓아 버리기
     	  $(document).on("click", ".deleteUsersProject", function(e) {
@@ -677,7 +723,14 @@ $(document).ready(function() {
                   <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
                 </div>
                 <div>
-                  <img src="assets/img/together.png" height="340" width="420" class="img-fluid">
+                  <img src="/resource/projectimg/${project.projectImage}" height="340" width="420" class="img-fluid">
+                </div>
+                <div class="d-flex">
+	                <!--프로필사진파일 업로드 -->
+					<div class="form-group">
+					    <input type="file" class="form-control" id="projectImage" value="${project.projectImage}">
+					    <button type="submit" id="projectImageInsertBtn" class="btn btn-primary">프로젝트이미지업로드</button>
+					</div>
                 </div>
               </div>
             </div>
