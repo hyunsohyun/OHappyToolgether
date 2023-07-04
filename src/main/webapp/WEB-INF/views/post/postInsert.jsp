@@ -20,8 +20,8 @@
 	
 	<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 	<div id="layoutSidenav_content">
-<main>
-    <h1 class="mt-4" id='qwerqwer'>게시판 글쓰기</h1>
+<main class="container mt-4">
+    <!-- <h1 class="mt-4" id='qwerqwer'>게시판 글쓰기</h1> -->
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/kanvan.do">칸반보드</a></li>
         <li class="breadcrumb-item"><a href="/board.do">게시판</a></li>
@@ -107,7 +107,7 @@
 	$("#fileInput").on("change",function() {
 		let fileNames = "";
 		for (let i = 0; i < this.files.length; i++) {
-			fileNames += "<li>" + this.files[i].name + "<input type='button' value ='삭제' onclick='deleteFile(" + i + ")'/></li>";
+			fileNames += "<li style='list-style-type: none;'>" + this.files[i].name + "<input type='button' value ='삭제' class='btn btn-sm btn btn-danger' onclick='deleteFile(" + i + ")'/></li>";
 		}
 		$("#selectedFiles").append(fileNames);
 	});
