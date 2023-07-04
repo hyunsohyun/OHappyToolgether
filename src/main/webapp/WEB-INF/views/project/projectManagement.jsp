@@ -733,7 +733,7 @@ $(document).ready(function() {
 		    <div id="modal" class="modal-overlay" style="display: none;">
 		        <div class="modal-window">
 		            <div class="title">
-		                <h2>게시판생성</h2>
+		                <h2>게시판 생성</h2>
 		            </div>
 		            <hr class="hr3">
 		            <div class="close-area">X</div>
