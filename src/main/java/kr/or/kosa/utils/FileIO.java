@@ -1,13 +1,24 @@
 package kr.or.kosa.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.MimeType;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import kr.or.kosa.file.FileInfo;
 
 public class FileIO {	
 	
@@ -62,5 +73,49 @@ public class FileIO {
         return result;
     }
 	
+	
+	public static int fileDown(FileInfo fileInfo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    int result = 0;
+	    String filepath = fileInfo.getFilePath();
+	    String filename = fileInfo.getRealFileName();
+	    String path = filepath;
+	    File file = new File(path);
+
+	    String userAgent = request.getHeader("User-Agent");
+	    boolean ie = userAgent != null && userAgent.indexOf("MSIE") > -1;
+	    String encodedFilename;
+
+	    if (ie) {
+	        encodedFilename = URLEncoder.encode(filename, "UTF-8");
+	        encodedFilename = encodedFilename.replace("+", "%20"); // 공백 문자 처리
+	    } else {
+	        encodedFilename = new String(filename.getBytes("UTF-8"), "ISO-8859-1");
+	    }
+
+	    response.setContentType("application/octet-stream");
+	    response.setHeader("Content-Disposition", "attachment; filename=\"" + encodedFilename + "\"");
+	    response.setHeader("Content-Transfer-Encoding", "binary");
+
+	    // 파일 다운로드
+	    OutputStream out = response.getOutputStream();
+	    FileInputStream fis = null;
+
+	    try {
+	        fis = new FileInputStream(file);
+	        result = FileCopyUtils.copy(fis, out);
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	    } finally {
+	        if (fis != null) {
+	            try {
+	                fis.close();
+	            } catch (Exception e2) {
+	                System.out.println(e2.getMessage());
+	            }
+	        }
+	    }
+
+	    return result;
+	}
 	
 }

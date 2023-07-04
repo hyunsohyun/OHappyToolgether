@@ -17,7 +17,7 @@ public class PostService {
 	}
 
 	//리스트
-	public List<Post> postlist(String boardId) {
+	public List<Post> postlist(int boardId) {
 		List<Post> postList = null;
 		try {
 			PostDao postdao = sqlsession.getMapper(PostDao.class);

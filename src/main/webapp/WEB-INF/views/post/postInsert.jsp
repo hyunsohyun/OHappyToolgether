@@ -139,7 +139,7 @@
 		data.append('postId', postId);
 		data.append('boardId', '${boardId}');
 
-		fetch('<%=request.getContextPath()%>/post/upload', {
+		fetch('<%=request.getContextPath()%>/file/post/upload', {
 			  method: 'POST',
 			  body: data
 		})
