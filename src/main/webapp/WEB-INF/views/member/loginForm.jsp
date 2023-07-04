@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,10 +42,10 @@
 				<div class="card-body">
 					<form name='f' action='/login' method='POST'>
 						<div class="form-group">
-							<label for="userid" class="form-label mt-4">아이디</label> <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID">
+							<label for="userid" class="form-label mt-4">아이디</label> <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID" required>
 						</div>
 						<div class="form-group">
-							<label for="password" class="form-label mt-4">비밀번호</label> <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+							<label for="password" class="form-label mt-4">비밀번호</label> <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
 						</div>
 						<div class="form-group mt-4">
 							<button type="submit" class="btn btn-primary">로그인</button>
