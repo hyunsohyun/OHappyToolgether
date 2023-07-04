@@ -30,11 +30,11 @@ public class PostService {
 	}
 	
 	//상세보기
-	public Post postDetail(int postId){
+	public Post postDetail(Post postParam){
 		Post post = null;
 		try {
 			PostDao Postdao = sqlsession.getMapper(PostDao.class);
-			post = Postdao.postDetail(postId);
+			post = Postdao.postDetail(postParam);
 		}catch (Exception e) {
 			System.out.println("글상세 오류발생");
 			System.out.println(e.getMessage());
@@ -44,75 +44,62 @@ public class PostService {
 	}
 
 	//글쓰기
-	public String postInsert(Post post){
-		String message = "";
+	public int postInsert(Post post){
+		int postId = -1;
 		
 		try {
 			PostDao Postdao = sqlsession.getMapper(PostDao.class);
-			int n = Postdao.postInsert(post);
-			if(n>0) {
-				message = "글쓰기 성공";
-			}else {
-				message = "글쓰기 실패";
-			}
+			
+			//생성된 postId			
+			Postdao.postInsert(post);
+			System.out.println("postID : " + post.getPostId());
+			postId =  post.getPostId();
+			
 		}catch (Exception e) {
 			System.out.println("글쓰기 오류발생");
 			System.out.println(e.getMessage());
 			e.getStackTrace();
 		}
 
-		return message;
+		return postId;
 	}
 	
 	//수정하기
-	public String postUpdate(Post post){
-		String message = "";
-		
+	public int postUpdate(Post post){
+		int result = 0;
 		try {
 			PostDao Postdao = sqlsession.getMapper(PostDao.class);
-			int n = Postdao.postUpdate(post);
-			if(n>0) {
-				message = "수정 성공";
-			}else {
-				message = "수정 실패";
-			}
+			result = Postdao.postUpdate(post);
 		}catch (Exception e) {
 			System.out.println("글수정 오류발생");
 			System.out.println(e.getMessage());
 		}
 
-		return message;
+		return result;
 	}
 	
 	//삭제하기
-	public String postDelete(int postId){
-		String message = "";
-		
+	public int postDelete(Post post){
+		int result = 0;
 		try {
 			PostDao Postdao = sqlsession.getMapper(PostDao.class);
-			int n = Postdao.postDelete(postId);
-			if(n>0) {
-				message = "삭제 성공";
-			}else {
-				message = "삭제 실패 ";
-			}
+			result = Postdao.postDelete(post);
 		}catch (Exception e) {
 			System.out.println("글삭제 오류발생");
 			System.out.println(e.getMessage());
 		}
 		
-		return message;
+		return result;
 	}
 	
-	public void postHitUpdate(int postId) {
-		
+	//조회수증가
+	public void postHitUpdate(Post post) {
 		try {
 			PostDao Postdao = sqlsession.getMapper(PostDao.class);
-			Postdao.postHitUpdate(postId);
+			Postdao.postHitUpdate(post);
 		}catch (Exception e) {
 			System.out.println("조회수 업데이트 오류발생");
 			System.out.println(e.getMessage());
 		}
-		
 	}
 }

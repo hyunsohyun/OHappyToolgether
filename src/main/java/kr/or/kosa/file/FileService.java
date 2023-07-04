@@ -6,8 +6,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.or.kosa.post.Post;
+
 @Service
-public class FileService {
+public class FileService{
 
 	private SqlSession sqlsession;
 
@@ -18,13 +20,13 @@ public class FileService {
 	
 	//파일정보 테이블 등록
 	//파일 리스트
-	public List<File> filelist(int postId) throws Exception{
-		List<File> fileList = null;
+	public List<FileInfo> filelist(FileInfo file) throws Exception{
+		List<FileInfo> fileList = null;
 		System.out.println("sqlsession" + sqlsession);
 
 		try {
 			FileDao filedao = sqlsession.getMapper(FileDao.class);
-			fileList = filedao.fileList(postId);
+			fileList = filedao.fileList(file);
 		} catch(Exception e) {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -32,9 +34,10 @@ public class FileService {
 		return fileList;
 	}
 	
+	
 	//파일 상세
-	public File fileDetail(String FileId){
-		File File = null;
+	public FileInfo fileDetail(String FileId){
+		FileInfo File = null;
 		try {
 			//파일정보 테이블 등록
 			FileDao filedao = sqlsession.getMapper(FileDao.class);
@@ -48,25 +51,22 @@ public class FileService {
 	}
 
 	//파일쓰기
-	public File fileInsert(File File){
+	public int fileInsert(FileInfo file){
+		int result = 0;
 		try {
+			//파일Info 테이블 insert
 			FileDao filedao = sqlsession.getMapper(FileDao.class);
-			int n = filedao.fileInsert(File);
-			if(n>0) {
-				System.out.println("파일쓰기 성공");
-			}else {
-				System.out.println("파일쓰기 실패 ");
-			}
+			result = filedao.fileInsert(file);
 		}catch (Exception e) {
 			System.out.println("오류발생");
 			System.out.println(e.getMessage());
 		}
 
-		return File;
+		return result;
 	}
 	
 	//파일수정
-	public File FileUpdate(File File){
+	public FileInfo FileUpdate(FileInfo File){
 		try {
 			FileDao filedao = sqlsession.getMapper(FileDao.class);
 			int n = filedao.fileUpdate(File);
@@ -84,7 +84,7 @@ public class FileService {
 	}
 	
 	//파일삭제
-	public File FileDelete(File File){
+	public FileInfo FileDelete(FileInfo File){
 		try {
 			FileDao filedao = sqlsession.getMapper(FileDao.class);
 			int n = filedao.fileDelete(File);

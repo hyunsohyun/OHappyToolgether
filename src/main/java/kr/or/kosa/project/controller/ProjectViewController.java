@@ -53,6 +53,9 @@ public class ProjectViewController {
 		System.out.println("projectId "+projectId+"으로 이동");
 		System.out.println("Request Mapping \"/projectDetail.do/{projectId}\"");
 		System.out.println("projectId : " + projectId);
+		String managerId = projectService.selectProjectByProjectId(projectId).getManagerId();
+		System.out.println("managerId : " + managerId);
+		session.setAttribute("managerId", managerId);
 		session.setAttribute("projectId", projectId);
 		List<Board> list = null;
 		try {

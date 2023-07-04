@@ -9,8 +9,10 @@ public class Post {
 	private int hit;
 	private String createDate;
 	private String modifyDate;
-	private String projectId;
+	private int projectId;
 	private String userid;
+	
+	
 	public int getPostId() {
 		return postId;
 	}
@@ -53,10 +55,11 @@ public class Post {
 	public void setModifyDate(String modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-	public String getProjectId() {
+	
+	public int getProjectId() {
 		return projectId;
 	}
-	public void setProjectId(String projectId) {
+	public void setProjectId(int projectId) {
 		this.projectId = projectId;
 	}
 	public String getUserid() {
@@ -64,6 +67,13 @@ public class Post {
 	}
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+	
+	@Override
+	public String toString() {
+		return "Post [postId=" + postId + ", boardId=" + boardId + ", title=" + title + ", content=" + content
+				+ ", hit=" + hit + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", projectId="
+				+ projectId + ", userid=" + userid + "]";
 	}
 
 	

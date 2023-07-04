@@ -5,10 +5,10 @@ import java.util.List;
 
 public interface FileDao {
 	
-	public List<File> fileList(int postId) throws ClassNotFoundException, SQLException;
-	public File fileDetail(String fileId) throws ClassNotFoundException, SQLException;
-	public int fileInsert(File file) throws ClassNotFoundException, SQLException;
-	public int fileUpdate(File file) throws ClassNotFoundException, SQLException;
-	public int fileDelete(File file) throws ClassNotFoundException, SQLException;
+	public List<FileInfo> fileList(FileInfo file) throws ClassNotFoundException, SQLException;
+	public FileInfo fileDetail(String fileId) throws ClassNotFoundException, SQLException;
+	public int fileInsert(FileInfo file) throws ClassNotFoundException, SQLException;
+	public int fileUpdate(FileInfo file) throws ClassNotFoundException, SQLException;
+	public int fileDelete(FileInfo file) throws ClassNotFoundException, SQLException;
 	
 }

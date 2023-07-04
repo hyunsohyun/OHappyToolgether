@@ -1,154 +1,166 @@
 <style>
-@charset "UTF-8";
-
-	#projectManagementTitle{
-		margin-left: 40px;
-		margin-top: 20px;
-		font-weight : bold; 
-		font-style:  oblique;
-	}	
+  .projectManagementTitle {
+    margin-left: 40px;
+    margin-top: 20px;
+    font-weight: bold;
+    font-style: oblique;
+  }
 
   .projectinfo-header {
-  	font-weight : bold; 
-    height : 60px;
+    font-weight: bold;
+    height: 60px;
     font-size: 25px;
     display: flex;
-  	align-items: center;
-  	margin-top: auto;
-  	margin-bottom: auto;
-  } 
-  
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
   .projectinfo-container {
     display: flex;
     flex-wrap: wrap;
-    margin:auto;
+    margin: auto;
   }
-  
+
   .projectinfo-container2 {
     display: flex;
     flex-wrap: wrap;
-    margin:auto;
-    width:1520px;
+    margin: auto;
+    width: 1520px;
   }
-  
+
   .projectinfo {
-     margin: auto;
+    margin: auto;
     margin-top: 50px;
     height: 620px;
-    box-shadow : 1px 1px 3px 3px lightgray;
+    box-shadow: 1px 1px 3px 3px lightgray;
     font-size: 18px;
-    background-color:#fefefe;
+    background-color: #fefefe;
   }
-  .sub-title-text{
-  	
+
+  .sub-title-text {
+	margin-left: 20px;
   }
-  
+
   .projectMemberManagement,
-.projectMemberManagement2 {
-  width: 48%;
-  margin-top: 30px;
-  height: 500px;
-}
+  .projectMemberManagement2 {
+    width: 48%;
+    margin-top: 30px;
+    height: 500px;
+  }
 
-.projectinfo-container2::before,
-.projectinfo-container2::after {
-  content: "";
-  display: table;
-  clear: both;
-}
+  .projectinfo-container2::before,
+  .projectinfo-container2::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 
-.projectinfo-container2 > div {
-  margin-bottom: 30px;
-}
-  
-  
+  .projectinfo-container2>div {
+    margin-bottom: 30px;
+  }
+
   .table th,
   .table td {
     text-align: center;
   }
-  
+
   #changeProjectNameBtn {
     margin-left: 30px;
   }
-  
+
   .projectDelteBtn {
     float: right;
     margin-right: 70px;
-    
   }
-  
-  
+
   #layoutSidenav {
-    background-color: #ebebeb;
-    height : 1350px;
+    background-color: #fffff0;
+    height: 1350px;
   }
-  
+
   .project-info-box {
     margin: 30px 50px 30px 120px;
     width: 750px;
-    float:left;
+    float: left;
   }
-  #rightSideDiv{
-  	float: left;
-  	width: 550px;
-  	margin : 30px 0px;
+
+  #rightSideDiv {
+    float: left;
+    width: 550px;
+    margin: 30px 0px;
   }
-  
+
   .project-input {
     float: left;
     width: 450px;
-    
   }
+
   .project-input-name {
     float: left;
     margin-right: 30px;
     width: 200px;
-    height : 30px;
-  
-  }
-  .form-design1{
-  	width : 400px;
- 	height : 40px;
-  	font-size: 15px;
- 	border-radius: 13px;
- 	box-shadow : 1px 1px 3px 3px lightgray;
- 	border:0;
- 	outline: none;
-	padding-left: 10px;
-  	margin-bottom:5px;
+    height: 30px;
   }
 
-  .form-design{
-  	width : 450px;
- 	height : 40px;
-  	font-size: 15px;
- 	border: 0;
- 	border-radius: 13px;
- 	outline: none;
-	padding-left: 10px;
-  	background-color: rgb(233, 233, 233);
-  	margin-bottom:5px;
+  .form-design1 {
+    width: 400px;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 13px;
+    box-shadow: 1px 1px 3px 3px lightgray;
+    border: 0;
+    outline: none;
+    padding-left: 10px;
+    margin-bottom: 5px;
   }
-  #changeProjectNameBtn{
-  	border-radius: 13px;
+
+  .form-design {
+    width: 450px;
+    height: 40px;
+    font-size: 15px;
+    border: 0;
+    border-radius: 13px;
+    outline: none;
+    padding-left: 10px;
+    background-color: rgb(233, 233, 233);
+    margin-bottom: 5px;
   }
+
+  #changeProjectNameBtn {
+    border-radius: 13px;
+  }
+
   .hr {
-    background:gray;
-    height:1px;
-    border:1;
+    background: gray;
+    height: 1px;
+    border: 1;
     margin-bottom: 45px;
-	}
-	
-	.hr2 {
-    background:gray;
-    height:1px;
-    border:1;
-	}
-   #projectImg{
-   	margin-bottom: 40px;
-   }
-   .projectImgLabel{
-   	font-size : 23px;
-   }
-	
+  }
+
+  .hr2 {
+    background: gray;
+    height: 1px;
+    border: 1;
+  }
+
+  #projectImg {
+    margin-bottom: 40px;
+  }
+
+  .projectImgLabel {
+    font-size: 23px;
+  }
+  
+  .card-body >  #paginationContainer{
+  text-align: center;
+  }
+  .table-size{
+  width:710px; height : 350px;
+  }
+   .table-wrapper{
+  	max-height: 300px; 
+  	overflow-y: auto;"
+  } 
+  
 </style>
