@@ -11,7 +11,8 @@
 	<link href="/css/styles.css" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"	crossorigin="anonymous"></script>
 	<style>
-        .note-editor .note-editing-area {  height: 500px; }
+        .note-editor .note-editing-area {  height: 500px; } 
+       /*  .note-editor{  height: 500px;} */
     </style>
 </head>
 <body class="sb-nav-fixed">
@@ -38,7 +39,7 @@
         
         <div class="form-group">
             <input class="form-control" type="file" id="fileInput" name="fileInput" multiple onchange="addFile()">
-            <div class="selected-files">
+            <div class="selected-files" >
 		        <ul id="selectedFiles"></ul>
 		    </div>
           </div>
@@ -107,7 +108,7 @@
 	$("#fileInput").on("change",function() {
 		let fileNames = "";
 		for (let i = 0; i < this.files.length; i++) {
-			fileNames += "<li style='list-style-type: none;'>" + this.files[i].name + "<input type='button' value ='삭제' class='btn btn-sm btn btn-danger' onclick='deleteFile(" + i + ")'/></li>";
+			fileNames += "<li style='list-style-type: none;'><span style='color: gray;'>" + this.files[i].name + "</span>&nbsp;&nbsp;&nbsp;<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteFile(" + i + ")'></i></li>";
 		}
 		$("#selectedFiles").append(fileNames);
 	});
@@ -150,7 +151,7 @@
 		})
 		.catch(function(error) {
 			console.error('ERROR:', error);
-			alert('파일 업로드 실패');
+			/* alert('파일 업로드 실패'); */
 		});
 		
 	}

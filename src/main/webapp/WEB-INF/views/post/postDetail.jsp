@@ -168,6 +168,7 @@
 						<button type="button" class="btn btn-sm btn btn-danger" id="deleteBtn" onclick="deletePost()">글삭제</button>
 					</c:if>
 				</div>
+				</div>
 			</main>
 			</div>
 				</div>
