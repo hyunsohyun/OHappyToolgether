@@ -36,12 +36,12 @@ public class FileService{
 	
 	
 	//파일 상세
-	public FileInfo fileDetail(String FileId){
+	public FileInfo fileDetail(FileInfo fileInfo){
 		FileInfo File = null;
 		try {
 			//파일정보 테이블 등록
 			FileDao filedao = sqlsession.getMapper(FileDao.class);
-			File = filedao.fileDetail(FileId);
+			File = filedao.fileDetail(fileInfo);
 		}catch (Exception e) {
 			System.out.println("맵퍼 안가져옴");
 			System.out.println(e.getMessage());
@@ -66,7 +66,7 @@ public class FileService{
 	}
 	
 	//파일수정
-	public FileInfo FileUpdate(FileInfo File){
+	public FileInfo fileUpdate(FileInfo File){
 		try {
 			FileDao filedao = sqlsession.getMapper(FileDao.class);
 			int n = filedao.fileUpdate(File);
@@ -84,7 +84,7 @@ public class FileService{
 	}
 	
 	//파일삭제
-	public FileInfo FileDelete(FileInfo File){
+	public FileInfo fileDelete(FileInfo File){
 		try {
 			FileDao filedao = sqlsession.getMapper(FileDao.class);
 			int n = filedao.fileDelete(File);
@@ -100,4 +100,9 @@ public class FileService{
 
 		return File;
 	}
+	
 }
+
+
+
+
