@@ -454,7 +454,6 @@ $(document).ready(function() {
     	  }
     	  
     	  //모달창
-
     	  	function modalOn() {
     		     modal.style.display = "flex"
     		 }
@@ -484,12 +483,39 @@ $(document).ready(function() {
     		     }
     		 }) 
     		 
+    		 //현소현
+			$('#projectImageInsertBtn').click(function() {
+			  var fileInput = document.getElementById('projectImage');
+			
+			  fileInput.addEventListener('change', function(event) {
+			    var files = event.target.files;
+			    var file = files[0];
+			
+			    var data = new FormData();
+			    data.append('uploadFile', file);
+			
+			    $.ajax({
+			      url: "${pageContext.request.contextPath}/file/projectimg/upload",
+			      type: "POST",
+			      contentType: false,
+			      processData: false,
+			      data: data,
+			      success: function(response) {
+			        // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
+			      },
+			      error: function(xhr, status, error) {
+			        alert("이미지파일업로드에 실패하였습니다. 오류: " + xhr.responseText);
+			        return;
+			      }
+			    });
+			  });
+			});
 
+    		 
 		    $('#boardInsertBtn').click(function() {
 		      let boardName = $('#boardInsertName').val();
 			
 		      console.log(projectId);
-
 		      
 		      let boardData = {
 		        projectId: projectId,
@@ -672,7 +698,14 @@ $(document).ready(function() {
                   <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
                 </div>
                 <div>
-                  <img src="assets/img/together.png" height="340" width="420" class="img-fluid">
+                  <img src="/resource/projectimg/${project.projectImage}" height="340" width="420" class="img-fluid">
+                </div>
+                <div class="d-flex">
+	                <!--프로필사진파일 업로드 -->
+					<div class="form-group">
+					    <input type="file" class="form-control" id="projectImage" value="${project.projectImage}">
+					    <button type="submit" id="projectImageInsertBtn" class="btn btn-primary">프로젝트이미지업로드</button>
+					</div>
                 </div>
               </div>
             </div>
