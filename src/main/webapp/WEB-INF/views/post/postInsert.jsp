@@ -48,8 +48,8 @@
 
         <div class="text-right">
             <!-- <input type="submit" value="글쓰기" class="btn btn-info"> -->
-            <input type="button" onclick="regPost()" value="글쓰기" class="btn btn-info">
-            <input type="button" onclick="window.location.href='<%=request.getContextPath()%>/postList/${projectId}/${boardId}'" value="취소" class="btn btn-info">
+            <input type="button" onclick="regPost()" value="저장" class="btn btn-info">
+            <input type="button" onclick="window.location.href='<%=request.getContextPath()%>/postList/${boardId}'" value="취소" class="btn btn-info">
         </div>
     </form>
 
