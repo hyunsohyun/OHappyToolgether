@@ -112,7 +112,7 @@
 	$("#fileInput").on("change",function() {
 		let fileNames = "";
 		for (let i = 0; i < this.files.length; i++) {
-			fileNames += "<li>" + this.files[i].name + "<input type='button' value ='삭제' onclick='deleteFile(" + i + ")'/></li>";
+			fileNames += "<li style='list-style-type: none;'><span style='color: gray;'>" + this.files[i].name + "</span>&nbsp;&nbsp;&nbsp;<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteFile(" + i + ")'></i></li>";
 		}
 		$("#selectedFiles").append(fileNames);
 	});

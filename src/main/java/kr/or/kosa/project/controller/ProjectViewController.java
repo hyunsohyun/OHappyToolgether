@@ -35,6 +35,11 @@ public class ProjectViewController {
 		this.boardService = boardService;
 	}
 	
+	@RequestMapping("/projectManagement.do")
+	public String projectManagementView() throws Exception{
+		return "project/projectManagement";
+	}
+
 	MemberService memberService;
 	
 	@Autowired
@@ -42,11 +47,17 @@ public class ProjectViewController {
 		this.memberService = memberService;
 	}
 	
-	
 	@RequestMapping(value="/projectList.do")
 	public String projectList(Principal principal, HttpSession session) {
 		System.out.println("projectList으로 이동");
 		System.out.println("Request Mapping \"/projectList.do\"");
+		String userid = principal.getName();
+		System.out.println("홈에 접속한 userid : " + userid);
+		session.setAttribute("userid", userid);
+		
+		Users user = memberService.selectUserById(userid).get(0);
+		session.setAttribute("userImage", user.getImage());
+		
 		List<Project> list = null;
 		try {
 			list = projectService.selectAllProjectById(principal.getName());
