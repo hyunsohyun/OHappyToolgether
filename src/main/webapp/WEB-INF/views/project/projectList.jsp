@@ -35,7 +35,7 @@
 										<label class="form-label mt-1">${item.projectName}</label>
 									</div>
 									<div class="form-group d-flex">
-										<img src='${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
+										<img src='/assets/img/${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
 									</div>
 									<a href='projectDetail.do/${item.projectId}' class="btn btn-danger float-end">시작</a>
 								</div>
