@@ -43,7 +43,6 @@ $(document).ready(function() {
                         if (response[i].projectId == projectId) {
                             projectName = response[i].projectName;
                             projectManagerId = response[i].managerId;
-                            console.log("?" + projectName);
                             $("#projectName").val(projectName);
                             $("#projectManagerId").val(projectManagerId);
                             break;
@@ -58,89 +57,89 @@ $(document).ready(function() {
 
         // 프로젝트 참가자 목록 가져오기
 		let getUsers = function(page, pageSize) {
-	    $.ajax({
-	        url: `member/users/${projectId}`,
-	        type: "GET",
-	        contentType: "application/json",
-	        success: function(response) {
-	            let startIndex = (page - 1) * pageSize;
-	            let endIndex = startIndex + pageSize;
-	            let paginatedData = response.slice(startIndex, endIndex);
+		    $.ajax({
+		        url: `member/users/${projectId}`,
+		        type: "GET",
+		        contentType: "application/json",
+		        success: function(response) {
+		            let startIndex = (page - 1) * pageSize;
+		            let endIndex = startIndex + pageSize;
+		            let paginatedData = response.slice(startIndex, endIndex);
+		
+		            let tableBody = $("#memberList");
+		            tableBody.empty();
+		
+		            if (paginatedData.length > 0) {
+		                paginatedData.forEach(function(user) {
+		                    let row = $("<tr>").addClass("table-active");
+		                    $("<td>").text(user.name).appendTo(row);
+		                    $("<td>").text(user.userid).appendTo(row);
+		                    let removeButtonCell = $("<td>");
+		                    let removeButton = $("<button>").addClass("btn btn-danger deleteUsersProject").text("추방");
+		                    removeButtonCell.append(removeButton);
+		                    row.append(removeButtonCell);
+		                    tableBody.append(row);
+		                });
+		            }
+		
+		            // 프로젝트 참여인원 수 표시
+		            let participantsInput = $("#projectParticipants");
+		            participantsInput.val(response.length + " 명의 인원이 프로젝트에 참가중");
+		
+		            // 페이징 처리
+		            let pagination = $("#pagination");
+		            pagination.empty();
+		
+		            let totalPages = Math.ceil(response.length / pageSize);
+		            if (totalPages > 1) {
+		              let prevButton = $("<li>").addClass("page-item");
+		              let prevLink = $("<a>").addClass("page-link").attr("href", "#").text("이전");
+		              prevLink.on("click", function (event) {
+		                event.preventDefault(); // 이벤트 기본 동작 방지
+		                let currentPage = page > 1 ? page - 1 : 1;
+		                getUsers(currentPage, pageSize);
+		              });
+		              prevButton.append(prevLink);
+		              pagination.append(prevButton);
 	
-	            let tableBody = $("#memberList");
-	            tableBody.empty();
+		              let startPage = Math.max(page - 2, 1);
+		              let endPage = Math.min(page + 2, totalPages);
 	
-	            if (paginatedData.length > 0) {
-	                paginatedData.forEach(function(user) {
-	                    let row = $("<tr>").addClass("table-active");
-	                    $("<td>").text(user.name).appendTo(row);
-	                    $("<td>").text(user.userid).appendTo(row);
-	                    let removeButtonCell = $("<td>");
-	                    let removeButton = $("<button>").addClass("btn btn-danger deleteUsersProject").text("추방");
-	                    removeButtonCell.append(removeButton);
-	                    row.append(removeButtonCell);
-	                    tableBody.append(row);
-	                });
-	            }
+		              for (let i = startPage; i <= endPage; i++) {
+		                let pageItem = $("<li>").addClass("page-item");
+		                let pageLink = $("<a>").addClass("page-link").attr("href", "#").text(i);
+		                if (i === page) {
+		                  pageItem.addClass("active");
+		                }
+		                pageLink.on("click", function (event) {
+		                  event.preventDefault(); // 이벤트 기본 동작 방지
+		                  getUsers(i, pageSize);
+		                });
+		                pageItem.append(pageLink);
+		                pagination.append(pageItem);
+		              }
 	
-	            // 프로젝트 참여인원 수 표시
-	            let participantsInput = $("#projectParticipants");
-	            participantsInput.val(response.length + " 명의 인원이 프로젝트에 참가중");
-	
-	            // 페이징 처리
-	            let pagination = $("#pagination");
-	            pagination.empty();
-	
-	            let totalPages = Math.ceil(response.length / pageSize);
-	            if (totalPages > 1) {
-	              let prevButton = $("<li>").addClass("page-item");
-	              let prevLink = $("<a>").addClass("page-link").attr("href", "#").text("이전");
-	              prevLink.on("click", function (event) {
-	                event.preventDefault(); // 이벤트 기본 동작 방지
-	                let currentPage = page > 1 ? page - 1 : 1;
-	                getUsers(currentPage, pageSize);
-	              });
-	              prevButton.append(prevLink);
-	              pagination.append(prevButton);
-
-	              let startPage = Math.max(page - 2, 1);
-	              let endPage = Math.min(page + 2, totalPages);
-
-	              for (let i = startPage; i <= endPage; i++) {
-	                let pageItem = $("<li>").addClass("page-item");
-	                let pageLink = $("<a>").addClass("page-link").attr("href", "#").text(i);
-	                if (i === page) {
-	                  pageItem.addClass("active");
-	                }
-	                pageLink.on("click", function (event) {
-	                  event.preventDefault(); // 이벤트 기본 동작 방지
-	                  getUsers(i, pageSize);
-	                });
-	                pageItem.append(pageLink);
-	                pagination.append(pageItem);
-	              }
-
-	              let nextButton = $("<li>").addClass("page-item");
-	              let nextLink = $("<a>").addClass("page-link").attr("href", "#").text("다음");
-	              nextLink.on("click", function (event) {
-	                event.preventDefault(); // 이벤트 기본 동작 방지
-	                let currentPage = page < totalPages ? page + 1 : totalPages;
-	                getUsers(currentPage, pageSize);
-	              });
-	              nextButton.append(nextLink);
-	              pagination.append(nextButton);
-	            }
-	        },
-	        error: function(xhr, status, error) {
-	            console.log("에러 메시지:", xhr.status);
-	        }
-	    });
-	};
+		              let nextButton = $("<li>").addClass("page-item");
+		              let nextLink = $("<a>").addClass("page-link").attr("href", "#").text("다음");
+		              nextLink.on("click", function (event) {
+		                event.preventDefault(); // 이벤트 기본 동작 방지
+		                let currentPage = page < totalPages ? page + 1 : totalPages;
+		                getUsers(currentPage, pageSize);
+		              });
+		              nextButton.append(nextLink);
+		              pagination.append(nextButton);
+		            }
+		        },
+		        error: function(xhr, status, error) {
+		            console.log("에러 메시지:", xhr.status);
+		        }
+		    });
+		};
 
 
         // 프로젝트 관리자 정보 가져오기
         let getProjectManager = function() {
-		    $.ajax({
+		     $.ajax({
 		        url: "member/" + projectManagerId,
 		        type: "GET",
 		        contentType: "application/json",
@@ -156,9 +155,11 @@ $(document).ready(function() {
 		        },
 		        error: function(xhr, status, error) {
 		            console.log("에러 메시지:", xhr.status);
+		            $("#projectManagerName").val("에러 발생"); 
 		        }
-		    });
+		    }); 
 		};
+
 
         // 게시글 수 가져오기
         let getBoardCount = function() {
@@ -187,84 +188,84 @@ $(document).ready(function() {
     getUsersAndProjectInfo();
     currentPage =1;
     let getUsers = function(page, pageSize) {
-	    $.ajax({
-	        url: `member/users/${projectId}`,
-	        type: "GET",
-	        contentType: "application/json",
-	        success: function(response) {
-	            let startIndex = (page - 1) * pageSize;
-	            let endIndex = startIndex + pageSize;
-	            let paginatedData = response.slice(startIndex, endIndex);
+		    $.ajax({
+		        url: `member/users/${projectId}`,
+		        type: "GET",
+		        contentType: "application/json",
+		        success: function(response) {
+		            let startIndex = (page - 1) * pageSize;
+		            let endIndex = startIndex + pageSize;
+		            let paginatedData = response.slice(startIndex, endIndex);
+		
+		            let tableBody = $("#memberList");
+		            tableBody.empty();
+		
+		            if (paginatedData.length > 0) {
+		                paginatedData.forEach(function(user) {
+		                    let row = $("<tr>").addClass("table-active");
+		                    $("<td>").text(user.name).appendTo(row);
+		                    $("<td>").text(user.userid).appendTo(row);
+		                    let removeButtonCell = $("<td>");
+		                    let removeButton = $("<button>").addClass("btn btn-danger deleteUsersProject").text("추방");
+		                    removeButtonCell.append(removeButton);
+		                    row.append(removeButtonCell);
+		                    tableBody.append(row);
+		                });
+		            }
+		
+		            // 프로젝트 참여인원 수 표시
+		            let participantsInput = $("#projectParticipants");
+		            participantsInput.val(response.length + " 명의 인원이 프로젝트에 참가중");
+		
+		            // 페이징 처리
+		            let pagination = $("#pagination");
+		            pagination.empty();
+		
+		            let totalPages = Math.ceil(response.length / pageSize);
+		            if (totalPages > 1) {
+		              let prevButton = $("<li>").addClass("page-item");
+		              let prevLink = $("<a>").addClass("page-link").attr("href", "#").text("이전");
+		              prevLink.on("click", function (event) {
+		                event.preventDefault(); // 이벤트 기본 동작 방지
+		                let currentPage = page > 1 ? page - 1 : 1;
+		                getUsers(currentPage, pageSize);
+		              });
+		              prevButton.append(prevLink);
+		              pagination.append(prevButton);
 	
-	            let tableBody = $("#memberList");
-	            tableBody.empty();
+		              let startPage = Math.max(page - 2, 1);
+		              let endPage = Math.min(page + 2, totalPages);
 	
-	            if (paginatedData.length > 0) {
-	                paginatedData.forEach(function(user) {
-	                    let row = $("<tr>").addClass("table-active");
-	                    $("<td>").text(user.name).appendTo(row);
-	                    $("<td>").text(user.userid).appendTo(row);
-	                    let removeButtonCell = $("<td>");
-	                    let removeButton = $("<button>").addClass("btn btn-danger deleteUsersProject").text("추방");
-	                    removeButtonCell.append(removeButton);
-	                    row.append(removeButtonCell);
-	                    tableBody.append(row);
-	                });
-	            }
+		              for (let i = startPage; i <= endPage; i++) {
+		                let pageItem = $("<li>").addClass("page-item");
+		                let pageLink = $("<a>").addClass("page-link").attr("href", "#").text(i);
+		                if (i === page) {
+		                  pageItem.addClass("active");
+		                }
+		                pageLink.on("click", function (event) {
+		                  event.preventDefault(); // 이벤트 기본 동작 방지
+		                  getUsers(i, pageSize);
+		                });
+		                pageItem.append(pageLink);
+		                pagination.append(pageItem);
+		              }
 	
-	            // 프로젝트 참여인원 수 표시
-	            let participantsInput = $("#projectParticipants");
-	            participantsInput.val(response.length + " 명의 인원이 프로젝트에 참가중");
-	
-	            // 페이징 처리
-	            let pagination = $("#pagination");
-	            pagination.empty();
-	
-	            let totalPages = Math.ceil(response.length / pageSize);
-	            if (totalPages > 1) {
-	              let prevButton = $("<li>").addClass("page-item");
-	              let prevLink = $("<a>").addClass("page-link").attr("href", "#").text("이전");
-	              prevLink.on("click", function (event) {
-	                event.preventDefault(); // 이벤트 기본 동작 방지
-	                let currentPage = page > 1 ? page - 1 : 1;
-	                getUsers(currentPage, pageSize);
-	              });
-	              prevButton.append(prevLink);
-	              pagination.append(prevButton);
-
-	              let startPage = Math.max(page - 2, 1);
-	              let endPage = Math.min(page + 2, totalPages);
-
-	              for (let i = startPage; i <= endPage; i++) {
-	                let pageItem = $("<li>").addClass("page-item");
-	                let pageLink = $("<a>").addClass("page-link").attr("href", "#").text(i);
-	                if (i === page) {
-	                  pageItem.addClass("active");
-	                }
-	                pageLink.on("click", function (event) {
-	                  event.preventDefault(); // 이벤트 기본 동작 방지
-	                  getUsers(i, pageSize);
-	                });
-	                pageItem.append(pageLink);
-	                pagination.append(pageItem);
-	              }
-
-	              let nextButton = $("<li>").addClass("page-item");
-	              let nextLink = $("<a>").addClass("page-link").attr("href", "#").text("다음");
-	              nextLink.on("click", function (event) {
-	                event.preventDefault(); // 이벤트 기본 동작 방지
-	                let currentPage = page < totalPages ? page + 1 : totalPages;
-	                getUsers(currentPage, pageSize);
-	              });
-	              nextButton.append(nextLink);
-	              pagination.append(nextButton);
-	            }
-	        },
-	        error: function(xhr, status, error) {
-	            console.log("에러 메시지:", xhr.status);
-	        }
-	    });
-	};
+		              let nextButton = $("<li>").addClass("page-item");
+		              let nextLink = $("<a>").addClass("page-link").attr("href", "#").text("다음");
+		              nextLink.on("click", function (event) {
+		                event.preventDefault(); // 이벤트 기본 동작 방지
+		                let currentPage = page < totalPages ? page + 1 : totalPages;
+		                getUsers(currentPage, pageSize);
+		              });
+		              nextButton.append(nextLink);
+		              pagination.append(nextButton);
+		            }
+		        },
+		        error: function(xhr, status, error) {
+		            console.log("에러 메시지:", xhr.status);
+		        }
+		    });
+		};
 
 
     	  // 프로젝트 이름 변경
@@ -631,7 +632,8 @@ $(document).ready(function() {
 
       </div>
     </div>
-  </div>
 </main>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+</body>
 
 
