@@ -35,13 +35,17 @@ public class ProjectViewController {
 		this.boardService = boardService;
 	}
 	
+	@RequestMapping("/projectManagement.do")
+	public String projectManagementView() throws Exception{
+		return "project/projectManagement";
+	}
+
 	MemberService memberService;
 	
 	@Autowired
 	public void setMemberService(MemberService memberService) {
 		this.memberService = memberService;
 	}
-	
 	
 	@RequestMapping(value="/projectList.do")
 	public String projectList(Principal principal, HttpSession session) {
