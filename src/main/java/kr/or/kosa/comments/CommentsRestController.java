@@ -53,7 +53,6 @@ public class CommentsRestController {
 		int result = 0;
 
 		try {
-			comments.setWriterId((String)session.getAttribute("userid"));
 			result = commentsService.commentInsert(comments);
 			return new ResponseEntity<Integer>(result,HttpStatus.OK);
 		} catch (Exception e) {			
