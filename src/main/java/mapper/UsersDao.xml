@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<update id="updateUser" parameterType="kr.or.kosa.member.vo.Users">
-		update users set password=#{password}, name=#{name}, email=#{email} where userid=#{userid}
+		update users set password=#{password}, name=#{name}, email=#{email},image=#{image} where userid=#{userid}
 	</update>
 
 </mapper>
