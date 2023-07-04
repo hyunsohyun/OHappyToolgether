@@ -72,7 +72,7 @@ public class FileIO {
 			}
 			
 			String rootPath = session.getServletContext().getRealPath("/");
-			String uploadPath = rootPath + "./resource" + File.separator + pathCate + File.separator;
+			String uploadPath = rootPath + "resource" + File.separator + pathCate + File.separator;
 			
 			File uploadFile = new File(uploadPath + fileName);
 			if (!uploadFile.isDirectory()) uploadFile.mkdirs();

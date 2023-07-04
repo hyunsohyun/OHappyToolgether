@@ -53,9 +53,9 @@
 							
 								<div class="col-sm-3">
 									<div class="card border-dark shadow mb-5 rounded">
-										<div class="card-header">새 프로젝트 추가</div>
-										<div class="card-body">
-											<div id="insertProject">
+										<div class="card-header bg-secondary">새 프로젝트 추가</div>
+										<div class="card-body" id="insertProject" data-bs-toggle="modal" data-bs-target="#projectForm">
+											<div>
 												<label class="form-label mt-1">프로젝트를 추가하려면 클릭하세요</label>
 											</div>
 											<div class="form-group d-flex">
@@ -70,8 +70,36 @@
 							</c:if>
 						</c:if>
 											
-					</c:forEach>		
+					</c:forEach>
+					
 				</div>
+<!-- 모달 창 -->
+<div class="modal" id="projectForm" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h1 class="modal-title fs-5">프로젝트 생성</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/insertProject" method="POST">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">프로젝트명:</label>
+            <input type="text" class="form-control" id="projectName">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">프로젝트파일:</label>
+            <input type="file" class="form-control" id="projectImage"></input>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary" id="insertBtn">생성</button>
+      </div>
+    </div>
+  </div>
+</div>
 			</main>
 		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 		<script src="js/datatables-simple-demo.js"></script>
@@ -79,27 +107,8 @@
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 	</div>
 	</div>
-	<script src="js/scripts.js">
-		$("#insertProject").click(function(){
-		    $.ajax({
-		      url: '/insertProject',
-		      type: 'POST',
-		      success: function(data) {
-		        // This function is called if the request succeeds.
-		        // 'data' is the data returned from the server.
-		        // You can add code here to handle the returned data.
-		        console.log('Request succeeded. Returned data: ' + data);
-		      },
-		      error: function(xhr, status, error) {
-		        // This function is called if the request fails.
-		        // 'xhr' is the XMLHttpRequest object, 'status' is the status code,
-		        // 'error' is the error message.
-		        // You can add code here to handle the error.
-		        console.log('Request failed. Status: ' + status + '. Error: ' + error);
-		      }
-		    });
-		  });
 	
+	<script src="js/scripts.js">
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
