@@ -17,12 +17,15 @@
 
     
 </head>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
 
 
 $(document).ready(function() {
+	
+	const modal = document.getElementById("modal")
     const projectId = '${sessionScope.projectId}';
     const memberId = '${userid}'; 
     const managerId = '${managerId}'
@@ -432,6 +435,66 @@ $(document).ready(function() {
     	      console.log("에러 메시지:", error);
     	    }
     	  }
+    	  
+    	  //모달창
+
+    	  	function modalOn() {
+    		     modal.style.display = "flex"
+    		 }
+    		 function isModalOn() {
+    		     return modal.style.display === "flex"
+    		 }
+    		 function modalOff() {
+    		     modal.style.display = "none"
+    		 }
+    		 const btnModal = document.getElementById("boardCreateBtn")
+    		 btnModal.addEventListener("click", e => {
+    		     modalOn()
+    		 })
+    		 const closeBtn = modal.querySelector(".close-area")
+    		 closeBtn.addEventListener("click", e => {
+    		     modalOff()
+    		 })
+    		 modal.addEventListener("click", e => {
+    		     const evTarget = e.target
+    		     if(evTarget.classList.contains("modal-overlay")) {
+    		         modalOff()
+    		     }
+    		 })
+    		 window.addEventListener("keyup", e => {
+    		     if(isModalOn() && e.key === "Escape") {
+    		         modalOff()
+    		     }
+    		 }) 
+    		 
+
+		    $('#boardInsertBtn').click(function() {
+		      let boardName = $('#boardInsertName').val();
+			
+		      console.log(projectId);
+
+		      
+		      let boardData = {
+		        projectId: projectId,
+		        boardName: boardName
+		      };
+		
+		      // 서버로 AJAX POST 요청 보내기
+		      $.ajax({
+		        url: '/board',
+		        type: 'POST',
+		        contentType: 'application/json',
+		        data: JSON.stringify(boardData),
+		        success: function() {
+		          console.log('게시판이 성공적으로 추가되었습니다.');
+		          // 추가적인 동작 수행 또는 성공 메시지 표시
+		        },
+		        error: function() {
+		          console.log('게시판 추가에 실패했습니다.');
+		          // 에러 처리 또는 에러 메시지 표시
+		        }
+		      });
+		    });
 
     	  // 참가자 내쫓아 버리기
     	  $(document).on("click", ".deleteUsersProject", function(e) {
@@ -470,6 +533,23 @@ $(document).ready(function() {
 			    }
 			  });
 			});
+    	  
+    	// 게시판 생성 
+    	  $("#boardCreateBtn").click(function() {
+
+    	    $.ajax({
+    	      url: "board/" + projectId, //board_id , project_id, board_name;
+    	      type: "POST",
+    	      contentType: "application/json",
+    	      success: function() {
+    	        console.log("게시판 생성");
+    	        alert("게시판이 생성되었습니다.");
+    	      },
+    	      error: function(xhr) {
+    	        console.log("에러 메시지:", xhr.status);
+    	      }
+    	    });
+    	  });
 
     	  // 프로젝트 삭제 (미완)
     	  $("#projectDelteBtn").click(function() {
@@ -562,7 +642,8 @@ $(document).ready(function() {
                 </div>
 
                 <hr class="hr2">
-
+                
+				<button type="button" class="btn btn-primary projectDelteBtn float-right mt-3" id="boardCreateBtn">게시판 생성</button>
                 <button type="button" class="btn btn-danger projectDelteBtn float-right mt-3" id="projectDelteBtn">프로젝트 삭제</button>
               </div>
 
@@ -628,7 +709,26 @@ $(document).ready(function() {
               </div>
               <div id="pagination"></div>
             </div>
-          </div>
+          </div>          
+		    <div id="modal" class="modal-overlay">
+		        <div class="modal-window">
+		            <div class="title">
+		                <h2>게시판생성</h2>
+		            </div>
+		            <hr class="hr3">
+		            <div class="close-area">X</div>
+		            <div class="content">
+						<label class="form-label mt-1">게시판 이름</label>
+		                  </div>
+		                  <div class="form-group">
+		                    <div class="d-flex">
+		                      <input type="text" class="form-control-board" id="boardInsertName">
+		                      <button type="button" class="btn btn-primary ml-2" id="boardInsertBtn">게시판 생성</button>
+		                    </div>		                    
+		                  </div>
+		            </div>
+		        </div>
+		    </div>
         </div>
 
       </div>
