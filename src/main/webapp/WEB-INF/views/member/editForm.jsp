@@ -12,7 +12,10 @@
 
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="css/styles.css" rel="stylesheet" />
+
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<!-- swal2  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="sb-nav-fixed">
 
@@ -51,7 +54,7 @@
                                     <!--프로필사진파일 업로드 -->
                                     <div class="form-group">
                                         <label for="image" class="form-label mt-4">프로필 사진</label>
-                                        <input type="file" class="form-control" id="image" name="image" value="${user.image}" placeholder="Enter your email">
+                                        <input type="file" class="form-control" id="image" name="image" value="${user.image}">
                                     </div>
                                     
                                     <div class="form-group mt-4 text-center">
@@ -93,11 +96,27 @@
 	        data: JSON.stringify(formData),
 	        success: function(response) {
 	          uploadImg();
-	          alert("수정이 완료되었습니다.");
-	          window.location.href = "/projectList.do";
+	          Swal.fire({
+	                icon: 'success',
+	                title: '수정 완료',
+	                showConfirmButton: false,
+	                timer: 1500
+	            });
+	          setTimeout(function() {
+	            	window.location.href = "/projectList.do";
+				}, 1500); 
 	        },
 	        error: function(xhr, status, error) {
-	          alert("회원 가입에 실패했습니다. 오류: " + xhr.responseText);
+	        	Swal.fire({
+	                icon: 'error',
+	                title: '수정 실패',
+	                text: '오류 : ' + xhr.responseText,
+	                showConfirmButton: false,
+	                timer: 1500
+	            })
+	            setTimeout(function() {
+	            	window.location.href = "/projectList.do";
+				}, 1500); 
 	        }
 	      });
 	    });
@@ -118,7 +137,13 @@
 		      // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
 		    },
 		    error: function(xhr, status, error) {
-		      alert("회원 가입에 실패했습니다. 오류: " + xhr.responseText);
+		    	Swal.fire({
+	                icon: 'error',
+	                title: '수정 실패',
+	                text: '오류 : ' + xhr.responseText,
+	                showConfirmButton: false,
+	                timer: 1500
+	            })
 		      return
 		    }
 		  });
