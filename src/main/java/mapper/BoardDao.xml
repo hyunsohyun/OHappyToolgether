@@ -21,5 +21,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from board where	board_id=#{boardId}
 	</delete>
 
+	<select id="getBoardName" resultType="String">
+		select board_name from board where board_id=#{boardId} and project_id=#{projectId}
+	</select>
 </mapper>
 

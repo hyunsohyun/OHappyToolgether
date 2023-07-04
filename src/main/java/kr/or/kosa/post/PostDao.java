@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface PostDao {
 	//리스트
-	public List<Post> postList(String postId) throws ClassNotFoundException, SQLException;
+	public List<Post> postList(int postId) throws ClassNotFoundException, SQLException;
 	
 	//글상세
 	public Post postDetail(Post post) throws ClassNotFoundException, SQLException;

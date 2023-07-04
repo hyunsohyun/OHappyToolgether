@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    , USERID 
 		FROM POST
 		WHERE BOARD_ID = #{boardId}
+		order by CREATE_DATE desc
 	</select>
 	
 	<select id="postDetail" parameterType="kr.or.kosa.post.Post" resultType="kr.or.kosa.post.Post">

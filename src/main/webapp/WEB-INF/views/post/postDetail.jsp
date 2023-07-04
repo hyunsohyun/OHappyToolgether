@@ -55,16 +55,14 @@
 					 
 					<c:if test="${userid == post.userid}"> 
 						<div class="left">
-							<button type="button" class="btn btn-sm btn-warning"
-								id="updateBtn" onclick="updatePost()">글수정</button>
-							<button type="button" class="btn btn-sm btn-warning"
-								id="deleteBtn" onclick="deletePost()">글삭제</button>
+							<button type="button" class="btn btn-sm btn btn-warning" id="updateBtn" onclick="updatePost()">글수정</button>
+							<button type="button" class="btn btn-sm btn btn-danger" id="deleteBtn" onclick="deletePost()">글삭제</button>
 						</div>
 					</c:if>
 					<div class="right">
 						<button type="button" class="btn btn-sm btn-secondary"" id="before" onclick="before()"><i class="fa-solid fa-arrow-down"></i> 이전글</button>
-						<button type="button" class="btn btn-sm btn-light" id="list" onclick="list()">목록</button>
-						<button type="button" class="btn btn-sm btn-secondary"" id="next" onclick="next()"><i class="fa-solid fa-arrow-up"></i> 다음글</button>
+						<button type="button" class="btn btn-sm btn-light" id="list" onclick="window.location.href='/postList/${boardId}'">목록</button>
+						<button type="button" class="btn btn-sm btn-secondary" id="next" onclick="next()"><i class="fa-solid fa-arrow-up"></i> 다음글</button>
 					</div>
 				</div>
 
@@ -97,17 +95,16 @@
 				
 				<!-- file존 -->
 				<div id="files" class="mb-3">
-					<table >
-						<c:forEach var="fileList" items="${fileList}">
-							<tr>
-								<td>${fileList.fileId}</td>
-								<td>${fileList.postId}</td>
-								<td>${fileList.realFileName}</td>
-								<td>${fileList.filePath}</td>
-								<td>${fileList.boardId}</td>
-							</tr>
-						</c:forEach>
-					</table>
+					<c:forEach var="fileList" items="${fileList}">
+						<span><a href="/file/download/${fileList.postId}/${fileList.fileId}">${fileList.realFileName}</a></span><br>
+						<%-- <tr>
+							<td>${fileList.fileId}</td>
+							<td>${fileList.postId}</td>
+							<td>${fileList.realFileName}</td>
+							<td>${fileList.filePath}</td>
+							<td>${fileList.boardId}</td>
+						</tr> --%>
+					</c:forEach>
 				</div>
 				
 				<!-- content존 -->

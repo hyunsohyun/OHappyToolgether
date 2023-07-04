@@ -25,6 +25,7 @@
 $(document).ready(function() {
     const projectId = '${sessionScope.projectId}';
     const memberId = '${userid}'; 
+    const managerId = '${managerId}'
     const tableBody = $("#memberList");
     const userTableBody = $("#userTableBody");
     const pageSize = 6; 
