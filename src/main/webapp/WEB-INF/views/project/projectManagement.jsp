@@ -33,6 +33,7 @@ $(document).ready(function() {
     const userTableBody = $("#userTableBody");
     const pageSize = 6; 
 	let projectManagerId="";
+	let projectBoardCnt = 0;
     // 프로젝트 정보
     let getUsersAndProjectInfo = function() {
         // 프로젝트 정보 가져오기
@@ -165,7 +166,7 @@ $(document).ready(function() {
 		};
 
 
-        // 게시글 수 가져오기
+        // 게시판 수 가져오기
         let getBoardCount = function() {
             $.ajax({
                 url: "board/" + projectId,
@@ -175,7 +176,7 @@ $(document).ready(function() {
                     let boardCount = response.length;
 
                     let projectBoardCount = $("#projectBoardCount");
-                    projectBoardCount.val(boardCount + " 개의 게시글");
+                    projectBoardCount.val(boardCount + " 개의 게시판");
                 },
                 error: function(xhr, status, error) {
                     console.log("에러 메시지:", xhr.status);
@@ -280,7 +281,9 @@ $(document).ready(function() {
                     let boardCount = response.length;
 
                     let projectBoardCount = $("#projectBoardCount");
-                    projectBoardCount.val(boardCount + " 개의 게시글");
+                    projectBoardCount.val(boardCount + " 개의 게시판");
+                    projectBoardCnt = boardCount;
+                    console.log(boardCount + " / " + projectBoardCnt + "루룰루")
                 },
                 error: function(xhr, status, error) {
                     console.log("에러 메시지:", xhr.status);
@@ -484,38 +487,43 @@ $(document).ready(function() {
     		     }
     		 }) 
     		 
-
+			//게시판생성하기
 		    $('#boardInsertBtn').click(function() {
 		      let boardName = $('#boardInsertName').val();
+		      let getBoardCountSuper = $("#projectBoardCount").val();
+		      let boardCount = getBoardCountSuper.substring(0, getBoardCountSuper.indexOf(' '));
+			  
+			  if(boardCount > 8){
+				  alert("게시판은 최대 8개 까지만 생성 가능합니다!");
+				  $("#modal").css("display", "none"); 
+				  return;
+			  } else{			  
+			      let boardData = {
+			        projectId: projectId,
+			        boardName: boardName
+			      };
+			      
 			
-		      console.log(projectId);
-
-		      
-		      let boardData = {
-		        projectId: projectId,
-		        boardName: boardName
-		      };
-		
-		      // 서버로 AJAX POST 요청 보내기
-		      $.ajax({
-		    	  url: '/board',
-		    	  type: 'POST',
-		    	  contentType: 'application/json',
-		    	  data: JSON.stringify(boardData),
-		    	  success: function() {
-		    		getBoardCount();
-		    	    console.log('게시판이 성공적으로 추가되었습니다.');
-		    	    alert("게시판이 생성되었습니다.");
-		    	    $("#modal").css("display", "none"); 
-		    	  },
-		    	  error: function() {
-		    	    console.log('게시판 추가에 실패했습니다.');
-		    	    alert("생성 실패!");
-		    	    $("#modal").css("display", "none"); 
-		    	  }
-		      });
+			      // 서버로 AJAX POST 요청 보내기
+			      $.ajax({
+			    	  url: '/board',
+			    	  type: 'POST',
+			    	  contentType: 'application/json',
+			    	  data: JSON.stringify(boardData),
+			    	  success: function() {
+			    		getBoardCount();
+			    	    console.log('게시판이 성공적으로 추가되었습니다.');
+			    	    alert("게시판이 생성되었습니다.");
+			    	    $("#modal").css("display", "none"); 
+			    	  },
+			    	  error: function() {
+			    	    console.log('게시판 추가에 실패했습니다.');
+			    	    alert("생성 실패!");
+			    	    $("#modal").css("display", "none"); 
+			    	  }
+			      });
+			    }
 		    });
-
     	  // 참가자 내쫓아 버리기
     	  $(document).on("click", ".deleteUsersProject", function(e) {
 			  console.log("삭제버튼을 누름");
@@ -554,23 +562,6 @@ $(document).ready(function() {
 			  });
 			});
     	  
-    	// 게시판 생성 
-    	  $("#boardCreateBtn").click(function() {
-
-    	    $.ajax({
-    	      url: "board/" + projectId, //board_id , project_id, board_name;
-    	      type: "POST",
-    	      contentType: "application/json",
-    	      success: function() {
-    	        console.log("게시판 생성");
-    	        alert("게시판이 생성되었습니다.");
-    	      },
-    	      error: function(xhr) {
-    	        console.log("에러 메시지:", xhr.status);
-    	      }
-    	    });
-    	  });
-
     	  // 프로젝트 삭제 (미완)
     	  $("#projectDelteBtn").click(function() {
     	    console.log("프로젝트 삭제 버튼을 누름");
@@ -654,7 +645,7 @@ $(document).ready(function() {
 
                 <div class="d-flex mt-3">
                   <div class="project-input-name">
-                    <label class="form-label">게시글 수</label>
+                    <label class="form-label">게시판 개수</label>
                   </div>
                   <div class="form-group project-input ml-2">
                     <input type="text" class="form-control" id="projectBoardCount" disabled>

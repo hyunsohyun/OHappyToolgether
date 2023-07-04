@@ -7,74 +7,77 @@
 <c:set var="projectId" value="${sessionScope.projectId}" />
 <c:set var="boardList" value="${sessionScope.boardList}" />
 <c:set var="managerId" value="${sessionScope.managerId}" />
+
 <div id="layoutSidenav_nav">
-	<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-		<div class="sb-sidenav-menu">
-			<div class="nav">
+  <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+    <div class="sb-sidenav-menu">
+      <div class="nav">
 
-				<c:if test="${userid != 'anonymousUser'}">
-					<div class="sb-sidenav-menu-heading">Core</div>
-					<a class="nav-link" href="${pageContext.request.contextPath}/projectList.do">
-						<div class="sb-nav-link-icon">
-							<i class="fas fa-tachometer-alt"></i>
-						</div> Project List
-					</a>
-				</c:if>
-				<c:if test="${userid == 'anonymousUser'}">
-					<div class="sb-sidenav-menu-heading">Core</div>
-					<a class="nav-link" href="${pageContext.request.contextPath}/joinForm">
-						<div class="sb-nav-link-icon">
-							<i class="fas fa-tachometer-alt"></i>
-						</div> Member Join<br>
-					</a>
-				</c:if>
+        <c:if test="${userid != 'anonymousUser' && pageContext.request.requestURI != '/projectList.do'}">
+          <div class="sb-sidenav-menu-heading">Core</div>
+          <a class="nav-link" href="${pageContext.request.contextPath}/projectList.do">
+            <div class="sb-nav-link-icon">
+              <i class="fas fa-tachometer-alt"></i>
+            </div> Project List
+          </a>
+        </c:if>
 
-				<c:if test="${projectId != null}">
-					<div class="sb-sidenav-menu-heading">KANBAN</div>
-					<a class="nav-link" href="${pageContext.request.contextPath}/kanban.do">
-						<div class="sb-nav-link-icon">
-							<i class="fas fa-tachometer-alt"></i>
-						</div> kanban (${projectId})
-					</a>
+        <c:if test="${userid == 'anonymousUser' && pageContext.request.requestURI != '/projectList.do'}">
+          <div class="sb-sidenav-menu-heading">Core</div>
+          <a class="nav-link" href="${pageContext.request.contextPath}/joinForm">
+            <div class="sb-nav-link-icon">
+              <i class="fas fa-tachometer-alt"></i>
+            </div> Member Join<br>
+          </a>
+        </c:if>
 
-					<c:if test="${managerId == userid}">
-						<div class="sb-sidenav-menu-heading">PROJECTMANAGEMENT</div>
-						<a class="nav-link" href="${pageContext.request.contextPath}/projectManagement.do">
-							<div class="sb-nav-link-icon">
-								<i class="fas fa-tachometer-alt"></i>
-							</div> Project Management (${projectId})
-						</a>
-					</c:if>
+        <c:if test="${projectId != null && pageContext.request.requestURI != '/projectList.do'}">
+          <div class="sb-sidenav-menu-heading">KANBAN</div>
+          <a class="nav-link" href="${pageContext.request.contextPath}/kanban.do">
+            <div class="sb-nav-link-icon">
+              <i class="fas fa-tachometer-alt"></i>
+            </div> kanban (${projectId})
+          </a>
 
-					<div class="sb-sidenav-menu-heading">Calendar</div>
-					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-						<div class="sb-nav-link-icon">
-							<i class="fas fa-columns"></i>
-						</div> 캘린더
-						<div class="sb-sidenav-collapse-arrow">
-							<i class="fas fa-angle-down"></i>
-						</div>
-					</a>
-					<div class="sb-sidenav-menu-heading" id="boardList">Board List</div>
-					<c:if test="${boardList != null}">
+          <c:if test="${managerId == userid}">
+            <div class="sb-sidenav-menu-heading">PROJECTMANAGEMENT</div>
+            <a class="nav-link" href="${pageContext.request.contextPath}/projectManagement.do">
+              <div class="sb-nav-link-icon">
+                <i class="fas fa-tachometer-alt"></i>
+              </div> Project Management (${projectId})
+            </a>
+          </c:if>
 
-						<c:forEach var="board" items="${boardList}">
-							<a class='nav-link' href='/postList/${board.boardId}'>
-								<div class='sb-nav-link-icon'>
-									<i class='fas fa-table'></i>
-								</div> ${board.boardName}
-								<div class="sb-sidenav-collapse-arrow">
-									<i class="fas fa-angle-down"></i>
-								</div>
-							</a>
-						</c:forEach>
+          <div class="sb-sidenav-menu-heading">Calendar</div>
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+            <div class="sb-nav-link-icon">
+              <i class="fas fa-columns"></i>
+            </div> 캘린더
+            <div class="sb-sidenav-collapse-arrow">
+              <i class="fas fa-angle-down"></i>
+            </div>
+          </a>
 
-					</c:if>
+          <div class="sb-sidenav-menu-heading" id="boardList">Board List</div>
+          <c:if test="${boardList != null}">
+            <c:forEach var="board" items="${boardList}">
+              <a class='nav-link' href='/postList/${board.boardId}'>
+                <div class='sb-nav-link-icon'>
+                  <i class='fas fa-table'></i>
+                </div> ${board.boardName}
+                <div class="sb-sidenav-collapse-arrow">
+                  <i class="fas fa-angle-down"></i>
+                </div>
+              </a>
+            </c:forEach>
+          </c:if>
 
-				</c:if>
+        </c:if>
 
-			</div>
-		</div>
+      </div>
+    </div>
+  </nav>
+</div>
 		<div class="sb-sidenav-footer">
 
 			<c:if test="${userid != 'anonymousUser'}">
@@ -85,5 +88,3 @@
 			<div class="small">Logged in as:</div>
 			${userid}
 		</div>
-	</nav>
-</div>

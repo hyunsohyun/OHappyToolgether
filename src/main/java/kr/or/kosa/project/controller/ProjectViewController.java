@@ -33,6 +33,12 @@ public class ProjectViewController {
 		this.boardService = boardService;
 	}
 	
+	
+	@RequestMapping("/projectManagement.do")
+	public String projectManagementView() throws Exception{
+		return "project/projectManagement";
+	}
+	
 	@RequestMapping(value="/projectList.do")
 	public String projectList(Principal principal, HttpSession session) {
 		System.out.println("projectList으로 이동");
