@@ -21,18 +21,15 @@
 	<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 	<div id="layoutSidenav_content">
 <main>
-    <h1 class="mt-4" id='qwerqwer'>게시판 글쓰기</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="/kanvan.do">칸반보드</a></li>
-        <li class="breadcrumb-item"><a href="/board.do">게시판</a></li>
-        <li class="breadcrumb-item"><a href="/project.do">프로젝트</a></li>
-        <li class="breadcrumb-item"><a href="/loginForm.do">로그아웃</a></li>
-    </ol>
+    <h1 class="mt-4" id='boardTitle'>게시판 글쓰기</h1>
+   
     <form method="post" id="postForm" name="postForm" action="">
     	<input type="hidden" name="projectId" value="${projectId}">
     	<input type="hidden" name="boardId" value="${boardId}">
+	    <div class="form-group">
+	      <input type="text" class="form-control" id="boardName" value="${boardName}" readonly>
+	    </div>
         <div class="form-group">
-            <label for="Input">제목</label>
             <input type="input" class="form-control" id="Input" name="title" placeholder="제목을 입력해주세요">
         </div>
         
@@ -51,7 +48,7 @@
             <input type="button" onclick="window.location.href='<%=request.getContextPath()%>/postList/${projectId}/${boardId}'" value="취소" class="btn btn-info">
         </div>
     </form>
-
+	
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     
