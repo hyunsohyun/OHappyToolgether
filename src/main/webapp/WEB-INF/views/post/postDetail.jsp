@@ -95,17 +95,16 @@
 				
 				<!-- file존 -->
 				<div id="files" class="mb-3">
-					<table >
-						<c:forEach var="fileList" items="${fileList}">
-							<tr>
-								<td>${fileList.fileId}</td>
-								<td>${fileList.postId}</td>
-								<td>${fileList.realFileName}</td>
-								<td>${fileList.filePath}</td>
-								<td>${fileList.boardId}</td>
-							</tr>
-						</c:forEach>
-					</table>
+					<c:forEach var="fileList" items="${fileList}">
+						<span><a href="/file/download/${fileList.postId}/${fileList.fileId}">${fileList.realFileName}</a></span><br>
+						<%-- <tr>
+							<td>${fileList.fileId}</td>
+							<td>${fileList.postId}</td>
+							<td>${fileList.realFileName}</td>
+							<td>${fileList.filePath}</td>
+							<td>${fileList.boardId}</td>
+						</tr> --%>
+					</c:forEach>
 				</div>
 				
 				<!-- content존 -->

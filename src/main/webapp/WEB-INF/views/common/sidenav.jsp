@@ -60,7 +60,7 @@
 					<c:if test="${boardList != null}">
 
 						<c:forEach var="board" items="${boardList}">
-							<a class='nav-link' href='/postList.do?boardId=${board.boardId}'>
+							<a class='nav-link' href='/postList/${board.boardId}'>
 								<div class='sb-nav-link-icon'>
 									<i class='fas fa-table'></i>
 								</div> ${board.boardName}
