@@ -94,12 +94,12 @@
             <input type="text" class="form-control" id="managerId" name="managerId" value="${userid}" disabled>
           </div>
           <div class="mb-3">
-            <label for="projectName" class="col-form-label">프로젝트명:</label>
-            <input type="text" class="form-control" id="projectName" name="projectName">
+            <label for="recipient-name" class="col-form-label">프로젝트명:</label>
+            <input type="text" class="form-control" id="projectName">
           </div>
           <div class="mb-3">
-            <label for="projectImage" class="col-form-label">프로젝트파일:</label>
-            <input type="file" class="form-control" id="projectImage" name="projectImage"></input>
+            <label for="message-text" class="col-form-label">프로젝트파일:</label>
+            <input type="file" class="form-control" id="projectImage"></input>
           </div>
         </form>
       </div>
@@ -115,6 +115,8 @@
 		<script src="js/datatables-simple-demo.js"></script>
 
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+	</div>
+	</div>
 	
 	<script src="js/scripts.js"></script>
 	<script type="text/javascript">
@@ -123,13 +125,13 @@
 		console.log($("#managerId").val());
 		$("#insertBtn").on('click', function(event) {
 		      event.preventDefault(); // 폼 기본 동작 방지
-		      console.log("#insertBtn 클릭 이벤트 발생");		      
+		      console.log("#insertBtn 클릭 이벤트 발생");
 		      var formData = {
 		        "managerId": $("#managerId").val(),
 		        "projectName": $("#projectName").val(),
 		        //"projectImage": $("#projectImage").val() + $('#projectImage')[0].files[0].name 추후 작업
 		      };
-		
+
 		      $.ajax({
 		        url: "${pageContext.request.contextPath}/insertProject",
 		        type: "POST",
@@ -143,10 +145,10 @@
 	                timer: 1500
 	              });
 		          //uploadImg(); 추후 작업
-		          
+
 		          setTimeout(function() {
 		            	window.location.href = "/projectList.do";
-					}, 1500); 
+					}, 1500);
 		        },
 		        error: function(xhr, status, error) {
 		        	Swal.fire({
@@ -158,17 +160,17 @@
 		            })
 		            setTimeout(function() {
 		            	window.location.href = "/projectList.do";
-					}, 1500); 
+					}, 1500);
 		        }
 		      });
 		    });
 		  });
-		  
+
 		  function uploadImg() {
 			  var data = new FormData();
 			  let file = $('#projectImage')[0].files[0];
 			  data.append('uploadFile', file);
-	
+
 			  $.ajax({
 			    url: "${pageContext.request.contextPath}/file/projectimg/upload",
 			    type: "POST",
@@ -191,7 +193,6 @@
 			  });
 			}
 	</script>
-
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
