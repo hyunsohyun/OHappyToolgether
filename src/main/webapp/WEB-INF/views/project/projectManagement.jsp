@@ -354,52 +354,97 @@ $(document).ready(function() {
     	    });
     	  });
 
-    	  // 검색으로 받은 Users값에 따른 표시
-    	  function addUserToTable(user) {
-    	    let tableBody = $("#userTableBody");
-    	    tableBody.empty();
+			// 검색으로 받은 Users값에 따른 표시
+			function addUserToTable(user) {
+			  let tableBody = $("#userTableBody");
+			  tableBody.empty();
+			
+			  if (Array.isArray(user)) {
+			    for (let i = 0; i < user.length; i++) {
+			      let currentUser = user[i];
+			      let row = $("<tr>");
+			
+			      let nameCell = $("<td>").text(currentUser.name);
+			      row.append(nameCell);
+			
+			      let userIdCell = $("<td>").text(currentUser.userid);
+			      row.append(userIdCell);
+			
+			      let hasMatch = false;
+			      $.ajax({
+			        url: "member/users/" + projectId,
+			        type: "GET",
+			        contentType: "application/json",
+			        success: function(response) {
+			          for (let j = 0; j < response.length; j++) {
+			            if (response[j].userid === currentUser.userid) {
+			              hasMatch = true;
+			              break;
+			            }
+			          }
+			          if (!hasMatch) {
+			            let inviteButtonCell = $("<td>");
+			            let inviteButton = $("<a>").addClass("btn btn-outline-primary userInvite").text("초대");
+			            inviteButtonCell.append(inviteButton);
+			            row.append(inviteButtonCell);
+			          } else {
+			            let notAvailableCell = $("<td>").text("초대 불가").css("color", "red");
+			            row.append(notAvailableCell);
+			          }
+			          tableBody.append(row);
+			        },
+			        error: function(xhr, status, error) {
+			          console.log("에러 메시지:", xhr.status);
+			        }
+			      });
+			    }
+			  } else {
+			    if (user.userid == null) {
+			      tableBody.text("검색 결과가 없습니다.");
+			    } else {
+			      if (user.userid !== "") {
+			        let row = $("<tr>");
+			
+			        let nameCell = $("<td>").text(user.name);
+			        row.append(nameCell);
+			
+			        let userIdCell = $("<td>").text(user.userid);
+			        row.append(userIdCell);
+			
+			        let hasMatch = false;
+			        $.ajax({
+			          url: "member/users/" + projectId,
+			          type: "GET",
+			          contentType: "application/json",
+			          success: function(response) {
+			            for (let i = 0; i < response.length; i++) {
+			              if (response[i].userid === user.userid) {
+			                hasMatch = true;
+			                break;
+			              }
+			            }
+			            if (!hasMatch) {
+			              let inviteButtonCell = $("<td>");
+			              let inviteButton = $("<a>").addClass("btn btn-outline-primary userInvite").text("초대");
+			              inviteButtonCell.append(inviteButton);
+			              row.append(inviteButtonCell);
+			            } else {
+			              let notAvailableCell = $("<td>").text("초대 불가").css("color", "red");
+			              row.append(notAvailableCell);
+			            }
+			            tableBody.append(row);
+			          },
+			          error: function(xhr, status, error) {
+			            console.log("에러 메시지:", xhr.status);
+			          }
+			        });
+			      }
+			    }
+			  }
+			}
 
-    	    if (Array.isArray(user)) {
-    	      for (let i = 0; i < user.length; i++) {
-    	        let currentUser = user[i];
-    	        let row = $("<tr>");
 
-    	        let nameCell = $("<td>").text(currentUser.name);
-    	        row.append(nameCell);
 
-    	        let userIdCell = $("<td>").text(currentUser.userid);
-    	        row.append(userIdCell);
-
-    	        let inviteButtonCell = $("<td>");
-    	        let inviteButton = $("<a>").addClass("btn btn-outline-primary userInvite").text("초대");
-    	        inviteButtonCell.append(inviteButton);
-    	        row.append(inviteButtonCell);
-
-    	        tableBody.append(row);
-    	      }
-    	    } else {
-    	      if (user.userid == null) {
-    	        tableBody.text("검색 결과가 없습니다.");
-    	      } else {
-    	        if (user.userid !== "") {
-    	          let row = $("<tr>");
-
-    	          let nameCell = $("<td>").text(user.name);
-    	          row.append(nameCell);
-
-    	          let userIdCell = $("<td>").text(user.userid);
-    	          row.append(userIdCell);
-
-    	          let inviteButtonCell = $("<td>");
-    	          let inviteButton = $("<a>").addClass("btn btn-outline-primary userInvite").text("초대");
-    	          inviteButtonCell.append(inviteButton);
-    	          row.append(inviteButtonCell);
-
-    	          tableBody.append(row);
-    	        }
-    	      }
-    	    }
-    	  }
 
     	 	//초대하기 기능
 			$(document).on("click", ".userInvite", function(e) {
@@ -416,15 +461,7 @@ $(document).ready(function() {
 			        url: "project/" + userId,
 			        type: "GET",
 			        contentType: "application/json",
-			        success: function(response) {
-			            for (let i = 0; i < response.length; i++) {
-			                if (response[i].projectId == projectId) {
-			                    console.log("이미 초대한 유저입니다.");
-			                    alert("이미 초대한 유저입니다.");
-			                    return;
-			                }
-			            }
-			            
+			        success: function(response) {			            
 			            $.ajax({
 			                url: "project/" + projectId + "/" + userId,
 			                type: "POST",
@@ -606,6 +643,7 @@ $(document).ready(function() {
 			      alert("추방되었습니다.");
 			      updateProjectParticipantsAsync();
 			      getUsers(currentPage, pageSize); // 페이징 처리 유지
+			      
 			    },
 			    error: function(xhr) {
 			      console.log("에러 메시지:", xhr.status);
