@@ -23,6 +23,7 @@
 				<div class="container mt-2" id="projectContainer">
 					<!-- 프로젝트 카드영역-->
 					<c:set var="colNum" value='4' />
+					<c:set var="length" value='${fn:length(projectList)}'/>
 					<c:forEach var="item" items="${projectList}" begin="0" varStatus="status">
 						<c:if test="${status.index%colNum == 0}">
 							<div class='row mt-5'>
@@ -44,7 +45,32 @@
 						<c:if test="${status.index%colNum == colNum-1}">
 							</div>
 						</c:if>
-					</c:forEach>
+						<c:if test="${status.last}">
+						
+							<c:if test="${length%colNum == 0}">
+								<div class='row mt-5'>
+							</c:if>
+							
+								<div class="col-sm-3">
+									<div class="card border-dark shadow mb-5 rounded">
+										<div class="card-header">새 프로젝트 추가</div>
+										<div class="card-body">
+											<div id="insertProject">
+												<label class="form-label mt-1">프로젝트를 추가하려면 클릭하세요</label>
+											</div>
+											<div class="form-group d-flex">
+												<img src='/assets/img/add-button.png' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
+											</div>											
+										</div>
+									</div>
+								</div>						
+							
+							<c:if test="${length%colNum == 0}">
+								</div>
+							</c:if>
+						</c:if>
+											
+					</c:forEach>		
 				</div>
 			</main>
 		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
@@ -53,7 +79,28 @@
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 	</div>
 	</div>
-	<script src="js/scripts.js"></script>
+	<script src="js/scripts.js">
+		$("#insertProject").click(function(){
+		    $.ajax({
+		      url: '/insertProject',
+		      type: 'POST',
+		      success: function(data) {
+		        // This function is called if the request succeeds.
+		        // 'data' is the data returned from the server.
+		        // You can add code here to handle the returned data.
+		        console.log('Request succeeded. Returned data: ' + data);
+		      },
+		      error: function(xhr, status, error) {
+		        // This function is called if the request fails.
+		        // 'xhr' is the XMLHttpRequest object, 'status' is the status code,
+		        // 'error' is the error message.
+		        // You can add code here to handle the error.
+		        console.log('Request failed. Status: ' + status + '. Error: ' + error);
+		      }
+		    });
+		  });
+	
+	</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
