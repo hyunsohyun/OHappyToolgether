@@ -11,8 +11,8 @@
 		<!-- <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER, ROLE_ADMIN')" /> -->
 
 		<security:form-login login-page="/loginForm"
-							 default-target-url="/"
-							 authentication-failure-url="/member/loginForm.do?error"
+							 default-target-url="/projectList.do"
+							 authentication-failure-url="/loginForm?error"
 							  username-parameter="userid"/>
 		<security:logout logout-url="/logout" logout-success-url="/" />
 

@@ -28,14 +28,14 @@
 							<div class='row mt-5'>
 						</c:if>
 						<div class="col-sm-3">
-							<div class="card border-dark mb-3 projectinfo">
+							<div class="card border-dark projectinfo shadow mb-5 rounded">
 								<div class="card-header projectinfo-header bg-warning">project id : ${item.projectId}</div>
 								<div class="card-body">
 									<div>
 										<label class="form-label mt-1">${item.projectName}</label>
 									</div>
 									<div class="form-group d-flex">
-										<img src='${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
+										<img src='/assets/img/${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
 									</div>
 									<a href='projectDetail.do/${item.projectId}' class="btn btn-danger float-end">시작</a>
 								</div>
