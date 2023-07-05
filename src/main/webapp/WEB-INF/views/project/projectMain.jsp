@@ -193,7 +193,7 @@ $(document).ready(function() {
 		};
 
 
-        // 게시글 수 가져오기
+        // 게시판 수 가져오기
         let getBoardCount = function() {
             $.ajax({
                 url: "board/" + projectId,
@@ -203,7 +203,7 @@ $(document).ready(function() {
                     let boardCount = response.length;
 
                     let projectBoardCount = $("#projectBoardCount");
-                    projectBoardCount.val(boardCount + " 개의 게시글");
+                    projectBoardCount.val(boardCount + " 개의 게시판");
                 },
                 error: function(xhr, status, error) {
                     console.log("에러 메시지:", xhr.status);
@@ -294,24 +294,6 @@ $(document).ready(function() {
 		        }
 		    });
 		};
-		
-		let getBoardCount = function() {
-            $.ajax({
-                url: "board/" + projectId,
-                type: "GET",
-                contentType: "application/json",
-                success: function(response) {
-                    let boardCount = response.length;
-
-                    let projectBoardCount = $("#projectBoardCount");
-                    projectBoardCount.val(boardCount + " 개의 게시글");
-                },
-                error: function(xhr, status, error) {
-                    console.log("에러 메시지:", xhr.status);
-                }
-            });
-        };
-
 
 }); 
 </script>
@@ -372,7 +354,7 @@ $(document).ready(function() {
 
                 <div class="d-flex mt-3">
                   <div class="project-input-name">
-                    <label class="form-label">게시글 수</label>
+                    <label class="form-label">게시판 개수</label>
                   </div>
                   <div class="form-group project-input ml-2">
                     <input type="text" class="form-control" id="projectBoardCount" disabled>
