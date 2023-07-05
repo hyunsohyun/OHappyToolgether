@@ -602,8 +602,8 @@ $(document).ready(function() {
 				      var imageUrl = "../resource/projectimg/" + projectId + encodedFileName; // 이미지 경로
 				      console.log(imageUrl);
 				      $('#projectMainImage2').attr('src', imageUrl)
-                      .css('width', '420px')
-                      .css('height', '340px'); 
+                      .css('width', '100%')
+                      .css('height', 'auto'); 
 				    },
 				    error: function(xhr, status, error) {
 				      alert("이미지 파일 업로드에 실패하였습니다. 오류: " + xhr.responseText);
@@ -613,7 +613,7 @@ $(document).ready(function() {
 				  });
 				});
 
-    		 
+    		 //프로젝트 생성
     		 $('#boardInsertBtn').click(function() {
    			  let boardName = $('#boardInsertName').val();
    			  let getBoardCountSuper = $("#projectBoardCount").val();
@@ -706,22 +706,36 @@ $(document).ready(function() {
     	  
     	  // 프로젝트 삭제 (미완)
     	  $("#projectDelteBtn").click(function() {
-    	    console.log("프로젝트 삭제 버튼을 누름");
+  		    console.log("프로젝트 삭제 버튼을 누름");
 
-    	    $.ajax({
-    	      url: "project/" + projectId,
-    	      type: "DELETE",
-    	      contentType: "application/json",
-    	      success: function() {
-    	        console.log("프로젝트 삭제");
-    	        alert("프로젝트가 삭제되었습니다.");
-    	        location.href = "/projectlist";
-    	      },
-    	      error: function(xhr) {
-    	        console.log("에러 메시지:", xhr.status);
-    	      }
-    	    });
-    	  });
+  		    $.ajax({
+  		        url: "project/delete/" + projectId,
+  		        type: "DELETE",
+  		        contentType: "application/json",
+  		        success: function() {
+  		            console.log("프로젝트 삭제");
+  		            alert("프로젝트가 삭제되었습니다.");
+  		             $.ajax({
+				          url: '/projectDetail.do',
+				          type: 'GET',
+				          success: function() {
+				            console.log('프로젝트 상세 정보를 성공적으로 가져왔습니다.');
+							window.location.reload();
+				          },
+				          error: function() {
+				            console.log('프로젝트 상세 정보 가져오기에 실패했습니다.');
+				          }
+				        }); 
+							location.href = "/projectList.do";
+  		        },
+  		        error: function(xhr) {
+  		            console.log("에러 메시지:", xhr.status);
+  		        }
+  		    });
+  		}); 
+    	  
+
+
 		}); 
 </script>
 
@@ -732,7 +746,7 @@ $(document).ready(function() {
     <div id="layoutSidenav_content">
       <main>
         <div class="projectManagementTitle">
-			<h1>Context Path: <%= request.getContextPath() %></h1>        
+			<h1>프로젝트 관리자</h1>        
 		</div>
 
         <div class="projectinfo-container">
@@ -803,16 +817,18 @@ $(document).ready(function() {
 				    <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
 				  </div>
 				  <div>
-					<img src="/resource/projectimg/${project.projectImage} " id="projectMainImage2" class="img-fluid img-fixed-size" style="width:420px; height : 340px;">
+					<img src="/resource/projectimg/${project.projectImage} " id="projectMainImage2" class="img-fluid img-fixed-size" style="width:100%; height : auto;">
 				  </div>
 				  <div class="d-flex">
 				    <!--프로필사진파일 업로드 -->
 				    <div class="form-group">
-				      <input type="file" class="form-control" id="projectMainImage" value="${project.projectImage}">
-				      <button type="button" id="projectImageInsertBtn" class="btn btn-primary">프로젝트 이미지 변경</button>
+				
+				    		 <input type="file" class="form-control" id="projectMainImage" value="${project.projectImage}">				  
+				    		<button type="button" id="projectImageInsertBtn" class="btn btn-primary mt-2">이미지 변경</button>
+				    	  
 				    </div>
 				  </div>
-				</div>
+			  </div>
 
             </div>
           </div>
@@ -869,7 +885,7 @@ $(document).ready(function() {
               <div id="pagination"></div>
             </div>
           </div>          
-		    <div id="modal" class="modal-overlay" style="display: none;">
+		  <div id="modal" class="modal-overlay" style="display: none;">
 		        <div class="modal-window">
 		            <div class="title">
 		                <h2>게시판 생성</h2>
@@ -885,15 +901,19 @@ $(document).ready(function() {
 		                      <button type="button" class="btn btn-primary ml-2" id="boardInsertBtn">게시판 생성</button>
 		                    </div>		                    
 		                  </div>
-		            </div>
 		        </div>
-		    </div>
-        </div>
-
-      </div>
+	      </div>
+	    </div>
+      </main>
     </div>
-</main>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+
+   
+	
+	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+   </div>
+   
+
 </body>
+
 
 

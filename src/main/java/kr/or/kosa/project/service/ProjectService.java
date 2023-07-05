@@ -115,6 +115,19 @@ public class ProjectService {
 		return result;
 	}
 	
+	public int deleteAllUsersProject(int projectId) {
+		int result = 0;
+		ProjectDao dao = sqlsession.getMapper(ProjectDao.class);
+		System.out.println("ProjectDao 맵퍼 가져옴");			
+		try {			
+			result = dao.deleteAllUsersProject(projectId);
+			System.out.println("deleteUsersProject 처리함");
+		} catch (Exception e) {
+			e.getStackTrace();
+		}		
+		return result;
+	}
+	
 	//프로젝트 이름변경
 	public int updateProjectName(Project project) {
 		ProjectDao dao = sqlsession.getMapper(ProjectDao.class);

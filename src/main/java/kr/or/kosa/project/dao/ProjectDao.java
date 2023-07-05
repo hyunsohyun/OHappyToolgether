@@ -12,6 +12,7 @@ public interface ProjectDao {
 	public int deleteProject(String projectId);
 	public int insertUsersProject(UsersProject usersProject);
 	public int deleteUsersProject(UsersProject usersProject);
+	public int deleteAllUsersProject(int projectId);
 	
 	//프로젝트명 변경
 	public int updateProjectName(Project project);
