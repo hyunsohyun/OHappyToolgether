@@ -218,7 +218,12 @@
 		})
 		.catch(function(error) {
 			console.error('ERROR:', error);
-			alert('파일 업로드 실패');
+			Swal.fire({
+	                icon: 'error',
+	                title: '파일 업로드 실패',  	                
+	                showConfirmButton: false,
+	                timer: 3000
+	            })  
 		});
 	}
 	
