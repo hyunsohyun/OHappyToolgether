@@ -16,9 +16,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		project where project_id = #{project_id}
 	</select>
 	
-	<insert id="insertProject" parameterType="kr.or.kosa.project.vo.Project">
+	<insert id="insertProject" parameterType="kr.or.kosa.project.vo.Project" useGeneratedKeys="true" keyProperty="projectId">
+		<selectKey keyProperty="projectId" resultType="int" order="BEFORE">
+			SELECT PROJECT_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO project(project_id, project_name, project_image, manager_id)
-		VALUES (PROJECT_SEQ.NEXTVAL, #{projectName}, #{projectImage}, #{managerId})
+		VALUES (#{projectId}, #{projectName}, #{projectId} || #{projectImage}, #{managerId})
 	</insert>
 	
 	<delete id="deleteProject">
