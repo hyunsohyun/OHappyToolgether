@@ -31,9 +31,9 @@
 			aria-expanded="false">
 			<i class="fas fa-user fa-fw"></i></a>
 			<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-				<li style="display: flex; justify-content: center;"><img style="width:130px;" src="/resource/users/${userImage}"/></li>
+				<li style="display: flex; justify-content: center;"><img style="width:130px;border-radius: 50%;" src="/resource/users/${userImage}"/></li>
+				<br>
 				<li><a class="dropdown-item" href="${pageContext.request.contextPath}/editForm">Edit Profile</a></li>
-				<li><a class="dropdown-item" href="#!">Activity Log</a></li>
 				<li><hr class="dropdown-divider" /></li>
 				<li class="text-center"><form action="/logout" method="POST">
 					<button type='submit' class='dropdown-item'>Logout</button>

@@ -97,7 +97,7 @@
 				
 				<!-- file존 -->
 				<c:forEach var="fileList" items="${fileList}">
-					<div id="files" class="mb-3 w-75" style="background-color: #f5f5f5; padding: 10px;">
+					<div id="files" class="mb-3 mx-3 float-end rounded" style="background-color: #f5f5f5; padding: 10px;">
 			            <i class="fa-solid fa-file" style="color: gray;"></i>&nbsp;
 			            <a href="/file/download/${fileList.postId}/${fileList.fileId}" style="text-decoration: none; color: #333;">${fileList.realFileName}</a>
 					</div>
@@ -121,7 +121,7 @@
 										<tr>
 											<td rowspan="3" style="width:10%;"><img src="https://www.hsh"/></td>
 											<td style="width:70%;"><span style="font-weight: bold;">${comment.writerId}</span></td>
-											<td rowspan="3" style="width: 20%;">
+											<td rowspan="3" Cstyle="width: 20%;">
 												<c:if test="${sessionScope.userid eq 'comment.writerId'}">
 													<input type='button' value='삭제' class="btn btn-light" onclick='ㅊ(this)'>
 													<input type='button' value='수정' class="btn btn-light" onclick='commentDelete(this)'>
@@ -161,7 +161,7 @@
 				</div>
 				
 				<!-- 글수정 삭제 -->
-				<div id="writerMode">
+				<div id="writerMode" class="mb-5">
 					<div style="display: flex; justify-content: space-between;">
 					 	<div class="right"></div>
 						<c:if test="${userid == post.userid}">
@@ -176,12 +176,14 @@
 				
 				</div>
 			</main>
+			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 			</div>
 			</div>
 				
 			
 			
-		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+		
+		
 	<script src="/js/scripts.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 				
@@ -250,7 +252,7 @@
 		    data.forEach(value => {
 		      let str = '';
 		      str += '<tr style="width:100%;">';
-		      str += '<td rowspan="3" style="width:10%;text-align: center;"><img style="width:50px;" src="/resource/users/' + value.writerImage + '"/></td>';
+		      str += '<td rowspan="3" style="width:10%;text-align: center;"><img style="width:50px; border-radius: 50%;" src="/resource/users/' + value.writerImage + '"/></td>';
 		      str += '<td style="width:75%;"><span style="font-weight: bold;">' + value.writerId + '</span></td>';
 		      str += '<td rowspan="3" style="width: 15%;">';
 		      str += (value.writerId === '${userid}') ? '<input type="button" class="btn btn-light" value="수정" onclick="commentUpdateMode(' + value.commentId + ', this)"><input type="button" class="btn btn-light" value="삭제" onclick="commentDelete(' + value.commentId + ')">' : '';
@@ -258,7 +260,7 @@
 		      str += '<tr style="width:80%;"><td id="'+ value.commentId +'">' + value.content + '</td></tr>';
 		      str += '<tr style="width:10%;"><td><span style="color: gray;">';
 		      str += (value.modifyDate !== null) ? value.modifyDate : value.createDate;
-		      str += '</span></td></tr>';
+		      str += '</span></td></tr><tr><td>&nbsp;</td></tr>';
 		      
 		      $('#commentList').append(str);
 		    });

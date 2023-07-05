@@ -84,21 +84,16 @@ public class FileService{
 	}
 	
 	//파일삭제
-	public FileInfo fileDelete(FileInfo File){
+	public int fileDelete(FileInfo File){
+		int result = 0;
 		try {
 			FileDao filedao = sqlsession.getMapper(FileDao.class);
-			int n = filedao.fileDelete(File);
-			if(n>0) {
-				System.out.println("파일삭제 성공");
-			}else {
-				System.out.println("파일삭제 실패 ");
-			}
+			result = filedao.fileDelete(File);
 		}catch (Exception e) {
 			System.out.println("오류발생");
 			System.out.println(e.getMessage());
 		}
-
-		return File;
+		return result;
 	}
 	
 }
