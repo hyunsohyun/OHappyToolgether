@@ -99,7 +99,7 @@
 									<label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
 								</div>
 								<div>
-									<img src="assets/img/tiger.png" height="270" width="270"
+									<img src="/resource/projectimg/${sessionScope.project.projectImage}" height="270" width="270"
 										class="img-fluid">
 								</div>
 							</div>

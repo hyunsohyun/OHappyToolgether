@@ -337,7 +337,7 @@
 		<div id="layoutSidenav_content">
 		
 			<main class="bg-trello-mountain">
-				<div class="container" id="projectContainer">
+				<div class="container-xxl" id="projectContainer">
 <!-- 칸반 영역-->
 <div class="kanban-root">
     <div class="kanban-root-content" style="display: none;">
