@@ -50,8 +50,8 @@
 							<div class='row mt-5'>
 						</c:if>
 						<div class="col-sm-3">
-							<div class="card border-dark projectinfo shadow mb-5 rounded">
-								<div class="card-header projectinfo-header bg-warning">Project ID : ${item.projectId}</div>
+							<div class="card border-dark projectinfo shadow mb-5 rounded" onclick="window.location.href ='projectDetail.do/${item.projectId}'" style="cursor :pointer" >
+								<%-- <div class="card-header projectinfo-header bg-warning">Project ID : ${item.projectId}</div> --%>
 								<div class="card-body">
 									<div>
 										<label class="form-label mt-1">${item.projectName}</label>
@@ -59,7 +59,7 @@
 									<div class="form-group d-flex">
 										<img src='/resource/projectimg/${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
 									</div>
-									<a href='projectDetail.do/${item.projectId}' class="btn btn-danger float-end">시작</a>
+									<%-- <a href='projectDetail.do/${item.projectId}' class="btn btn-danger float-end">시작</a> --%>
 								</div>
 							</div>
 						</div>
@@ -73,8 +73,8 @@
 							</c:if>
 							
 								<div class="col-sm-3">
-									<div class="card border-dark shadow mb-5 rounded">
-										<div class="card-header bg-secondary">새 프로젝트 추가</div>
+									<div class="card border-dark shadow mb-5 rounded" style="cursor :pointer">
+										<!-- <div class="card-header bg-secondary">새 프로젝트 추가</div> -->
 										<div class="card-body" id="insertProject" data-bs-toggle="modal" data-bs-target="#projectForm">
 											<div>
 												<label class="form-label mt-1">프로젝트를 추가하려면 클릭하세요</label>
@@ -135,9 +135,7 @@
 	
 	<script src="js/scripts.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function(){
-		console.log("문서로드완료");
-		console.log($("#managerId").val());
+	$(document).ready(function(){		
 		$("#insertBtn").on('click', function(event) {
 		      event.preventDefault(); // 폼 기본 동작 방지
 		      console.log("#insertBtn 클릭 이벤트 발생");
@@ -156,7 +154,7 @@
 		        success: function(response) {
 	        	  Swal.fire({
 	                icon: 'success',
-	                title: '수정 완료',
+	                title: '생성 완료',
 	                showConfirmButton: false,
 	                timer: 1500
 	              });
@@ -171,14 +169,14 @@
 		        error: function(xhr, status, error) {
 		        	Swal.fire({
 		                icon: 'error',
-		                title: '수정 실패',
+		                title: '생성 실패',
 		                text: '오류 : ' + xhr.responseText,
 		                showConfirmButton: false,
 		                timer: 1500
 		            })
-		            /* setTimeout(function() {
+		            setTimeout(function() {
 		            	window.location.href = "/projectList.do";
-					}, 1500); */
+					}, 1500);
 		        }
 		      });
 		    });

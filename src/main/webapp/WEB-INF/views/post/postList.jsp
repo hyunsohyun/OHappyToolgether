@@ -78,14 +78,13 @@
 			<script type="text/javascript">
 			
 				$(document).ready(function() {
-					console.log(1);
 					// Korean
 					var lang_kor = {
 						"decimal" : "",
 						"emptyTable" : "데이터가 없습니다.",
 						"info" : "_START_ - _END_ (총 _TOTAL_ 개)",
-						"infoEmpty" : "0명",
-						"infoFiltered" : "(전체 _MAX_ 명 중 검색결과)",
+						"infoEmpty" : "0건",
+						"infoFiltered" : "(전체 _MAX_ 건 중 검색결과)",
 						"infoPostFix" : "",
 						"thousands" : ",",
 						"lengthMenu" : "_MENU_ 개씩 보기",
@@ -108,7 +107,6 @@
 					const datatablesSimple = $('#datatablesSimple');
 
 					if (datatablesSimple.length) {  // jQuery 객체의 length 속성으로 확인
-						console.log(2);
 						datatablesSimple.DataTable( {
 							// options here
 							// data: dataSet,
@@ -124,7 +122,11 @@
 							]
 						} );
 					}
-			
+
+				$("#datatablesSimple").on('mouseover', 'tbody tr', function() {
+					  $(this).css('cursor', 'pointer');
+				});
+				
 				$("#datatablesSimple").on('click', 'tbody tr', function() {
 					// let postId = $(this).children().eq(0).text();
 					// //let postId = $(this).children().eq(0).attr("id");

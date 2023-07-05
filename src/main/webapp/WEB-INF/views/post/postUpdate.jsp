@@ -22,7 +22,7 @@
 	<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 	<div id="layoutSidenav_content">
 <main class="container mt-4">
-	<h3 class="mt-4" id='qwerqwer'>게시글 수정</h3>
+<h3 class="mt-4" id='qwerqwer'>게시판 수정하기</h3>
     <ol class="breadcrumb mb-4">
     	<li class="breadcrumb-item"><a href="/projectDetail.do/${projectId}">${project.projectName}</a></li>
 		<li class="breadcrumb-item active"><a href="<%=request.getContextPath()%>/postList/${boardId}">${boardName}</a></li>
@@ -32,8 +32,8 @@
     	<input type="hidden" name="projectId" value="${post.projectId}">
     	<input type="hidden" name="boardId" value="${post.boardId}">
         <div class="form-group">
-            <label for="Input">제목</label>
-            <input type="input" class="form-control" id="title" name="title" value="${post.title}">
+            <!-- <label for="Input">제목</label> -->
+            <input type="input" class="form-control" id="title" name="title" value="${post.title}" placeholder="제목">
         </div>
         
         <div class="form-group">
@@ -56,7 +56,7 @@
 
         <div class="text-right">
             <!-- <input type="submit" value="글쓰기" class="btn btn-info"> -->
-            <input type="button" onclick="updatePost()" value="수정하기" class="btn btn-info">
+            <input type="button" onclick="updatePost()" value="저장" class="btn btn-info">
             <input type="button" onclick="window.location.href='<%=request.getContextPath()%>/postDetail/${post.boardId}/${post.postId}'" value="취소" class="btn btn-info">
         </div>
     </form>

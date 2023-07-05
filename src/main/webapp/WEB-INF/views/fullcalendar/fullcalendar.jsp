@@ -168,7 +168,7 @@ $(document).ready(async function() {
             navLinks: true, // can click day/week names to navigate views
             editable: true,
             // Create new event
-            select: function (arg) {
+            select: function (arg) {/* 
                 Swal.fire(
                     {
                         html: "<div class='mb-7'>일정을 추가하시겠습니까?</div><div class='fw-bold mb-5'>Event Name:</div><input type='text' class='form-control' name='event_name' />",
@@ -210,46 +210,14 @@ $(document).ready(async function() {
                                         }
                                     });
                             }
-                        });
+                        }); */
             },
 
             // Delete event
             eventClick: function (arg) {
-                /* Swal.fire({
-                    text: "Are you sure you want to delete this event?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
-                        arg.event.remove()
-                    } else if (result.dismiss === "cancel") {
-                        Swal.fire({
-                            text: "Event was not deleted!.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn btn-primary",
-                            }
-                        });
-                    }
-                }); */
-                console.log(arg);
-                console.log(arg.event._def);
                 let cardInfo = arg.event._def;
-                /* alert(cardInfo.title); */
-                popup(cardInfo);
-
             },
-            dayMaxEvents: true, // allow "more" link when too many events
-            // 이벤트 객체 필드 document : https://fullcalendar.io/docs/event-object
+            dayMaxEvents: true, 
             events: cardData
         });
 
@@ -262,16 +230,9 @@ $(document).ready(async function() {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     //console.log(1);
-    
+    po
 });
 
-function popup(eventDetail) {
-    var url = "calendardetail.do?eventtitle="
-        + eventDetail.title;
-    var name = "popup test";
-    var option = "width = 500, height = 500, top = 100, left = 200, location = no"
-    window.open(url, name, option);
-}
 </script>
 
             <!-- fullcalendar -->
