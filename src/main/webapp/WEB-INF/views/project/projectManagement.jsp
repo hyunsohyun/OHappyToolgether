@@ -613,7 +613,7 @@ $(document).ready(function() {
 				  });
 				});
 
-    		 
+    		 //프로젝트 생성
     		 $('#boardInsertBtn').click(function() {
    			  let boardName = $('#boardInsertName').val();
    			  let getBoardCountSuper = $("#projectBoardCount").val();
@@ -705,7 +705,7 @@ $(document).ready(function() {
 			});
     	  
     	  // 프로젝트 삭제 (미완)
-    	  $("#projectDelteBtn").click(function() {
+    	   $("#projectDelteBtn").click(function() {
     		    console.log("프로젝트 삭제 버튼을 누름");
 
     		    $.ajax({
@@ -715,24 +715,27 @@ $(document).ready(function() {
     		        success: function() {
     		            console.log("프로젝트 삭제");
     		            alert("프로젝트가 삭제되었습니다.");
-    		            $.ajax({
-  				          url: '/projectDetail.do/' + projectId,
+    		            alrer("메인페이지로 이동합니다.");
+    		             $.ajax({
+  				          url: '/projectDetail.do',
   				          type: 'GET',
   				          success: function() {
-  				            console.log('프로젝트 삭제성공');
+  				            console.log('프로젝트 상세 정보를 성공적으로 가져왔습니다.');
   							window.location.reload();
   				          },
   				          error: function() {
-  				            console.log('프로젝트 삭제실패');
+  				            console.log('프로젝트 상세 정보 가져오기에 실패했습니다.');
   				          }
-  				        });
-    		            location.href = "/projectlist.do";
+  				        }); 
+    		            location.href = "/";
     		        },
     		        error: function(xhr) {
     		            console.log("에러 메시지:", xhr.status);
     		        }
     		    });
-    		});
+    		}); 
+    	  
+
 
 		}); 
 </script>

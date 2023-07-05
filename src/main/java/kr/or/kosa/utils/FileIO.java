@@ -71,8 +71,7 @@ public class FileIO {
 			}
 			if ("users".equals(key)) {
 				pathCate = "users";
-				fileName = (String) session.getAttribute("userid");
-				fileName = (String) session.getAttribute("userid") + file.getOriginalFilename();
+				fileName = (String)session.getAttribute("userid") + file.getOriginalFilename();
 			}
 			String rootPath = session.getServletContext().getRealPath("/");
 			String uploadPath = rootPath + "resource" + File.separator + pathCate + File.separator;
