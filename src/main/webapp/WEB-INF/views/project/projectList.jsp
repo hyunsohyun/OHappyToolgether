@@ -42,7 +42,7 @@
 										<label class="form-label mt-1">${item.projectName}</label>
 									</div>
 									<div class="form-group d-flex">
-										<img src='/resources/projectimg/${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
+										<img src='/resource/projectimg/${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
 									</div>
 									<a href='projectDetail.do/${item.projectId}' class="btn btn-danger float-end">시작</a>
 								</div>
@@ -129,14 +129,15 @@
 		      var formData = {
 		        "managerId": $("#managerId").val(),
 		        "projectName": $("#projectName").val(),
-		        //"projectImage": $("#projectImage").val() + $('#projectImage')[0].files[0].name 추후 작업
+		        "projectImage": $('#projectImage')[0].files[0].name
 		      };
 
 		      $.ajax({
-		        url: "${pageContext.request.contextPath}/insertProject",
+		        url: "${pageContext.request.contextPath}/project/insertProject",
 		        type: "POST",
 		        contentType: "application/json",
 		        data: JSON.stringify(formData),
+		        dataType : "text",
 		        success: function(response) {
 	        	  Swal.fire({
 	                icon: 'success',
@@ -144,11 +145,13 @@
 	                showConfirmButton: false,
 	                timer: 1500
 	              });
-		          //uploadImg(); 추후 작업
+	        	  console.log(typeof(response));
+	        	  console.log(response);
+		          uploadImg(response);
 
 		          setTimeout(function() {
 		            	window.location.href = "/projectList.do";
-					}, 1500);
+					}, 3000);
 		        },
 		        error: function(xhr, status, error) {
 		        	Swal.fire({
@@ -158,21 +161,23 @@
 		                showConfirmButton: false,
 		                timer: 1500
 		            })
-		            setTimeout(function() {
+		            /* setTimeout(function() {
 		            	window.location.href = "/projectList.do";
-					}, 1500);
+					}, 1500); */
 		        }
 		      });
 		    });
 		  });
 
-		  function uploadImg() {
+		  function uploadImg(projectId) {
 			  var data = new FormData();
 			  let file = $('#projectImage')[0].files[0];
 			  data.append('uploadFile', file);
+			  data.append('projectId', projectId);
+			  console.log(data);
 
 			  $.ajax({
-			    url: "${pageContext.request.contextPath}/file/projectimg/upload",
+			    url: "${pageContext.request.contextPath}/file/projectimg/insert",
 			    type: "POST",
 			    contentType: false,
 			    processData: false,
