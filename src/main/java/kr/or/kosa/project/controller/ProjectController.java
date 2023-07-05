@@ -131,6 +131,30 @@ public class ProjectController {
 		}		
 	}
 	
+	//프로젝트 삭제
+	@DeleteMapping("delete/{projectId}")
+	public ResponseEntity<Integer> deleteAllUsersProject(@PathVariable int projectId, HttpSession session) {
+	    int result = 0;
+	    System.out.println("DeleteMapping {projectId}");
+	    try {
+	        // projectId를 사용하여 프로젝트 삭제 작업 수행
+	        result = projectService.deleteAllUsersProject(projectId);
+	        session.removeAttribute("boardList");
+	        session.removeAttribute("managerId");
+	        session.removeAttribute("projectId");
+	        return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	    } catch (DuplicateKeyException e) {
+	        System.out.println("기본키 중복 오류 발생");
+	        System.out.println(e.getMessage());
+	        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+	    } catch (Exception e) {
+	        System.out.println("deleteUsersProject()에서 예외 발생");
+	        System.out.println(e.getMessage());
+	        return new ResponseEntity<Integer>(result, HttpStatus.BAD_REQUEST);
+	    }
+	}
+
+	
 	//프로젝트 이름변경
 	@PutMapping("{projectId}/{memberId}")
 	public ResponseEntity<Map<String, String>> update(@RequestBody Project project, @PathVariable("projectId") int projectId, @PathVariable("memberId") String memberId ) {
@@ -160,9 +184,9 @@ public class ProjectController {
 	    try {
 	        System.out.println(project.toString());
 	        projectService.updateProjectImg(project);
-	        Project project1 = (Project)session.getAttribute("project");
-	        project1.setProjectImage(project.getProjectImage());
-	        session.setAttribute("project", project1);
+	        Project projectsession = (Project)session.getAttribute("project");
+	        projectsession.setProjectImage(project.getProjectImage());
+	        session.setAttribute("project", projectsession);
 	        
 	        response.put("message", "update success");
 	        return new ResponseEntity<>(response, HttpStatus.OK);
