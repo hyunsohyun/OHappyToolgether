@@ -27,7 +27,7 @@
     	<input type="hidden" name="projectId" value="${projectId}">
     	<input type="hidden" name="boardId" value="${boardId}">
 	    <div class="form-group">
-	      <input type="text" class="form-control" id="boardName" value="" readonly>
+	      <input type="text" class="form-control" id="boardName" value="${boardName}" readonly>
 	    </div>
         <div class="form-group">
             <input type="input" class="form-control" id="Input" name="title" placeholder="제목을 입력해주세요">
@@ -62,7 +62,8 @@
 	
 	$(document).ready(function() {
 		const projectId = '${sessionScope.projectId}'; 
-		const boardId = 1;
+		const boardId = ${boardId};
+		
 		console.log(projectId);
 		console.log(boardId);
 		$('#summernote').summernote();
