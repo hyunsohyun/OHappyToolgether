@@ -918,7 +918,7 @@ const saveBtnClick = () => {
 
     //updateKanban시작
     for (i = 0; i < jsonDataSets.length; i++) {
-        Kanban(cardIdList[i], jsonDataSets[i]);
+    	updateKanban(cardIdList[i], jsonDataSets[i]);
     }
     console.log("업데이트 완료");
 }

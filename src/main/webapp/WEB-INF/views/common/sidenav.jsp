@@ -45,16 +45,14 @@
 							</div> Project Management (${projectId})
 						</a>
 					</c:if>
-
-					<div class="sb-sidenav-menu-heading">Calendar</div>
-					<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+					
+					<div class="sb-sidenav-menu-heading">CALENDAR</div>
+					<a class="nav-link" href="${pageContext.request.contextPath}/fullcalendar.do">
 						<div class="sb-nav-link-icon">
-							<i class="fas fa-columns"></i>
-						</div> 캘린더
-						<div class="sb-sidenav-collapse-arrow">
-							<i class="fas fa-angle-down"></i>
-						</div>
+							<i class="fas fa-tachometer-alt"></i>
+						</div> fullcalendar (${projectId})
 					</a>
+					
 					<div class="sb-sidenav-menu-heading" id="boardList">Board List</div>
 					<c:if test="${boardList != null}">
 

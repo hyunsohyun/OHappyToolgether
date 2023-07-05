@@ -113,6 +113,13 @@ public class PostController {
 	public String postInsert(@PathVariable("boardId") int boardId, Model model, HttpSession session) {
 		
 		model.addAttribute("boardId", boardId);
+		
+		//게시판 이름
+		Board board = new Board();
+		board.setBoardId(boardId);
+		board.setProjectId((int)session.getAttribute("projectId"));
+		model.addAttribute("boardName", boardService.getBoardName(board));
+		
 		return "post/postInsert";
 	}
 	

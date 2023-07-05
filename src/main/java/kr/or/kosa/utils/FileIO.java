@@ -48,7 +48,7 @@ public class FileIO {
 
        if("post".equals(key)){
         	pathCate = "post";
-
+        	
         	//C드라이브/사용자/내문서/파일/
         	filePath = System.getProperty("user.home") + "\\Documents\\" + pathCate + System.getProperty("file.separator");
 	        System.out.println("저장 파일경로 : " + filePath);
@@ -63,20 +63,19 @@ public class FileIO {
         }else {
         	String fileName = "";
 			if("projectimg".equals(key)) { 
-				pathCate = "projectimg"; 
-				fileName = (String)session.getAttribute("projectId") + file.getOriginalFilename();
+				pathCate = "projectimg"; 				
+				fileName = String.valueOf(session.getAttribute("projectId")) + file.getOriginalFilename();
+				System.out.println("fileName + " + fileName);
 			}
 			if("users".equals(key)) {
 				pathCate = "users"; fileName=(String)session.getAttribute("userid");
 				fileName = (String)session.getAttribute("userid") + file.getOriginalFilename();
 			}
-			
 			String rootPath = session.getServletContext().getRealPath("/");
 			String uploadPath = rootPath + "resource" + File.separator + pathCate + File.separator;
 			
 			File uploadFile = new File(uploadPath + fileName);
 			if (!uploadFile.isDirectory()) uploadFile.mkdirs();
-			
 		    file.transferTo(uploadFile);
 		    result = uploadFile.getAbsolutePath();
 
@@ -84,6 +83,33 @@ public class FileIO {
         }
        //저장된 파일경로
        return result;
+    }
+	
+public static String uploadProjectimg(MultipartFile file, String projectId, HttpSession session) throws Exception {
+		
+        String result = "";
+        String filePath = "";   
+
+        System.out.println("FileUtil.uploadFiles START request >>" + file);    	
+		
+		String pathCate = "projectimg"; 
+		String fileName = projectId + file.getOriginalFilename();
+		System.out.println("fileName : " + fileName);
+		
+		String rootPath = session.getServletContext().getRealPath("/");
+		String uploadPath = rootPath + "resource" + File.separator + pathCate + File.separator;
+		System.out.println("uploadPath : " + uploadPath);
+		
+		File uploadFile = new File(uploadPath + fileName);
+		if (!uploadFile.isDirectory()) uploadFile.mkdirs();
+		
+	    file.transferTo(uploadFile);
+	    result = uploadFile.getAbsolutePath();
+
+	    System.out.println("저장될 파일 경로 : " + result);
+    
+       //저장된 파일경로
+       return fileName;
     }
 	
 	

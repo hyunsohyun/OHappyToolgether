@@ -31,22 +31,14 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, HttpSession session, Principal principal) {
-		logger.info("Welcome home!");
-		if(principal != null) {
-			String userid = principal.getName();
-			System.out.println("홈에 접속한 userid : " + userid);
-			if(!userid.equals("anonymousUser")) {
-				session.setAttribute("userid", userid);
-			}
-			
-		}
+	public String home(Locale locale, HttpSession session) {
+		logger.info("Welcome home!");		
 		return "home";
 	}
 
 	@RequestMapping(value = "/loginForm")
 	public String login() {
-		logger.info("Welcome home!");
+		logger.info("Welcome loginForm!");
 		return "member/loginForm";
 	}
 

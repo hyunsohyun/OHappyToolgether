@@ -39,9 +39,9 @@
 	</root>
 	
 	<!-- Spring Security Logger -->
-	<logger name="org.springframework.security">
+	<!-- <logger name="org.springframework.security">
         <level value="debug" />
-    </logger>
+    </logger> -->
 	
 	<!-- SQL Logger -->
 

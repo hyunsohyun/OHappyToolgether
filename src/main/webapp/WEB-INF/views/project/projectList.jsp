@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
+<!-- 현재 사용자의 ID를 가져옴 -->
+<sec:authentication property="name" var="userid" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +17,8 @@
 <link href="css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<!-- swal2  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -82,7 +88,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/insertProject" method="POST">
+        <form id="insertProjectForm">
+        <div class="mb-3">
+            <label for="managerId" class="col-form-label">프로젝트 매니저:</label>
+            <input type="text" class="form-control" id="managerId" name="managerId" value="${userid}" disabled>
+          </div>
           <div class="mb-3">
             <label for="recipient-name" class="col-form-label">프로젝트명:</label>
             <input type="text" class="form-control" id="projectName">
@@ -100,7 +110,7 @@
     </div>
   </div>
 </div>
-			</main>
+		</main>
 		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 		<script src="js/datatables-simple-demo.js"></script>
 
@@ -108,7 +118,85 @@
 	</div>
 	</div>
 	
-	<script src="js/scripts.js">
+	<script src="js/scripts.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		console.log("문서로드완료");
+		console.log($("#managerId").val());
+		$("#insertBtn").on('click', function(event) {
+		      event.preventDefault(); // 폼 기본 동작 방지
+		      console.log("#insertBtn 클릭 이벤트 발생");
+		      var formData = {
+		        "managerId": $("#managerId").val(),
+		        "projectName": $("#projectName").val(),
+		        "projectImage": $('#projectImage')[0].files[0].name
+		      };
+
+		      $.ajax({
+		        url: "${pageContext.request.contextPath}/project/insertProject",
+		        type: "POST",
+		        contentType: "application/json",
+		        data: JSON.stringify(formData),
+		        dataType : "text",
+		        success: function(response) {
+	        	  Swal.fire({
+	                icon: 'success',
+	                title: '수정 완료',
+	                showConfirmButton: false,
+	                timer: 1500
+	              });
+	        	  console.log(typeof(response));
+	        	  console.log(response);
+		          uploadImg(response);
+
+		          setTimeout(function() {
+		            	window.location.href = "/projectList.do";
+					}, 3000);
+		        },
+		        error: function(xhr, status, error) {
+		        	Swal.fire({
+		                icon: 'error',
+		                title: '수정 실패',
+		                text: '오류 : ' + xhr.responseText,
+		                showConfirmButton: false,
+		                timer: 1500
+		            })
+		            /* setTimeout(function() {
+		            	window.location.href = "/projectList.do";
+					}, 1500); */
+		        }
+		      });
+		    });
+		  });
+
+		  function uploadImg(projectId) {
+			  var data = new FormData();
+			  let file = $('#projectImage')[0].files[0];
+			  data.append('uploadFile', file);
+			  data.append('projectId', projectId);
+			  console.log(data);
+
+			  $.ajax({
+			    url: "${pageContext.request.contextPath}/file/projectimg/insert",
+			    type: "POST",
+			    contentType: false,
+			    processData: false,
+			    data: data,
+			    success: function(response) {
+			      // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
+			    },
+			    error: function(xhr, status, error) {
+			    	Swal.fire({
+		                icon: 'error',
+		                title: '수정 실패',
+		                text: '오류 : ' + xhr.responseText,
+		                showConfirmButton: false,
+		                timer: 1500
+		            })
+			      return
+			    }
+			  });
+			}
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
