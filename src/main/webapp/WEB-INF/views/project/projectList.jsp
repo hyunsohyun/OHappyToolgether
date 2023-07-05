@@ -135,9 +135,7 @@
 	
 	<script src="js/scripts.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function(){
-		console.log("문서로드완료");
-		console.log($("#managerId").val());
+	$(document).ready(function(){		
 		$("#insertBtn").on('click', function(event) {
 		      event.preventDefault(); // 폼 기본 동작 방지
 		      console.log("#insertBtn 클릭 이벤트 발생");
@@ -156,7 +154,7 @@
 		        success: function(response) {
 	        	  Swal.fire({
 	                icon: 'success',
-	                title: '수정 완료',
+	                title: '생성 완료',
 	                showConfirmButton: false,
 	                timer: 1500
 	              });
@@ -171,14 +169,14 @@
 		        error: function(xhr, status, error) {
 		        	Swal.fire({
 		                icon: 'error',
-		                title: '수정 실패',
+		                title: '생성 실패',
 		                text: '오류 : ' + xhr.responseText,
 		                showConfirmButton: false,
 		                timer: 1500
 		            })
-		            /* setTimeout(function() {
+		            setTimeout(function() {
 		            	window.location.href = "/projectList.do";
-					}, 1500); */
+					}, 1500);
 		        }
 		      });
 		    });
