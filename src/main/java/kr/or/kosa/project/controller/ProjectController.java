@@ -152,6 +152,32 @@ public class ProjectController {
 		}
 	}
 	
+	//프로젝트 이미지 변경
+	@PutMapping("projectImg/{projectId}")
+	public ResponseEntity<Map<String, String>> updateProjectImage(@RequestBody Project project, @PathVariable("projectId") int projectId, HttpSession session) {
+	    Map<String, String> response = new HashMap<>();
+	    project.setProjectId(projectId);
+	    try {
+	        System.out.println(project.toString());
+	        projectService.updateProjectImg(project);
+	        Project project1 = (Project)session.getAttribute("project");
+	        project1.setProjectImage(project.getProjectImage());
+	        session.setAttribute("project", project1);
+	        
+	        response.put("message", "update success");
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        response.put("message", "update failure");
+	        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	    }
+	}
+
+	
+	
+	
+	
+	
 	
 }
 

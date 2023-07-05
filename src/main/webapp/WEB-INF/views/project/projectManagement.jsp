@@ -34,6 +34,7 @@ $(document).ready(function() {
     const pageSize = 6; 
 	let projectManagerId="";
 	let projectBoardCnt = 0;
+	
     // 프로젝트 정보
     let getUsersAndProjectInfo = function() {
         // 프로젝트 정보 가져오기
@@ -584,14 +585,25 @@ $(document).ready(function() {
 				    processData: false,
 				    data: formData,
 				    success: function(response) {
-				      // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
 				      alert('성공했을까?');
+				       $.ajax({
+			    	      url: "project/projectImg/" + projectId, 
+			    	      type: "PUT",
+			    	      contentType: "application/json",
+			    	      data: JSON.stringify({ projectImage : projectId + file.name }),
+			    	      success: function() {
+			    	        alert("변경 성공");
+			    	      },
+			    	      error: function(xhr) {
+			    	        console.log("에러 메시지:", xhr.status);
+			    	      }
+			    	    }); 
 				      var encodedFileName = encodeURIComponent(file.name); // 파일 이름 인코딩
 				      var imageUrl = "../resource/projectimg/" + projectId + encodedFileName; // 이미지 경로
 				      console.log(imageUrl);
 				      $('#projectMainImage2').attr('src', imageUrl)
                       .css('width', '420px')
-                      .css('height', '340px');
+                      .css('height', '340px'); 
 				    },
 				    error: function(xhr, status, error) {
 				      alert("이미지 파일 업로드에 실패하였습니다. 오류: " + xhr.responseText);
@@ -602,35 +614,54 @@ $(document).ready(function() {
 				});
 
     		 
-		    $('#boardInsertBtn').click(function() {
-		      let boardName = $('#boardInsertName').val();
-			
-		      console.log(projectId);
-		      
-		      let boardData = {
-		        projectId: projectId,
-		        boardName: boardName
-		      };
-		
-		      // 서버로 AJAX POST 요청 보내기
-		      $.ajax({
-		    	  url: '/board',
-		    	  type: 'POST',
-		    	  contentType: 'application/json',
-		    	  data: JSON.stringify(boardData),
-		    	  success: function() {
-		    		getBoardCount();
-		    	    console.log('게시판이 성공적으로 추가되었습니다.');
-		    	    alert("게시판이 생성되었습니다.");
-		    	    $("#modal").css("display", "none"); 
-		    	  },
-		    	  error: function() {
-		    	    console.log('게시판 추가에 실패했습니다.');
-		    	    alert("생성 실패!");
-		    	    $("#modal").css("display", "none"); 
-		    	  }
-		      });
-		    });
+    		 $('#boardInsertBtn').click(function() {
+   			  let boardName = $('#boardInsertName').val();
+   			  let getBoardCountSuper = $("#projectBoardCount").val();
+   			  let boardCount = getBoardCountSuper.substring(0, getBoardCountSuper.indexOf(' '));
+				
+	   			if (boardCount >= 10) {
+				    alert("게시판은 최대 10개까지만 생성 가능합니다!");
+				    $("#modal").css("display", "none");
+				    return;
+				  } else {
+				    let boardData = {
+				      projectId: projectId,
+				      boardName: boardName
+				    };
+				    
+				    // 서버로 AJAX POST 요청 보내기
+				    $.ajax({
+				      url: '/board',
+				      type: 'POST',
+				      contentType: 'application/json',
+				      data: JSON.stringify(boardData),
+				      success: function() {
+				        getBoardCount();
+				        console.log('게시판이 성공적으로 추가되었습니다.');
+				        alert("게시판이 생성되었습니다.");
+				        $("#modal").css("display", "none");
+				        
+				        // 추가 요청을 보내는 부분
+				        $.ajax({
+				          url: '/projectDetail.do/' + projectId,
+				          type: 'GET',
+				          success: function() {
+				            console.log('프로젝트 상세 정보를 성공적으로 가져왔습니다.');
+							window.location.reload();
+				          },
+				          error: function() {
+				            console.log('프로젝트 상세 정보 가져오기에 실패했습니다.');
+				          }
+				        });
+				      },
+				      error: function() {
+				        console.log('게시판 추가에 실패했습니다.');
+				        alert("생성 실패!");
+				        $("#modal").css("display", "none");
+				      }
+				    });
+				  }
+				});
 
 
     	  // 참가자 내쫓아 버리기
@@ -663,6 +694,7 @@ $(document).ready(function() {
 			      deleteButton.closest("tr").remove();
 			      alert("추방되었습니다.");
 			      updateProjectParticipantsAsync();
+			      addUserToTable([]);
 			      getUsers(currentPage, pageSize); // 페이징 처리 유지
 			      
 			    },
@@ -771,7 +803,7 @@ $(document).ready(function() {
 				    <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
 				  </div>
 				  <div>
-				    <img src="/resource/projectimg/${project.projectImage}" id="projectMainImage2" height="300" width="420" class="img-fluid">
+					<img src="/resource/projectimg/${project.projectImage} " id="projectMainImage2" class="img-fluid img-fixed-size" style="width:420px; height : 340px;">
 				  </div>
 				  <div class="d-flex">
 				    <!--프로필사진파일 업로드 -->
