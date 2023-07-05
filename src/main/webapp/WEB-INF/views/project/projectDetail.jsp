@@ -95,7 +95,7 @@
 							</div>
 
 							<div id="rightSideDiv">
-							    <div id="projectImg" style="text-align: center;">
+							    <div id="projectImg" class="text-center">
 							        <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
 							    </div>
 							    <div class="text-center">
