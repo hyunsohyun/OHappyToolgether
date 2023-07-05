@@ -558,83 +558,14 @@ $(document).ready(function() {
     		     if(isModalOn() && e.key === "Escape") {
     		         modalOff()
     		     }
-    		 }) 
-    		 
+   		 	}) 
+   		 
 
-    		 //현소현
-
-			  // 이미지 파일 업로드 버튼 클릭 이벤트 처리
-			  /* $('#projectImageInsertBtn').click(function() {
-			  var fileInput = document.getElementById('projectImage');
-			
-			  fileInput.addEventListener('change', function(event) {
- 				 var fileInput = document.getElementById('projectImage');
-				  var files = fileInput.files;
-				  if (files.length === 0) {
-				    alert('이미지 파일을 선택해주세요.');
-				    return;
-				  }
-				
-				  var file = files[0];
-				
-				  var formData = new FormData();
-				  formData.append('uploadFile', file);
-				
-			    $.ajax({
-			      url: "${pageContext.request.contextPath}/file/projectimg/upload",
-			      type: "POST",
-			      contentType: false,
-			      processData: false,
-			      data: data,
-			      success: function(response) {
-			        // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
-			      },
-			      error: function(xhr, status, error) {
-			        alert("이미지파일업로드에 실패하였습니다. 오류: " + xhr.responseText);
-			        return;
-			      }
-			    });
-			  });
-			});  */
-			// 이미지 파일 업로드 버튼 클릭 이벤트 처리
-			/* $('#projectImageInsertBtn').click(function() {
-			  var fileInput = document.getElementById('projectMainImage');
-			  
-			  var file = fileInput.files[0];
-			  if (!file) {
-			    alert("파일을 선택해주세요.");
-			    return;
-			  }
-			
-			  var formData = new FormData();
-			  formData.append('uploadFile', file);
-			
-			  console.log(file);
-			  console.log(formData);
-			
-			  $.ajax({
-			    url: "/file/projectImg/upload",
-			    type: "POST",
-			    contentType: false,
-			    processData: false,
-			    data: formData,
-			    success: function(response) {
-			      // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
-			      alert('성공했을까?');
-			      var imageUrl = "../resource/projectimg/" + response;
-			      $('#projectMainImage').attr('value', imageUrl); 
-			    },
-			    error: function(xhr, status, error) {
-			      alert("이미지 파일 업로드에 실패하였습니다. 오류: " + xhr.responseText);
-			      console.log("오류 : " + xhr.responseText);
-			      return;
-			    }
-			  });
-			}); */
+   		 	//현소현
 			$('#projectImageInsertBtn').click(function() {
 				  var fileInput = document.getElementById('projectMainImage');
-				  
 				  var file = fileInput.files[0];
+				  
 				  if (!file) {
 				    alert("파일을 선택해주세요.");
 				    return;
@@ -647,7 +578,7 @@ $(document).ready(function() {
 				  console.log(formData);
 
 				  $.ajax({
-				    url: "/file/projectImg/upload",
+				    url: "${pageContext.request.contextPath}/file/projectimg/upload",
 				    type: "POST",
 				    contentType: false,
 				    processData: false,
@@ -655,8 +586,12 @@ $(document).ready(function() {
 				    success: function(response) {
 				      // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
 				      alert('성공했을까?');
-				      var imageUrl = "../resource"+".png"; /* /projectimg/" + response; */
-				      $('#projectImg').attr('src', imageUrl); 
+				      var encodedFileName = encodeURIComponent(file.name); // 파일 이름 인코딩
+				      var imageUrl = "../resource/projectimg/" + projectId + encodedFileName; // 이미지 경로
+				      console.log(imageUrl);
+				      $('#projectMainImage2').attr('src', imageUrl)
+                      .css('width', '420px')
+                      .css('height', '340px');
 				    },
 				    error: function(xhr, status, error) {
 				      alert("이미지 파일 업로드에 실패하였습니다. 오류: " + xhr.responseText);
@@ -665,15 +600,6 @@ $(document).ready(function() {
 				    }
 				  });
 				});
-
-
-
-
-
-			
-
-
-
 
     		 
 		    $('#boardInsertBtn').click(function() {
@@ -764,9 +690,7 @@ $(document).ready(function() {
     	      }
     	    });
     	  });
-
-
-}); 
+		}); 
 </script>
 
 <body class="sb-nav-fixed">
@@ -847,13 +771,13 @@ $(document).ready(function() {
 				    <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
 				  </div>
 				  <div>
-				    <img src="/resource/projectimg/${project.projectImage}" height="300" width="420" class="img-fluid">
+				    <img src="/resource/projectimg/${project.projectImage}" id="projectMainImage2" height="300" width="420" class="img-fluid">
 				  </div>
 				  <div class="d-flex">
 				    <!--프로필사진파일 업로드 -->
 				    <div class="form-group">
 				      <input type="file" class="form-control" id="projectMainImage" value="${project.projectImage}">
-				      <button type="button" id="projectImageInsertBtn" class="btn btn-primary">프로젝트이미지업로드</button>
+				      <button type="button" id="projectImageInsertBtn" class="btn btn-primary">프로젝트 이미지 변경</button>
 				    </div>
 				  </div>
 				</div>

@@ -63,8 +63,7 @@ public class MemberController {
 	public ResponseEntity<List<Users>> selectUserById(@PathVariable("userid") String userid) {
 		List<Users> list = null;
 		try {			
-			list = memberService.selectUserById(userid);
-			System.out.println("컨트롤러에서 받은 user 정보 : ");
+			list = memberService.selectUserById(userid);			
 			return new ResponseEntity<List<Users>>(list,HttpStatus.OK);
 		} catch (Exception e) {			
 			System.out.println("selectUserById()에서 터짐");
