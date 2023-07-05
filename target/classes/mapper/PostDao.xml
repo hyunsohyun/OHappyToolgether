@@ -19,21 +19,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE BOARD_ID = #{boardId}
 		order by CREATE_DATE desc
 	</select>
+	
+	<select id="postDetail" parameterType="kr.or.kosa.post.Post" resultType="kr.or.kosa.post.Post">
+	     SELECT p.POST_ID 
+	    , p.BOARD_ID
+	    , p.TITLE
+	    , p.CONTENT
+	    , p.HIT
+	    , p.CREATE_DATE
+	    , p.MODIFY_DATE
+	    , p.PROJECT_ID
+	    , p.USERID
+	    , (SELECT BOARD_NAME FROM BOARD WHERE BOARD_ID = #{boardId}) AS BOARD_NAME
+	    , u.IMAGE AS WRITER_IMAGE
+	    FROM POST p
+	    JOIN USERS u ON u.USERID = p.USERID
+	    WHERE p.POST_ID = #{postId}
+	    AND p.BOARD_ID = #{boardId}
 
-	<select id="postDetail" parameterType="kr.or.kosa.post.Post"
-		resultType="kr.or.kosa.post.Post">
-		SELECT POST_ID
-		, BOARD_ID
-		, TITLE
-		, CONTENT
-		, HIT
-		, CREATE_DATE
-		, MODIFY_DATE
-		, PROJECT_ID
-		, USERID
-		FROM POST
-		WHERE POST_ID = #{postId}
-		AND BOARD_ID = #{boardId}
 	</select>
 
 	<select id="recentPostList" resultType="kr.or.kosa.post.Post">

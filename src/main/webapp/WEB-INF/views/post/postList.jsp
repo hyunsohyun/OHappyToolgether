@@ -8,22 +8,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<title>OHappyToolgether</title>
-
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
-	<!-- DataTables CSS -->
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"/>
-
-	<!-- DataTables -->
-	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-
-	<!--  -->
+	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 	<link href="/css/styles.css" rel="stylesheet" />
-
-	<!--  -->
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -47,6 +35,7 @@
 						<table id="datatablesSimple">
 							<thead>
 								<tr>
+									<th></th>
 									<th>번호</th>
 									<th>제목</th>
 									<th>작성자</th>
@@ -57,7 +46,7 @@
 							<tbody>
 								<c:forEach items="${list}" var="post" varStatus="status">
 									<tr>
-										<!-- <div style="display: none;">${post.postId}</div> -->
+										<td>${post.postId}</td>
 										<td>${fn:length(list) - status.index}</td>
 										<td>${post.title}</td>
 										<td>${post.userid}</td>
@@ -77,56 +66,20 @@
 			</div>
 				
 			</main>
-
+			<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+			<script src="/js/datatables-simple-demo.js"></script>
 			<script type="text/javascript">
 			
 				$(document).ready(function() {
-					console.log(1);
-					// Korean
-					var lang_kor = {
-						"decimal" : "",
-						"emptyTable" : "데이터가 없습니다.",
-						"info" : "_START_ - _END_ (총 _TOTAL_ 명)",
-						"infoEmpty" : "0명",
-						"infoFiltered" : "(전체 _MAX_ 명 중 검색결과)",
-						"infoPostFix" : "",
-						"thousands" : ",",
-						"lengthMenu" : "_MENU_ 개씩 보기",
-						"loadingRecords" : "로딩중...",
-						"processing" : "처리중...",
-						"search" : "검색 : ",
-						"zeroRecords" : "검색된 데이터가 없습니다.",
-						"paginate" : {
-							"first" : "첫 페이지",
-							"last" : "마지막 페이지",
-							"next" : "다음",
-							"previous" : "이전"
-						},
-						"aria" : {
-							"sortAscending" : " :  오름차순 정렬",
-							"sortDescending" : " :  내림차순 정렬"
-						}
-					};
-
-					const datatablesSimple = $('#datatablesSimple');
-
-					if (datatablesSimple.length) {  // jQuery 객체의 length 속성으로 확인
-						console.log(2);
-						datatablesSimple.DataTable( {
-							// options here
-							// data: dataSet,
-							// columns: col_kor, // or col_eng
-							language : lang_kor, 
-							searchable: false,
-							"columnDefs": [
-								{ "width": "10%", "targets": 0 },  // 번호
-								{ "width": "50%", "targets": 1 },  // 제목
-								{ "width": "10%", "targets": 2 },  // 작성자
-								{ "width": "20%", "targets": 3 },  // 작성일
-								{ "width": "10%", "targets": 4 },  // 조회수
-							]
-						} );
-					}
+				 /*  $('#datatablesSimple').DataTable({
+					  // datatable 설정 옵션들...
+					  "columnDefs": [
+					    {
+					      "targets": 0, // postId가 위치한 열의 인덱스
+					      "visible": false, // postId 열은 숨김 처리
+					    }
+					  ]
+				}); */
 			
 				$("#datatablesSimple").on('click', 'tbody tr', function() {
 					let postId = $(this).children().eq(0).text();

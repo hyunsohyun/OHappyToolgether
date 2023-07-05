@@ -6,16 +6,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="kr.or.kosa.comments.CommentsDao" >
 
 	<select id="commentList" resultType="kr.or.kosa.comments.Comments">
-	    SELECT COMMENT_ID
-		    , POST_ID
-		    , CONTENT
-		    , CREATE_DATE
-		    , MODIFY_DATE
-		    , WRITER_ID
-		    , BOARD_ID 
-		FROM COMMENTS
-		WHERE POST_ID = #{postId}
-		AND BOARD_ID = #{boardId}
+		SELECT 
+			c.COMMENT_ID
+			, c.POST_ID
+			, c.CONTENT
+			, c.CREATE_DATE
+			, c.MODIFY_DATE
+			, c.WRITER_ID
+			, c.BOARD_ID
+			, u.IMAGE AS WRITER_IMAGE
+		FROM COMMENTS c
+		JOIN USERS u ON u.USERID = c.WRITER_ID
+		WHERE c.POST_ID = #{postId}
+		AND c.BOARD_ID = #{boardId}
 	</select>
 	
 	<select id="commentDetail" resultType="kr.or.kosa.comments.Comments">

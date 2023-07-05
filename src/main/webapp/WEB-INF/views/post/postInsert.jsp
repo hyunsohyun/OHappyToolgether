@@ -21,8 +21,14 @@
 	<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 	<div id="layoutSidenav_content">
 <main>
-    <h1 class="mt-4" id='boardTitle'>게시판 글쓰기</h1>
-   
+
+<div class="container">
+    <h3 class="mt-4" id='qwerqwer'>게시판 글쓰기</h3>
+    <ol class="breadcrumb mb-4">
+    	<li class="breadcrumb-item"><a href="/projectDetail.do/${projectId}">${project.projectName}</a></li>
+		<li class="breadcrumb-item active"><a href="<%=request.getContextPath()%>/postList/${boardId}">${boardName}</a></li>
+	</ol>
+
     <form method="post" id="postForm" name="postForm" action="">
     	<input type="hidden" name="projectId" value="${projectId}">
     	<input type="hidden" name="boardId" value="${boardId}">
@@ -48,7 +54,9 @@
             <input type="button" onclick="window.location.href='<%=request.getContextPath()%>/postList/${boardId}'" value="취소" class="btn btn-info">
         </div>
     </form>
-	
+
+</div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     
@@ -133,7 +141,10 @@
 	$("#fileInput").on("change",function() {
 		let fileNames = "";
 		for (let i = 0; i < this.files.length; i++) {
-			fileNames += "<li style='list-style-type: none;'><span style='color: gray;'>" + this.files[i].name + "</span>&nbsp;&nbsp;&nbsp;<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteFile(" + i + ")'></i></li>";
+			fileNames += "<li style='list-style-type: none;'><span style='color: gray;'> " ;
+			fileNames += this.files[i].name +"&nbsp("; 
+			fileNames += this.files[i].size ;
+			fileNames += "Byte)</span>&nbsp;&nbsp;&nbsp;<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteFile(" + i + ")'></i></li>";
 		}
 		$("#selectedFiles").append(fileNames);
 	});
