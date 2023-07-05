@@ -22,13 +22,12 @@
 	<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 	<div id="layoutSidenav_content">
 <main class="container mt-4">
-    <!-- <h1 class="mt-4" id='qwerqwer'>게시판 수정</h1> -->
+	<h3 class="mt-4" id='qwerqwer'>게시글 수정</h3>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="/kanvan.do">칸반보드</a></li>
-        <li class="breadcrumb-item"><a href="/board.do">게시판</a></li>
-        <li class="breadcrumb-item"><a href="/project.do">프로젝트</a></li>
-        <li class="breadcrumb-item"><a href="/loginForm.do">로그아웃</a></li>
-    </ol>
+    	<li class="breadcrumb-item"><a href="/projectDetail.do/${projectId}">${project.projectName}</a></li>
+		<li class="breadcrumb-item active"><a href="<%=request.getContextPath()%>/postList/${boardId}">${boardName}</a></li>
+	</ol>
+	
     <form method="post" id="postForm" name="postForm" action="">
     	<input type="hidden" name="projectId" value="${post.projectId}">
     	<input type="hidden" name="boardId" value="${post.boardId}">
@@ -45,7 +44,7 @@
 					<c:forEach var="file" items="${fileList}" varStatus="status">
 				        <li style='list-style-type: none;'>
 				        	<span style='color: gray;'>${file.realFileName}</span>&nbsp;&nbsp;&nbsp;
-				        	<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteFile(${status})'></i>
+				        	<i class='fa-solid fa-xmark' style="color: #b53930;" onclick="deleteFile(${status.index}, ${file.fileId})"></i>
 				        </li>
 		        	</c:forEach>
 		        	</c:if>
@@ -121,7 +120,7 @@
 	$("#fileInput").on("change",function() {
 		let fileNames = "";
 		for (let i = 0; i < this.files.length; i++) {
-			fileNames += "<li style='list-style-type: none;'><span style='color: gray;'>" + this.files[i].name + "</span>&nbsp;&nbsp;&nbsp;<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteFile(" + i + ")'></i></li>";
+			fileNames += "<li style='list-style-type: none;'><span style='color: gray;'>" + this.files[i].name + "</span>&nbsp;&nbsp;&nbsp;<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteOriginFile(" + i + ")'></i></li>";
 		}
 		$("#selectedFiles").append(fileNames);
 	});
@@ -131,6 +130,26 @@
 		$("#selectedFiles").empty();//화면 비우기
 	}
 
+	//origin파일 삭제
+	function deleteOriginFile(i,fileId){
+		//화면에서 지우기
+		$("#selectedFiles").children().eq(i).remove();
+		
+		//db에서 지우기
+		fetch("/file/delete" + boardId + "/" + postId)
+		  .then(response => response.json())
+		  .then(data => {
+		    $('#commentList').empty();
+		    data.forEach(value => {
+					      
+		      $('#commentList').append(str);
+		    });
+		  })
+		  .catch(error => {
+		    console.log(error);
+		  });
+	}
+	
 	//파일 삭제
 	function deleteFile(i){
 		//화면에서 지우기

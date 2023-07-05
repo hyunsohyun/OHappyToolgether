@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.or.kosa.post.Post;
 import kr.or.kosa.utils.FileIO;
 
 @RestController
@@ -113,4 +115,21 @@ public class FileController {
 	        return new ResponseEntity<Integer>(result, HttpStatus.BAD_REQUEST);
 	    }	
 	}
+	
+	//DB파일 삭제
+	@DeleteMapping(value="/delete")
+	public ResponseEntity<Integer> postDelete(@RequestBody Post post, Model model) {
+		try {
+			int result = postService.postDelete(post);
+			if(result>0) {
+				return new ResponseEntity<Integer>(post.getPostId(),HttpStatus.OK);
+			}else {
+				return new ResponseEntity<Integer>(-1,HttpStatus.BAD_REQUEST);
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Integer>(-1,HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 }
