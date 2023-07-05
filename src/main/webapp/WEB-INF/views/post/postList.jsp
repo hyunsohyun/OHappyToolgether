@@ -148,7 +148,13 @@
 					    }
 					  })
 					  .catch(error => {
-					    alert("code:" + error.message);
+						  Swal.fire({
+			  	                icon: 'error',
+			  	                title: '에러 발생',
+			  	                text: error.message,
+			  	                showConfirmButton: false,
+			  	                timer: 1500
+			  	            })  
 					  }); 
 				});
 				});
