@@ -45,7 +45,7 @@
 							</div> Project Management (${projectId})
 						</a>
 					</c:if>
-
+					
 					<div class="sb-sidenav-menu-heading">CALENDAR</div>
 					<a class="nav-link" href="${pageContext.request.contextPath}/fullcalendar.do">
 						<div class="sb-nav-link-icon">
