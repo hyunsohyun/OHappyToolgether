@@ -86,6 +86,32 @@ public class FileIO {
        return result;
     }
 	
+public static String uploadProjectimg(MultipartFile file, String projectId, HttpSession session) throws Exception {
+		
+        String result = "";
+        String filePath = "";   
+
+        System.out.println("FileUtil.uploadFiles START request >>" + file);    	
+		
+		String pathCate = "projectimg"; 
+		String fileName = projectId + file.getOriginalFilename();				
+		
+		String rootPath = session.getServletContext().getRealPath("/");
+		String uploadPath = rootPath + "resource" + File.separator + pathCate + File.separator;
+		System.out.println("uploadPath : " + uploadPath);
+		
+		File uploadFile = new File(uploadPath + fileName);
+		if (!uploadFile.isDirectory()) uploadFile.mkdirs();
+		
+	    file.transferTo(uploadFile);
+	    result = uploadFile.getAbsolutePath();
+
+	    System.out.println("저장될 파일 경로 : " + result);
+    
+       //저장된 파일경로
+       return result;
+    }
+	
 	
 	public static int fileDown(FileInfo fileInfo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    int result = 0;

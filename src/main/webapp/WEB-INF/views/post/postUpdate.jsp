@@ -40,7 +40,16 @@
         <div class="form-group">
             <input class="form-control" type="file" id="fileInput" name="fileInput" multiple onchange="addFile()">
             <div class="selected-files">
-		        <ul id="selectedFiles"></ul>
+		        <ul id="selectedFiles">
+			        <c:if test="${fileList != null}">
+					<c:forEach var="file" items="${fileList}" varStatus="status">
+				        <li style='list-style-type: none;'>
+				        	<span style='color: gray;'>${file.realFileName}</span>&nbsp;&nbsp;&nbsp;
+				        	<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteFile(${status})'></i>
+				        </li>
+		        	</c:forEach>
+		        	</c:if>
+		        </ul>
 		    </div>
           </div>
         

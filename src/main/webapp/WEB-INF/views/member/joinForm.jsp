@@ -11,7 +11,10 @@
 
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="css/styles.css" rel="stylesheet" />
+
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<!-- swal2  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <style>
@@ -94,11 +97,26 @@
 	        contentType: "application/json",
 	        data: JSON.stringify(formData),
 	        success: function(response) {
-	          alert("회원 가입이 완료되었습니다.");
-	          window.location.href = "/loginForm";
+	        	Swal.fire({
+	                icon: 'success',
+	                title: '회원가입 성공',
+	                showConfirmButton: false,
+	                timer: 1500
+	            })
+	            setTimeout(function() {
+	            	window.location.href = "/loginForm";
+				}, 1500);       
 	        },
 	        error: function(xhr, status, error) {
-	          alert("회원 가입에 실패했습니다. 오류: " + xhr.responseText);
+	        	Swal.fire({
+	                icon: 'error',
+	                title: '회원가입 실패',
+	                showConfirmButton: false,
+	                timer: 1500
+	            })
+	            setTimeout(function() {
+	            	window.location.href = "/loginForm";
+				}, 1500);  
 	        }
 	      });
 	    });

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -87,6 +89,28 @@ public class ProjectController {
 	        System.out.println(e.getMessage());
 	        return new ResponseEntity<Integer>(result, HttpStatus.INTERNAL_SERVER_ERROR);
 	    }        
+	}
+	
+	@PostMapping("/insertProject")
+	public String insertProject(HttpSession session, @RequestBody Project project) {
+		System.out.println("@RequestMapping(value=\"/insertProject\") 진입");
+		int result = 0;
+		String userid = (String)session.getAttribute("userid");
+		String projectId = "null값";
+		try {
+			result = projectService.insertProject(project);
+			System.out.println("프로젝트 삽입행 : "+ result);
+			projectId = String.valueOf(project.getProjectId());
+			System.out.println("삽입한 projectId : "+ project.getProjectId());			
+			if(result > 0) {
+				session.setAttribute("projectList", projectService.selectAllProjectById(userid));
+				System.out.println("세션의 프로젝트 리스트 갱신");
+			}
+		} catch (Exception e) {
+			System.out.println("insertProject()에서 터짐");
+			System.out.println(e.getMessage());
+		}
+		return projectId;
 	}
 	
 	@DeleteMapping("{projectId}/{userid}")
