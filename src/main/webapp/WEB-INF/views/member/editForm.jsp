@@ -12,7 +12,10 @@
 
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="css/styles.css" rel="stylesheet" />
+
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<!-- swal2  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="sb-nav-fixed">
 
@@ -47,6 +50,13 @@
                                         <label for="email" class="form-label mt-4">이메일</label>
                                         <input type="email" class="form-control" id="email" name="email" value="${user.email}" placeholder="Enter your email">
                                     </div>
+                                    
+                                    <!--프로필사진파일 업로드 -->
+                                    <div class="form-group">
+                                        <label for="image" class="form-label mt-4">프로필 사진</label>
+                                        <input type="file" class="form-control" id="image" name="image" value="${user.image}">
+                                    </div>
+                                    
                                     <div class="form-group mt-4 text-center">
                                         <button type="submit" class="btn btn-primary">수정하기</button>
                                     </div>
@@ -69,13 +79,15 @@
 		  
 	    $("#editForm").submit(function(event) {
 	      event.preventDefault(); // 폼 기본 동작 방지
+	      
 	      var formData = {
 	        "userid": $("#userid").val(),
 	        "password": $("#password").val(),
 	        "name": $("#name").val(),
-	        "email": $("#email").val()
+	        "email": $("#email").val(),
+	        "image": $("#userid").val() + editForm.image.files[0].name
 	      };
-	      console.log(formData.userid);
+	      
 	
 	      $.ajax({
 	        url: "${pageContext.request.contextPath}/member",
@@ -83,13 +95,57 @@
 	        contentType: "application/json",
 	        data: JSON.stringify(formData),
 	        success: function(response) {
-	          alert("수정이 완료되었습니다.");
-	          window.location.href = "/projectList.do";
+	          uploadImg();
+	          Swal.fire({
+	                icon: 'success',
+	                title: '수정 완료',
+	                showConfirmButton: false,
+	                timer: 1500
+	            });
+	          setTimeout(function() {
+	            	window.location.href = "/projectList.do";
+				}, 1500); 
 	        },
 	        error: function(xhr, status, error) {
-	          alert("회원 가입에 실패했습니다. 오류: " + xhr.responseText);
+	        	Swal.fire({
+	                icon: 'error',
+	                title: '수정 실패',
+	                text: '오류 : ' + xhr.responseText,
+	                showConfirmButton: false,
+	                timer: 1500
+	            })
+	            setTimeout(function() {
+	            	window.location.href = "/projectList.do";
+				}, 1500); 
 	        }
 	      });
 	    });
 	  });
+	  
+	  function uploadImg() {
+		  var data = new FormData();
+		  let file = editForm.image.files[0];
+		  data.append('uploadFile', file);
+
+		  $.ajax({
+		    url: "${pageContext.request.contextPath}/file/users/upload",
+		    type: "POST",
+		    contentType: false,
+		    processData: false,
+		    data: data,
+		    success: function(response) {
+		      // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
+		    },
+		    error: function(xhr, status, error) {
+		    	Swal.fire({
+	                icon: 'error',
+	                title: '수정 실패',
+	                text: '오류 : ' + xhr.responseText,
+	                showConfirmButton: false,
+	                timer: 1500
+	            })
+		      return
+		    }
+		  });
+		}
 	</script>  

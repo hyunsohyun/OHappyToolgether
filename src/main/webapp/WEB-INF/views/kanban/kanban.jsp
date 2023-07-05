@@ -315,10 +315,17 @@
         min-height: 32px;
         margin-left: auto;
     }
+
     .bg-trello-mountain{
         /* background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1281x1920/f4713e4c8cebdb8cdba78f37495a9238/photo-1686922187671-510b88dfc927.jpg"); */
         /* background-size: cover; */
         /* background-position: left; */
+    }
+    
+    .deleteBtn {
+        position: absolute;
+        top: 10px;
+        right: 4%;
     }
 </style>
 <!-- 스타일 끝 -->
@@ -628,6 +635,22 @@ const getKanban = (projectId, kanbanboardId) => {
     });
 }
 
+const deleteCard = (cardId) => {
+    return new Promise((resolve, reject) => { 
+        $.ajax({
+            url: 'card/' + cardId, 
+            type: 'DELETE', 
+            dataType: 'json', 
+            success: function (data) {
+                resolve(data); 
+            },
+            error: function (error) {
+                reject(error); 
+            }
+        });
+    });
+}
+
 const renderKanban = (data10, data20, data30, data40, data50) => {
     const listIds = ["backLog-list", "ToDo-jobs-list", "inProgress-jobs-list", "testing-jobs-list", "done-jobs-list"];
     // 지우기
@@ -775,7 +798,10 @@ $(document).on('click', '.job-block', async function () {
             '<input id="swal-input5" class="swal2-input" value="' + name + '" disabled>' +
 
             '<div class="pt-3">완료날짜</div>' +
-            '<input type="text" id="swal-input6" name="to" class="swal2-input" value="' + completeDate + '" disabled>',
+            '<input type="text" id="swal-input6" name="to" class="swal2-input" value="' + completeDate + '" disabled>' +
+
+            '<div id="cardIdForDelete" style="display: none">' + cardId + '</div>'+
+            '<div><button id="deleteBtn" class="btn btn-danger deleteBtn">삭제</button></div>',
 
         focusConfirm: false,
         preConfirm: () => {
@@ -892,7 +918,7 @@ const saveBtnClick = () => {
 
     //updateKanban시작
     for (i = 0; i < jsonDataSets.length; i++) {
-        updateKanban(cardIdList[i], jsonDataSets[i]);
+    	updateKanban(cardIdList[i], jsonDataSets[i]);
     }
     console.log("업데이트 완료");
 }
@@ -1018,6 +1044,37 @@ $("[id^='plusBtn']").click(function () {
     })
 });
 </script>		
+<script>
+$(document).on('click', '#deleteBtn', async function () {  // async keyword added
+    //console.log("delete 버튼 클릭");
+    const cardId = $('#cardIdForDelete').text();
+    //console.log(cardId);
+
+    const { value: confirmDelete } = await Swal.fire({  // await keyword added
+        title: '삭제 확인',
+        text: '정말로 삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '예',
+        cancelButtonText: '아니오'
+    });
+
+    if (confirmDelete) {
+        await deleteCard(cardId);
+        await fetchDataAndRenderKanban();
+        console.log("삭제 완료");
+        Swal.fire({
+            icon: 'success',
+            title: '삭제 완료',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    } else {
+        //console.log('취소');
+    }
+});
+
+</script>
 <!-- 스크립트영역끝 -->
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 		</div>

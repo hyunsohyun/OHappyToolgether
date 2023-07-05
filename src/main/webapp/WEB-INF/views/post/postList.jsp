@@ -35,6 +35,7 @@
 						<table id="datatablesSimple">
 							<thead>
 								<tr>
+									<th></th>
 									<th>번호</th>
 									<th>제목</th>
 									<th>작성자</th>
@@ -43,13 +44,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="list" items="${list}">
+								<c:forEach items="${list}" var="post" varStatus="status">
 									<tr>
-										<td>${list.postId}</td>
-										<td>${list.title}</td>
-										<td>${list.userid}</td>
-										<td>${list.createDate}</td>
-										<td>${list.hit}</td>
+										<td>${post.postId}</td>
+										<td>${fn:length(list) - status.index}</td>
+										<td>${post.title}</td>
+										<td>${post.userid}</td>
+										<td>${post.createDate}</td>
+										<td>${post.hit}</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -68,10 +70,22 @@
 			<script src="/js/datatables-simple-demo.js"></script>
 			<script type="text/javascript">
 			
+				$(document).ready(function() {
+				 /*  $('#datatablesSimple').DataTable({
+					  // datatable 설정 옵션들...
+					  "columnDefs": [
+					    {
+					      "targets": 0, // postId가 위치한 열의 인덱스
+					      "visible": false, // postId 열은 숨김 처리
+					    }
+					  ]
+				}); */
+			
 				$("#datatablesSimple").on('click', 'tbody tr', function() {
 					let postId = $(this).children().eq(0).text();
+					//let postId = $(this).children().eq(0).attr("id");
 					let boardId = '${boardId}';
-
+					
 					//조회수 업데이트
 					fetch("/post", {
 					  method: "PUT",
@@ -91,6 +105,7 @@
 					  .catch(error => {
 					    alert("code:" + error.message);
 					  }); 
+				});
 				});
 			</script>
 			<%@ include file="/WEB-INF/views/common/footer.jsp"%>

@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.MimeType;
@@ -35,42 +36,54 @@ public class FileIO {
 	}
 
 	//파일업로드
-	public static String uploadFiles(MultipartFile file, String key) throws Exception {
+	public static String uploadFiles(MultipartFile file, String key ,HttpSession session) throws Exception {
 		
         String result = "";
         String filePath = "";
         String pathCate = "";
-        Map<String, String> articleMap = new HashMap<String, String>();
+        
+        //Map<String, String> articleMap = new HashMap<String, String>();
 
         System.out.println("FileUtil.uploadFiles START request >>" + file);
 
-        if("projectImg".equals(key)) pathCate = "project_img";
-        if("members".equals(key)) pathCate = "members";
-        else pathCate = "post";
+       if("post".equals(key)){
+        	pathCate = "post";
 
-        filePath = System.getProperty("user.home") + "\\Documents\\" + pathCate + System.getProperty("file.separator");
-        //저장되는 경로는 C드라이브/사용자/내문서/파일/
-        System.out.println("저장 파일경로 : " + filePath);
-        
-        SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyyMMddHHmmss"); 
-        Date time = new Date(); 
-        String timestamp = dateFormat.format(time);
+        	//C드라이브/사용자/내문서/파일/
+        	filePath = System.getProperty("user.home") + "\\Documents\\" + pathCate + System.getProperty("file.separator");
+	        System.out.println("저장 파일경로 : " + filePath);
 
-        File currentDirPath = new File(filePath);
-        if (!currentDirPath.isDirectory()) currentDirPath.mkdirs();    
+	        File currentDirPath = new File(filePath);
+	        if (!currentDirPath.isDirectory()) currentDirPath.mkdirs();
+	        
+	        File uploadFile = new File(currentDirPath + "/" + FileIO.getUuid());
+	        file.transferTo(uploadFile);
+	        result = uploadFile.getAbsolutePath();
+	        
+        }else {
+        	String fileName = "";
+			if("projectimg".equals(key)) { 
+				pathCate = "projectimg"; 
+				fileName = (String)session.getAttribute("projectId") + file.getOriginalFilename();
+			}
+			if("users".equals(key)) {
+				pathCate = "users"; fileName=(String)session.getAttribute("userid");
+				fileName = (String)session.getAttribute("userid") + file.getOriginalFilename();
+			}
+			
+			String rootPath = session.getServletContext().getRealPath("/");
+			String uploadPath = rootPath + "resource" + File.separator + pathCate + File.separator;
+			
+			File uploadFile = new File(uploadPath + fileName);
+			if (!uploadFile.isDirectory()) uploadFile.mkdirs();
+			
+		    file.transferTo(uploadFile);
+		    result = uploadFile.getAbsolutePath();
 
-        String fieldNameName = file.getName();
-        String fileName = file.getOriginalFilename();
-        
-        //File uploadFile = new File(currentDirPath + "/" + timestamp + "_" + fileName);
-        File uploadFile = new File(currentDirPath + "/" + FileIO.getUuid());
-        
-        articleMap.put(fieldNameName, fileName);
-        file.transferTo(uploadFile);
-
-        result = uploadFile.getAbsolutePath();
-
-        return result;
+		    System.out.println("저장될 파일 경로 : " + result);
+        }
+       //저장된 파일경로
+       return result;
     }
 	
 	

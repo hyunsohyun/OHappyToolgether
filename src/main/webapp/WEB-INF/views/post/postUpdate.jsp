@@ -40,7 +40,16 @@
         <div class="form-group">
             <input class="form-control" type="file" id="fileInput" name="fileInput" multiple onchange="addFile()">
             <div class="selected-files">
-		        <ul id="selectedFiles"></ul>
+		        <ul id="selectedFiles">
+			        <c:if test="${fileList != null}">
+					<c:forEach var="file" items="${fileList}" varStatus="status">
+				        <li style='list-style-type: none;'>
+				        	<span style='color: gray;'>${file.realFileName}</span>&nbsp;&nbsp;&nbsp;
+				        	<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteFile(${status})'></i>
+				        </li>
+		        	</c:forEach>
+		        	</c:if>
+		        </ul>
 		    </div>
           </div>
         
@@ -112,7 +121,7 @@
 	$("#fileInput").on("change",function() {
 		let fileNames = "";
 		for (let i = 0; i < this.files.length; i++) {
-			fileNames += "<li>" + this.files[i].name + "<input type='button' value ='삭제' onclick='deleteFile(" + i + ")'/></li>";
+			fileNames += "<li style='list-style-type: none;'><span style='color: gray;'>" + this.files[i].name + "</span>&nbsp;&nbsp;&nbsp;<i class='fa-solid fa-xmark' style='color: #b53930;' onclick='deleteFile(" + i + ")'></i></li>";
 		}
 		$("#selectedFiles").append(fileNames);
 	});

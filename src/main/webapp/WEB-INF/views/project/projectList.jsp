@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
+<!-- 현재 사용자의 ID를 가져옴 -->
+<sec:authentication property="name" var="userid" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +17,8 @@
 <link href="css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<!-- swal2  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -36,7 +42,7 @@
 										<label class="form-label mt-1">${item.projectName}</label>
 									</div>
 									<div class="form-group d-flex">
-										<img src='/assets/img/${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
+										<img src='/resources/projectimg/${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
 									</div>
 									<a href='projectDetail.do/${item.projectId}' class="btn btn-danger float-end">시작</a>
 								</div>
@@ -53,9 +59,9 @@
 							
 								<div class="col-sm-3">
 									<div class="card border-dark shadow mb-5 rounded">
-										<div class="card-header">새 프로젝트 추가</div>
-										<div class="card-body">
-											<div id="insertProject">
+										<div class="card-header bg-secondary">새 프로젝트 추가</div>
+										<div class="card-body" id="insertProject" data-bs-toggle="modal" data-bs-target="#projectForm">
+											<div>
 												<label class="form-label mt-1">프로젝트를 추가하려면 클릭하세요</label>
 											</div>
 											<div class="form-group d-flex">
@@ -70,36 +76,122 @@
 							</c:if>
 						</c:if>
 											
-					</c:forEach>		
+					</c:forEach>
+					
 				</div>
-			</main>
+<!-- 모달 창 -->
+<div class="modal" id="projectForm" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h1 class="modal-title fs-5">프로젝트 생성</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="insertProjectForm">
+        <div class="mb-3">
+            <label for="managerId" class="col-form-label">프로젝트 매니저:</label>
+            <input type="text" class="form-control" id="managerId" name="managerId" value="${userid}" disabled>
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">프로젝트명:</label>
+            <input type="text" class="form-control" id="projectName">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">프로젝트파일:</label>
+            <input type="file" class="form-control" id="projectImage"></input>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary" id="insertBtn">생성</button>
+      </div>
+    </div>
+  </div>
+</div>
+		</main>
 		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 		<script src="js/datatables-simple-demo.js"></script>
 
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 	</div>
 	</div>
-	<script src="js/scripts.js">
-		$("#insertProject").click(function(){
-		    $.ajax({
-		      url: '/insertProject',
-		      type: 'POST',
-		      success: function(data) {
-		        // This function is called if the request succeeds.
-		        // 'data' is the data returned from the server.
-		        // You can add code here to handle the returned data.
-		        console.log('Request succeeded. Returned data: ' + data);
-		      },
-		      error: function(xhr, status, error) {
-		        // This function is called if the request fails.
-		        // 'xhr' is the XMLHttpRequest object, 'status' is the status code,
-		        // 'error' is the error message.
-		        // You can add code here to handle the error.
-		        console.log('Request failed. Status: ' + status + '. Error: ' + error);
-		      }
+	
+	<script src="js/scripts.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		console.log("문서로드완료");
+		console.log($("#managerId").val());
+		$("#insertBtn").on('click', function(event) {
+		      event.preventDefault(); // 폼 기본 동작 방지
+		      console.log("#insertBtn 클릭 이벤트 발생");
+		      var formData = {
+		        "managerId": $("#managerId").val(),
+		        "projectName": $("#projectName").val(),
+		        //"projectImage": $("#projectImage").val() + $('#projectImage')[0].files[0].name 추후 작업
+		      };
+
+		      $.ajax({
+		        url: "${pageContext.request.contextPath}/insertProject",
+		        type: "POST",
+		        contentType: "application/json",
+		        data: JSON.stringify(formData),
+		        success: function(response) {
+	        	  Swal.fire({
+	                icon: 'success',
+	                title: '수정 완료',
+	                showConfirmButton: false,
+	                timer: 1500
+	              });
+		          //uploadImg(); 추후 작업
+
+		          setTimeout(function() {
+		            	window.location.href = "/projectList.do";
+					}, 1500);
+		        },
+		        error: function(xhr, status, error) {
+		        	Swal.fire({
+		                icon: 'error',
+		                title: '수정 실패',
+		                text: '오류 : ' + xhr.responseText,
+		                showConfirmButton: false,
+		                timer: 1500
+		            })
+		            setTimeout(function() {
+		            	window.location.href = "/projectList.do";
+					}, 1500);
+		        }
+		      });
 		    });
 		  });
-	
+
+		  function uploadImg() {
+			  var data = new FormData();
+			  let file = $('#projectImage')[0].files[0];
+			  data.append('uploadFile', file);
+
+			  $.ajax({
+			    url: "${pageContext.request.contextPath}/file/projectimg/upload",
+			    type: "POST",
+			    contentType: false,
+			    processData: false,
+			    data: data,
+			    success: function(response) {
+			      // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
+			    },
+			    error: function(xhr, status, error) {
+			    	Swal.fire({
+		                icon: 'error',
+		                title: '수정 실패',
+		                text: '오류 : ' + xhr.responseText,
+		                showConfirmButton: false,
+		                timer: 1500
+		            })
+			      return
+			    }
+			  });
+			}
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
