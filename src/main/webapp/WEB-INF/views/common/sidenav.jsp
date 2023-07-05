@@ -34,7 +34,7 @@
 					<a class="nav-link" href="${pageContext.request.contextPath}/kanban.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
-						</div> kanban (${projectId})
+						</div> kanban (${project.projectName})
 					</a>
 
 					
@@ -43,7 +43,7 @@
 					<a class="nav-link" href="${pageContext.request.contextPath}/fullcalendar.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
-						</div> fullcalendar (${projectId})
+						</div> fullcalendar (${project.projectName})
 					</a>
 					
 					<div class="sb-sidenav-menu-heading" id="boardList">Board List</div>
@@ -72,7 +72,7 @@
 						<a class="nav-link" href="${pageContext.request.contextPath}/projectManagement.do">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
-							</div> Project Management (${projectId})
+							</div> Project Management (${project.projectName})
 						</a>
 					</c:if>
 				</div>
@@ -88,7 +88,8 @@
 
 			<c:if test="${userid != 'anonymousUser'}">
 				<form action="/logout" method="POST">
-					<button type='submit' class='float-end btn btn-primary'>로그아웃</button>
+					<button type='submit' class='float-end btn btn-secondary'><i class="fas fa-sign-out-alt" style="color: #f0f2f4;"></i> Logout</button>
+					
 				</form>
 			</c:if>
 			<div class="small">Logged in as:</div>
