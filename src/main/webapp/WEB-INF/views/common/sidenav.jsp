@@ -10,8 +10,8 @@
 <div id="layoutSidenav_nav">
 	<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
 		<div class="sb-sidenav-menu">
+			
 			<div class="nav">
-
 				<c:if test="${userid != 'anonymousUser'}">
 					<div class="sb-sidenav-menu-heading">Core</div>
 					<a class="nav-link" href="${pageContext.request.contextPath}/projectList.do">
@@ -37,14 +37,7 @@
 						</div> kanban (${projectId})
 					</a>
 
-					<c:if test="${managerId == userid}">
-						<div class="sb-sidenav-menu-heading">PROJECTMANAGEMENT</div>
-						<a class="nav-link" href="${pageContext.request.contextPath}/projectManagement.do">
-							<div class="sb-nav-link-icon">
-								<i class="fas fa-tachometer-alt"></i>
-							</div> Project Management (${projectId})
-						</a>
-					</c:if>
+					
 					
 					<div class="sb-sidenav-menu-heading">CALENDAR</div>
 					<a class="nav-link" href="${pageContext.request.contextPath}/fullcalendar.do">
@@ -72,7 +65,25 @@
 				</c:if>
 
 			</div>
+			<div class='nav' style="display: grid; align-content: end;">
+				<div>
+					<c:if test="${managerId == userid}">
+						<div class="sb-sidenav-menu-heading">PROJECTMANAGEMENT</div>
+						<a class="nav-link" href="${pageContext.request.contextPath}/projectManagement.do">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-tachometer-alt"></i>
+							</div> Project Management (${projectId})
+						</a>
+					</c:if>
+				</div>
+				
+			</div>
+			
+			
 		</div>
+		
+		
+		
 		<div class="sb-sidenav-footer">
 
 			<c:if test="${userid != 'anonymousUser'}">
