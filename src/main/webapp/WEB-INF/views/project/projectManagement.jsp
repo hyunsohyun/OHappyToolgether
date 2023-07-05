@@ -614,35 +614,54 @@ $(document).ready(function() {
 				});
 
     		 
-		    $('#boardInsertBtn').click(function() {
-		      let boardName = $('#boardInsertName').val();
-			
-		      console.log(projectId);
-		      
-		      let boardData = {
-		        projectId: projectId,
-		        boardName: boardName
-		      };
-		
-		      // 서버로 AJAX POST 요청 보내기
-		      $.ajax({
-		    	  url: '/board',
-		    	  type: 'POST',
-		    	  contentType: 'application/json',
-		    	  data: JSON.stringify(boardData),
-		    	  success: function() {
-		    		getBoardCount();
-		    	    console.log('게시판이 성공적으로 추가되었습니다.');
-		    	    alert("게시판이 생성되었습니다.");
-		    	    $("#modal").css("display", "none"); 
-		    	  },
-		    	  error: function() {
-		    	    console.log('게시판 추가에 실패했습니다.');
-		    	    alert("생성 실패!");
-		    	    $("#modal").css("display", "none"); 
-		    	  }
-		      });
-		    });
+    		 $('#boardInsertBtn').click(function() {
+   			  let boardName = $('#boardInsertName').val();
+   			  let getBoardCountSuper = $("#projectBoardCount").val();
+   			  let boardCount = getBoardCountSuper.substring(0, getBoardCountSuper.indexOf(' '));
+				
+	   			if (boardCount >= 10) {
+				    alert("게시판은 최대 10개까지만 생성 가능합니다!");
+				    $("#modal").css("display", "none");
+				    return;
+				  } else {
+				    let boardData = {
+				      projectId: projectId,
+				      boardName: boardName
+				    };
+				    
+				    // 서버로 AJAX POST 요청 보내기
+				    $.ajax({
+				      url: '/board',
+				      type: 'POST',
+				      contentType: 'application/json',
+				      data: JSON.stringify(boardData),
+				      success: function() {
+				        getBoardCount();
+				        console.log('게시판이 성공적으로 추가되었습니다.');
+				        alert("게시판이 생성되었습니다.");
+				        $("#modal").css("display", "none");
+				        
+				        // 추가 요청을 보내는 부분
+				        $.ajax({
+				          url: '/projectDetail.do/' + projectId,
+				          type: 'GET',
+				          success: function() {
+				            console.log('프로젝트 상세 정보를 성공적으로 가져왔습니다.');
+							window.location.reload();
+				          },
+				          error: function() {
+				            console.log('프로젝트 상세 정보 가져오기에 실패했습니다.');
+				          }
+				        });
+				      },
+				      error: function() {
+				        console.log('게시판 추가에 실패했습니다.');
+				        alert("생성 실패!");
+				        $("#modal").css("display", "none");
+				      }
+				    });
+				  }
+				});
 
 
     	  // 참가자 내쫓아 버리기
@@ -675,6 +694,7 @@ $(document).ready(function() {
 			      deleteButton.closest("tr").remove();
 			      alert("추방되었습니다.");
 			      updateProjectParticipantsAsync();
+			      addUserToTable([]);
 			      getUsers(currentPage, pageSize); // 페이징 처리 유지
 			      
 			    },
