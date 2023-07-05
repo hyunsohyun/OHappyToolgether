@@ -75,7 +75,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 	  $(document).ready(function() {
+		//set file
+		const fileInput = document.getElementById('image');
 		
+		// 파일 입력 필드의 값 설정
+		//const file = new File(['파일 내용'], '파일명.txt', { type: 'text/plain' });
+		//fileInput.files = [file];
 		  
 	    $("#editForm").submit(function(event) {
 	      event.preventDefault(); // 폼 기본 동작 방지
@@ -148,4 +153,5 @@
 		    }
 		  });
 		}
+	 
 	</script>  

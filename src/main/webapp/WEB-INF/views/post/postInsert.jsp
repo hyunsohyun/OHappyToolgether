@@ -32,9 +32,6 @@
     <form method="post" id="postForm" name="postForm" action="">
     	<input type="hidden" name="projectId" value="${projectId}">
     	<input type="hidden" name="boardId" value="${boardId}">
-	    <div class="form-group">
-	      <input type="text" class="form-control" id="boardName" value="${boardName}" readonly>
-	    </div>
         <div class="form-group">
             <input type="input" class="form-control" id="Input" name="title" placeholder="제목을 입력해주세요">
         </div>
