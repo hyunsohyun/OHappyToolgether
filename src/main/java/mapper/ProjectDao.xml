@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<delete id="deleteAllUsersProject" parameterType="kr.or.kosa.project.vo.UsersProject">
-		DELETE FROM users_project WHERE project_id = #{projectId}
+		DELETE FROM project WHERE project_id = #{projectId}
 	</delete>
 	
 	<!-- 프로젝트명 변경 -->
