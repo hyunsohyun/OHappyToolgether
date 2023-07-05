@@ -2,6 +2,7 @@ package kr.or.kosa.post;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -65,7 +66,8 @@ public class PostController {
 		Board board = new Board();
 		board.setBoardId(boardId);
 		board.setProjectId((int)session.getAttribute("projectId"));
-		model.addAttribute("boardName", boardService.getBoardName(board));
+		//model.addAttribute("boardName", boardService.getBoardName(board));
+		session.setAttribute("boardName", boardService.getBoardName(board));
 		
 		return "post/postList";
 	}
@@ -123,7 +125,7 @@ public class PostController {
 	
 	//글수정 페이지
 	@GetMapping(value="/postUpdate")
-	public String postUpdate(@RequestParam("boardId") int boardId, @RequestParam("postId") int postId, Model model) throws Exception{
+	public String postUpdate(@RequestParam("boardId") int boardId, @RequestParam("postId") int postId, Model model, HttpSession session) throws Exception{
 		
 		//상세정보 담기
 		Post post = new Post();
@@ -142,7 +144,7 @@ public class PostController {
   		if(fileList != null) {
   			model.addAttribute("fileList", fileList);
   		}
-
+  			
 	    return "post/postUpdate";
 	}
 	

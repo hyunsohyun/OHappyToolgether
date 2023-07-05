@@ -17,6 +17,8 @@
 	<link href="/css/styles.css" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<!-- swal2  -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
     #nav {
@@ -25,24 +27,21 @@
     }
     
     #comments {
-    	border: 1px solid #ccc; 
     	background-color: #f7f7f7; 
     	padding : 10px;
     	padding-left: 40px;
    		padding-right: 40px;
+   		border-radius: 10px;
     }
     
     #comment-insert{
-    	border: 1px solid #ccc; 
     	background-color: white; 
     	margin-top: 15px;
-    	/* border-radius: 10px;  */
+    	border-radius: 15px;
     	padding: 20px;
+    	padding-right: 50px;
     }
     
-    #content {
-    	height: 500px;
-    }
 </style>
 
 <body class="sb-nav-fixed">
@@ -51,19 +50,10 @@
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 		<main class="container mt-4">
-				<div id="nav">
-					 
-					<c:if test="${userid == post.userid}"> 
-						<div class="left">
-							<button type="button" class="btn btn-sm btn btn-warning" id="updateBtn" onclick="updatePost()">글수정</button>
-							<button type="button" class="btn btn-sm btn btn-danger" id="deleteBtn" onclick="deletePost()">글삭제</button>
-						</div>
-					</c:if>
-					<div class="right">
-						<button type="button" class="btn btn-sm btn-secondary"" id="before" onclick="before()"><i class="fa-solid fa-arrow-down"></i> 이전글</button>
-						<button type="button" class="btn btn-sm btn-light" id="list" onclick="window.location.href='/postList/${boardId}'">목록</button>
-						<button type="button" class="btn btn-sm btn-secondary" id="next" onclick="next()"><i class="fa-solid fa-arrow-up"></i> 다음글</button>
-					</div>
+				<div id="nav" style="display: flex; justify-content: flex-end;">
+					<button type="button" class="btn btn-sm btn-secondary"" id="before" onclick="before()"><i class="fa-solid fa-arrow-down"></i> 이전글</button>
+					<button type="button" class="btn btn-sm btn-light" id="list" onclick="window.location.href='/postList/${boardId}'">목록</button>
+					<button type="button" class="btn btn-sm btn-secondary" id="next" onclick="next()"><i class="fa-solid fa-arrow-up"></i> 다음글</button>
 				</div>
 
 				<div class="container">
@@ -71,53 +61,67 @@
 					<h2>${post.title}</h2>
 				</div>
 				
-				<div id="postInfo" class="mb-3" >
-						<table>
-							<tr>
-								<td rowspan="3" style="width: 10%;"><img style="width: 30px;" src="/resource/users/${userid}.png" /></td>
-								<td style="width: 80%;"><span style="font-weight: bold;">${post.userid}</span></td>
-							</tr>
-							<tr>
-								<td><span style="color: gray;">
-									<c:choose>
-										<c:when test="${not empty post.modifyDate}"> ${post.modifyDate}</c:when>
-			                        	<c:otherwise>${post.createDate}</c:otherwise>
-			                    	</c:choose>
-									조회 : ${post.hit}
-								</span></td>
-							</tr>
-						</table>
-						
+				<div id="postInfo" class="mb-3">
+				    <div style="display: flex; justify-content: space-between;">
+				        <div class="right">
+				            <table style ="width: 600px;">
+				                <tr>
+				                    <td rowspan="3" style="width: 10%;"><img style="width:50px;" src="/resource/users/${post.writerImage}" /></td>
+				                    <td style="width: 80%;"><span style="font-weight: bold;">${post.userid}</span></td>
+				                </tr>
+				                <tr>
+				                    <td>
+				                        <span style="color: gray;">
+				                            <c:choose>
+				                                <c:when test="${not empty post.modifyDate}">${post.modifyDate}</c:when>
+				                                <c:otherwise>${post.createDate}</c:otherwise>
+				                            </c:choose>
+				                            조회: ${post.hit}
+				                        </span>
+				                    </td>
+				                </tr>
+				            </table>
+				        </div>
+				        <c:if test="${userid == post.userid}">
+				            <div class="left">
+				                <button type="button" class="btn btn-info" id="updateBtn" onclick="updatePost()">글수정</button>
+				                <button type="button" class="btn btn-warning" id="deleteBtn" onclick="deletePost()">글삭제</button>
+				            </div>
+				        </c:if>
+				    </div>
 				</div>
 				
 				<!-- 라인이 넣고 싶어서~ -->
 				<div class="card border-dark mb-3"></div>
 				
-				<!-- file존 -->
-				<div id="files" class="mb-3">
-					<c:forEach var="fileList" items="${fileList}">
-						<span><a href="/file/download/${fileList.postId}/${fileList.fileId}">${fileList.realFileName}</a></span><br>
-					</c:forEach>
-				</div>
 				
+				<!-- file존 -->
+				<c:forEach var="fileList" items="${fileList}">
+					<div id="files" class="mb-3 mx-3 float-end rounded" style="background-color: #f5f5f5; padding: 10px;">
+			            <i class="fa-solid fa-file" style="color: gray;"></i>&nbsp;
+			            <a href="/file/download/${fileList.postId}/${fileList.fileId}" style="text-decoration: none; color: #333;">${fileList.realFileName}</a>
+					</div>
+				</c:forEach>
+								
 				<!-- content존 -->
-				<div id="content" class="mb-3" >
+				<div id="content" class="mb-5 h-100" >
 					${post.content}
 				</div>
 				
+
 				<!-- 댓글존 -->
 				<div id ="comments" class="mb-3" >
 					<h4>Comments</h4>
 					<!-- 댓글 리스트존 -->
 					<div class="mb-3">
-						<table id="commentList">
+						<table id="commentList" style="width: 100%;">
 							<%-- <c:forEach var="comment" items="${commentList}">
 								<div>
 									<table>
 										<tr>
 											<td rowspan="3" style="width:10%;"><img src="https://www.hsh"/></td>
 											<td style="width:70%;"><span style="font-weight: bold;">${comment.writerId}</span></td>
-											<td rowspan="3" style="width: 20%;">
+											<td rowspan="3" Cstyle="width: 20%;">
 												<c:if test="${sessionScope.userid eq 'comment.writerId'}">
 													<input type='button' value='삭제' class="btn btn-light" onclick='ㅊ(this)'>
 													<input type='button' value='수정' class="btn btn-light" onclick='commentDelete(this)'>
@@ -139,36 +143,47 @@
 									<br>
 								</div>
 							</c:forEach> --%>
-						</table>
+							</table>
 						
 						<!-- 댓글입력존 -->
 						<div id="comment-insert">
-							<span style="font-weight: bold;">작성자ID : ${userid}</span>
 							<div class="mb-3 row">
-								<div class="col">
-									<input type="input" class="form-control" id="commentContent" name="commentContent" placeholder="댓글을 입력해주세요">
+								<div class="col mt-4" >
+									<p>작성자ID : <span style="font-weight: bold;">${userid}</span></p>
+									<input type="text" class="form-control" id="commentContent" name="commentContent" placeholder="댓글을 입력해주세요">
 								</div>
-								<div class="col-auto">
-									<input type="button" class="btn btn btn-light" onclick="commentsInsert()" value="댓글등록">
+								<div class="col-auto d-flex align-items-end">
+									<input type="button" class="btn btn btn-light" onclick="commentsInsert()" value="등록">
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div id="writer">
-					<c:if test="${userid == post.userid}">
-						<button type="button" class="btn btn-sm btn btn-warning" id="updateBtn" onclick="updatePost()">글수정</button>
-						<button type="button" class="btn btn-sm btn btn-danger" id="deleteBtn" onclick="deletePost()">글삭제</button>
-					</c:if>
-				</div>
-				</div>
-			</main>
-			</div>
+				
+				<!-- 글수정 삭제 -->
+				<div id="writerMode" class="mb-5">
+					<div style="display: flex; justify-content: space-between;">
+					 	<div class="right"></div>
+						<c:if test="${userid == post.userid}">
+				            <div class="left">
+				                <button type="button" class="btn btn-info" id="updateBtn" onclick="updatePost()">글수정</button>
+				                <button type="button" class="btn btn-warning" id="deleteBtn" onclick="deletePost()">글삭제</button>
+				            </div>
+				        </c:if>
+			        </div>
 				</div>
 				
-			<!-- 글수정 삭제 -->
+				
+				</div>
+			</main>
+			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+			</div>
+			</div>
+				
 			
-		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+			
+		
+		
 	<script src="/js/scripts.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 				
@@ -202,9 +217,21 @@
 			  .then(response => response.json())
 			  .then(data => {
 				if(data>0){
-				    alert("게시물이 삭제되었습니다.");
+				    //alert("게시물이 삭제되었습니다.");
+				    Swal.fire({
+						icon: 'success',
+						title: '게시물이 삭제되었습니다.',
+						showConfirmButton: false,
+						timer: 1500
+					})
 				}else{
-					alert("게시물 삭제 실패");
+					//alert("게시물 삭제 실패");
+					Swal.fire({
+						icon: 'success',
+						title: '게시물이 삭제 실패',
+						showConfirmButton: false,
+						timer: 1000
+					})
 				}
 				window.location.href="/postList/" + boardId;
 			  })
@@ -224,8 +251,8 @@
 		    $('#commentList').empty();
 		    data.forEach(value => {
 		      let str = '';
-		      str += '<tr>';
-		      str += '<td rowspan="3" style="width:10%;"><img style="width:30px;" src="/resource/users/${userid}.png"/></td>';
+		      str += '<tr style="width:100%;">';
+		      str += '<td rowspan="3" style="width:10%;text-align: center;"><img style="width:50px; border-radius: 50%;" src="/resource/users/' + value.writerImage + '"/></td>';
 		      str += '<td style="width:75%;"><span style="font-weight: bold;">' + value.writerId + '</span></td>';
 		      str += '<td rowspan="3" style="width: 15%;">';
 		      str += (value.writerId === '${userid}') ? '<input type="button" class="btn btn-light" value="수정" onclick="commentUpdateMode(' + value.commentId + ', this)"><input type="button" class="btn btn-light" value="삭제" onclick="commentDelete(' + value.commentId + ')">' : '';
@@ -233,7 +260,7 @@
 		      str += '<tr style="width:80%;"><td id="'+ value.commentId +'">' + value.content + '</td></tr>';
 		      str += '<tr style="width:10%;"><td><span style="color: gray;">';
 		      str += (value.modifyDate !== null) ? value.modifyDate : value.createDate;
-		      str += '</span></td></tr>';
+		      str += '</span></td></tr><tr><td>&nbsp;</td></tr>';
 		      
 		      $('#commentList').append(str);
 		    });
@@ -245,6 +272,16 @@
 	
 	//댓글작성
 	function commentsInsert(){
+		if($("#commentContent").val()== null || $("#commentContent").val() == ''){
+			Swal.fire({
+				icon: 'warning',
+				title: '댓글을 입력해주세요',
+				showConfirmButton: false,
+				timer: 1000
+			})
+			return;
+		}
+		
 		const postId = "${post.postId}";
 		const boardId = "${post.boardId}";
 		fetch("/comments", {
@@ -288,9 +325,20 @@
 		  .then(response => response.json())
 		  .then(data => {
 		    if (data > 0) {
-		      alert("댓글삭제 완료");
+		    	Swal.fire({
+					icon: 'success',
+					title: '댓글이 삭제되었습니다',
+					showConfirmButton: false,
+					timer: 1000
+				})
 		    } else {
-		      alert("댓글삭제 실패");
+		      //alert("댓글삭제 실패");
+		      Swal.fire({
+					icon: 'error',
+					title: '댓글이 삭제실패',
+					showConfirmButton: false,
+					timer: 1000
+				})
 		    }
 		    commentList();
 		  })
@@ -307,12 +355,15 @@
 		let textBox = document.createElement('input');
 		textBox.id = 'content' + commentId;
 		textBox.type = 'text';
-		textBox.value = td.textContent; // 해당 <tr>의 내용을 가져와서 텍스트 박스에 설정합니다.
+		textBox.value = td.textContent;
 		
-		//버튼 삭제하고 생성
+		 // 텍스트 박스에 부트스트랩 클래스 추가
+		textBox.classList.add('form-control');
+		 
+		 //버튼 삭제하고 생성
 		$(button).siblings().remove();
-  		$(button).after('<button type="button" class="btn btn btn-dark" onclick="commentList()">취소</button>');
-  		$(button).after('<button type="button" class="btn btn-secondary" onclick="commemtUpdate(' + commentId + ', this)">수정 완료</button>');
+  		$(button).after('<button type="button" class="btn btn-light" onclick="commentList()">취소</button>');
+  		$(button).after('<button type="button" class="btn btn-light" onclick="commemtUpdate(' + commentId + ', this)">수정</button>');
 		$(button).remove();
 
 		// 해당 <td> 셀을 찾아 텍스트 박스로 대체
@@ -340,9 +391,20 @@
 		  .then(response => response.json())
 		  .then(data => {
 		    if (data> 0) {
-		      alert("댓글수정 완료");
+		    	Swal.fire({
+	                icon: 'success',
+	                title: '수정 완료',
+	                showConfirmButton: false,
+	                timer: 1500
+	            })
+	            
 		    } else {
-		      alert("댓글수정 실패");
+				Swal.fire({
+					icon: 'error',
+					title: '수정 실패',
+					showConfirmButton: false,
+					timer: 1500
+				})
 		    }
 		    commentList();
 		  })
