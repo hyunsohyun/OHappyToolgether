@@ -8,6 +8,8 @@ public class Comments {
 	private String modifyDate;
 	private String writerId;
 	private int boardId;
+	private String writerImage;
+	
 	public int getCommentId() {
 		return commentId;
 	}
@@ -51,11 +53,21 @@ public class Comments {
 		this.boardId = boardId;
 	}
 	
+	public String getWriterImage() {
+		return writerImage;
+	}
+	public void setWriterImage(String writerImage) {
+		this.writerImage = writerImage;
+	}
 	@Override
 	public String toString() {
 		return "Comments [commentId=" + commentId + ", postId=" + postId + ", content=" + content + ", createDate="
-				+ createDate + ", modifyDate=" + modifyDate + ", writerId=" + writerId + ", boardId=" + boardId + "]";
+				+ createDate + ", modifyDate=" + modifyDate + ", writerId=" + writerId + ", boardId=" + boardId
+				+ ", writerImage=" + writerImage + "]";
 	}
+	
+	
+	
 	
 	
 }

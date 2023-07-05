@@ -11,7 +11,8 @@ public class Post {
 	private String modifyDate;
 	private int projectId;
 	private String userid;
-	
+	private String boardName;
+	private String writerImage;
 	
 	public int getPostId() {
 		return postId;
@@ -68,13 +69,25 @@ public class Post {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
+	public String getBoardName() {
+		return boardName;
+	}
+	public void setBoardName(String boardName) {
+		this.boardName = boardName;
+	}
+
+	public String getWriterImage() {
+		return writerImage;
+	}
+	public void setWriterImage(String writerImage) {
+		this.writerImage = writerImage;
+	}
 	
 	@Override
 	public String toString() {
 		return "Post [postId=" + postId + ", boardId=" + boardId + ", title=" + title + ", content=" + content
 				+ ", hit=" + hit + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", projectId="
-				+ projectId + ", userid=" + userid + "]";
+				+ projectId + ", userid=" + userid + ", boardName=" + boardName + ", writerImage=" + writerImage + "]";
 	}
-
 	
 }
