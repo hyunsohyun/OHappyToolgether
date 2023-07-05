@@ -97,7 +97,7 @@
 				
 				<!-- file존 -->
 				<c:forEach var="fileList" items="${fileList}">
-					<div id="files" class="mb-3 w-75" style="background-color: #f5f5f5; padding: 10px;">
+					<div id="files" class="mb-3 mx-3 float-end rounded" style="background-color: #f5f5f5; padding: 10px;">
 			            <i class="fa-solid fa-file" style="color: gray;"></i>&nbsp;
 			            <a href="/file/download/${fileList.postId}/${fileList.fileId}" style="text-decoration: none; color: #333;">${fileList.realFileName}</a>
 					</div>
@@ -121,7 +121,7 @@
 										<tr>
 											<td rowspan="3" style="width:10%;"><img src="https://www.hsh"/></td>
 											<td style="width:70%;"><span style="font-weight: bold;">${comment.writerId}</span></td>
-											<td rowspan="3" style="width: 20%;">
+											<td rowspan="3" Cstyle="width: 20%;">
 												<c:if test="${sessionScope.userid eq 'comment.writerId'}">
 													<input type='button' value='삭제' class="btn btn-light" onclick='ㅊ(this)'>
 													<input type='button' value='수정' class="btn btn-light" onclick='commentDelete(this)'>
@@ -258,7 +258,7 @@
 		      str += '<tr style="width:80%;"><td id="'+ value.commentId +'">' + value.content + '</td></tr>';
 		      str += '<tr style="width:10%;"><td><span style="color: gray;">';
 		      str += (value.modifyDate !== null) ? value.modifyDate : value.createDate;
-		      str += '</span></td></tr>';
+		      str += '</span></td></tr><tr><td>&nbsp;</td></tr>';
 		      
 		      $('#commentList').append(str);
 		    });
