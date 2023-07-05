@@ -14,11 +14,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <title>OHappyToolgether</title>
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+
 <link href="/css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <!-- swal2  -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- osh8242
+<link href="/css/projectManagement.css" rel="stylesheet" />
+<link href="/css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+-->
+
 </head>
 <style>
  
@@ -42,6 +51,7 @@
 						<div class="card-header projectinfo-header">
 							<span class="sub-title-text"><i class="fas fa-users"></i> TEAM MEMBER</span>
 						</div>
+
 						
 						<div style="margin: auto;">
 							<c:set var="colNum" value='5' />
@@ -86,6 +96,7 @@
 							</c:if>
 												
 						</c:forEach>
+
 						</div>
 					</div>
 					</div>
@@ -139,9 +150,11 @@
 		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 		<script src="/js/datatables-simple-demo.js"></script>
 
+
 		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 	</div>
 	</div>
+
 	
 	<script src="/js/scripts.js"></script>
 	<script type="text/javascript">
