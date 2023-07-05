@@ -30,6 +30,21 @@
 					<!-- 프로젝트 카드영역-->
 					<c:set var="colNum" value='4' />
 					<c:set var="length" value='${fn:length(projectList)}'/>
+					<c:if test="${length == 0 }">
+						<div class="col-sm-3">
+							<div class="card border-dark shadow mb-5 rounded">
+								<div class="card-header bg-secondary">새 프로젝트 추가</div>
+								<div class="card-body" id="insertProject" data-bs-toggle="modal" data-bs-target="#projectForm">
+									<div>
+										<label class="form-label mt-1">프로젝트를 추가하려면 클릭하세요</label>
+									</div>
+									<div class="form-group d-flex">
+										<img src='/assets/img/add-button.png' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
+									</div>											
+								</div>
+							</div>
+						</div>
+					</c:if>
 					<c:forEach var="item" items="${projectList}" begin="0" varStatus="status">
 						<c:if test="${status.index%colNum == 0}">
 							<div class='row mt-5'>
