@@ -32,6 +32,7 @@
     	padding-left: 40px;
    		padding-right: 40px;
    		border-radius: 10px;
+   		
     }
     
     #comment-insert{
@@ -50,11 +51,7 @@
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 		<main class="container mt-4">
-				<div id="nav" style="display: flex; justify-content: flex-end;">
-					<button type="button" class="btn btn-sm btn-secondary"" id="before" onclick="before()"><i class="fa-solid fa-arrow-down"></i> 이전글</button>
-					<button type="button" class="btn btn-sm btn-light" id="list" onclick="window.location.href='/postList/${boardId}'">목록</button>
-					<button type="button" class="btn btn-sm btn-secondary" id="next" onclick="next()"><i class="fa-solid fa-arrow-up"></i> 다음글</button>
-				</div>
+
 
 				<div class="container">
 				<div id="title" class="mb-3">
@@ -66,7 +63,7 @@
 				        <div class="right">
 				            <table style ="width: 600px;">
 				                <tr>
-				                    <td rowspan="3" style="width: 10%;"><img style="width:50px;" src="/resource/users/${post.writerImage}" /></td>
+				                    <td rowspan="3" style="width: 10%;"><img style="width:50px; border-radius: 50%;" src="/resource/users/${post.writerImage}" /></td>
 				                    <td style="width: 80%;"><span style="font-weight: bold;">${post.userid}</span></td>
 				                </tr>
 				                <tr>
@@ -104,7 +101,7 @@
 				</c:forEach>
 								
 				<!-- content존 -->
-				<div id="content" class="mb-5 h-100" >
+				<div id="content" style="min-height: 500px;" >
 					${post.content}
 				</div>
 				
@@ -149,7 +146,6 @@
 						<div id="comment-insert">
 							<div class="mb-3 row">
 								<div class="col mt-4" >
-									<p>작성자ID : <span style="font-weight: bold;">${userid}</span></p>
 									<input type="text" class="form-control" id="commentContent" name="commentContent" placeholder="댓글을 입력해주세요">
 								</div>
 								<div class="col-auto d-flex align-items-end">
@@ -160,7 +156,7 @@
 					</div>
 				</div>
 				
-				<!-- 글수정 삭제 -->
+				<%-- <!-- 글수정 삭제 -->
 				<div id="writerMode" class="mb-5">
 					<div style="display: flex; justify-content: space-between;">
 					 	<div class="right"></div>
@@ -171,6 +167,12 @@
 				            </div>
 				        </c:if>
 			        </div>
+				</div> --%>
+				
+				<div id="nav" style="display: flex; justify-content: flex-end;" class ="mb-7">
+					<button type="button" class="btn btn-sm btn-secondary"" id="before" onclick="before()"><i class="fa-solid fa-arrow-down"></i> 이전글</button>
+					<button type="button" class="btn btn-sm btn-light" id="list" onclick="window.location.href='/postList/${boardId}'">목록</button>
+					<button type="button" class="btn btn-sm btn-secondary" id="next" onclick="next()"><i class="fa-solid fa-arrow-up"></i> 다음글</button>
 				</div>
 				
 				
@@ -255,12 +257,12 @@
 		      str += '<td rowspan="3" style="width:10%;text-align: center;"><img style="width:50px; border-radius: 50%;" src="/resource/users/' + value.writerImage + '"/></td>';
 		      str += '<td style="width:75%;"><span style="font-weight: bold;">' + value.writerId + '</span></td>';
 		      str += '<td rowspan="3" style="width: 15%;">';
-		      str += (value.writerId === '${userid}') ? '<input type="button" class="btn btn-light" value="수정" onclick="commentUpdateMode(' + value.commentId + ', this)"><input type="button" class="btn btn-light" value="삭제" onclick="commentDelete(' + value.commentId + ')">' : '';
+		      str += (value.writerId === '${userid}') ? '<i class="btn btn-light fas fa-edit" onclick="commentUpdateMode(' + value.commentId + ', this)"></i><i class="btn btn-light fas fa-trash" onclick="commentDelete(' + value.commentId + ')"></i>' : '';
 		      str += '</td></tr>';
 		      str += '<tr style="width:80%;"><td id="'+ value.commentId +'">' + value.content + '</td></tr>';
 		      str += '<tr style="width:10%;"><td><span style="color: gray;">';
 		      str += (value.modifyDate !== null) ? value.modifyDate : value.createDate;
-		      str += '</span></td></tr><tr><td>&nbsp;</td></tr>';
+		      str += '</span></td></tr><tr><td></td></tr>';
 		      
 		      $('#commentList').append(str);
 		    });
@@ -362,8 +364,8 @@
 		 
 		 //버튼 삭제하고 생성
 		$(button).siblings().remove();
-  		$(button).after('<button type="button" class="btn btn-light" onclick="commentList()">취소</button>');
-  		$(button).after('<button type="button" class="btn btn-light" onclick="commemtUpdate(' + commentId + ', this)">수정</button>');
+  		$(button).after('<button type="button" class="btn btn-light btn-sm" onclick="commentList()">취소</button>');
+  		$(button).after('<button type="button" class="btn btn-light btn-sm" onclick="commemtUpdate(' + commentId + ', this)">수정</button>');
 		$(button).remove();
 
 		// 해당 <td> 셀을 찾아 텍스트 박스로 대체

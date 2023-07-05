@@ -50,8 +50,8 @@
 							<div class='row mt-5'>
 						</c:if>
 						<div class="col-sm-3">
-							<div class="card border-dark projectinfo shadow mb-5 rounded">
-								<div class="card-header projectinfo-header bg-warning">Project ID : ${item.projectId}</div>
+							<div class="card border-dark projectinfo shadow mb-5 rounded" onclick="window.location.href ='projectDetail.do/${item.projectId}'" style="cursor :pointer" >
+								<%-- <div class="card-header projectinfo-header bg-warning">Project ID : ${item.projectId}</div> --%>
 								<div class="card-body">
 									<div>
 										<label class="form-label mt-1">${item.projectName}</label>
@@ -59,7 +59,7 @@
 									<div class="form-group d-flex">
 										<img src='/resource/projectimg/${item.projectImage}' class='card-img-top' onerror=this.src='assets/img/error-404-monochrome.svg'>
 									</div>
-									<a href='projectDetail.do/${item.projectId}' class="btn btn-danger float-end">시작</a>
+									<%-- <a href='projectDetail.do/${item.projectId}' class="btn btn-danger float-end">시작</a> --%>
 								</div>
 							</div>
 						</div>
@@ -73,8 +73,8 @@
 							</c:if>
 							
 								<div class="col-sm-3">
-									<div class="card border-dark shadow mb-5 rounded">
-										<div class="card-header bg-secondary">새 프로젝트 추가</div>
+									<div class="card border-dark shadow mb-5 rounded" style="cursor :pointer">
+										<!-- <div class="card-header bg-secondary">새 프로젝트 추가</div> -->
 										<div class="card-body" id="insertProject" data-bs-toggle="modal" data-bs-target="#projectForm">
 											<div>
 												<label class="form-label mt-1">프로젝트를 추가하려면 클릭하세요</label>
