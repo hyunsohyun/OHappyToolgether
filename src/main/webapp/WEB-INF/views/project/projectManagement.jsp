@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!-- 현재 사용자의 ID를 가져옴 -->
 <sec:authentication property="name" var="userid" />
@@ -14,7 +15,8 @@
 	<link href="css/projectManagement.css" rel="stylesheet" />
 	<link href="css/styles.css" rel="stylesheet" />
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"	crossorigin="anonymous"></script>
-
+	<!-- swal2  -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
 </head>
 
@@ -100,7 +102,7 @@ $(document).ready(function() {
 		                    $("<td>").text(user.name).appendTo(row);
 		                    $("<td>").text(user.userid).appendTo(row);
 		                    let removeButtonCell = $("<td>");
-		                    let removeButton = $("<button>").addClass("btn btn-danger deleteUsersProject").text("추방");
+		                    let removeButton = $("<button>").addClass("btn btn-danger deleteUsersProject").text("내보내기");
 		                    removeButtonCell.append(removeButton);
 		                    row.append(removeButtonCell);
 		                    tableBody.append(row);
@@ -229,7 +231,7 @@ $(document).ready(function() {
 		                    $("<td>").text(user.name).appendTo(row);
 		                    $("<td>").text(user.userid).appendTo(row);
 		                    let removeButtonCell = $("<td>");
-		                    let removeButton = $("<button>").addClass("btn btn-danger deleteUsersProject").text("추방");
+		                    let removeButton = $("<button>").addClass("btn btn-danger deleteUsersProject").text("내보내기");
 		                    removeButtonCell.append(removeButton);
 		                    row.append(removeButtonCell);
 		                    tableBody.append(row);
@@ -320,8 +322,12 @@ $(document).ready(function() {
     	      contentType: "application/json",
     	      data: JSON.stringify({ projectName: projectName }),
     	      success: function() {
-    	        alert("변경 성공");
-    	        console.log("프로젝트명 변경 성공");
+    	    	  Swal.fire({
+  	                icon: 'success',
+  	                title: '변경 성공',  	                
+  	                showConfirmButton: false,
+  	                timer: 1500
+  	            })    	        
     	      },
     	      error: function(xhr) {
     	        console.log("에러 메시지:", xhr.status);
@@ -471,19 +477,35 @@ $(document).ready(function() {
 			                success: function() {
 			                    console.log("초대");
 			                    tableBody.remove();
-			                    alert("초대완료");
+			                    Swal.fire({
+			    	                icon: 'success',
+			    	                title: '초대완료',
+			    	                showConfirmButton: false,
+			    	                timer: 1000
+			    	            })
 			                    updateProjectParticipantsAsync();
 			                    getUsers(currentPage, pageSize); // 페이징 처리 유지
 			                },
 			                error: function(xhr) {
 			                    console.log("에러 메시지:", xhr.status);
-			                    alert("에러가 발생했습니다.");
+			                    Swal.fire({
+			    	                icon: 'error',
+			    	                title: '에러 발생',
+			    	                text: xhr.responseText,
+			    	                showConfirmButton: false,
+			    	                timer: 1500
+			    	            })
 			                }
 			            });
 			        },
 			        error: function(xhr, status, error) {
-			            console.log("에러 메시지:", xhr.status);
-			            alert("에러가 발생했습니다.");
+			        	Swal.fire({
+	    	                icon: 'error',
+	    	                title: '업로드 실패',
+	    	                text: xhr.responseText,
+	    	                showConfirmButton: false,
+	    	                timer: 1500
+	    	            })
 			        }
 			    });
 			});
@@ -510,7 +532,7 @@ $(document).ready(function() {
     	            row.append(userIdCell);
 
     	            let removeButtonCell = $("<td>");
-    	            let removeButton = $("<button>").addClass("btn btn-danger deleteUsersProject").text("추방");
+    	            let removeButton = $("<button>").addClass("btn btn-danger deleteUsersProject").text("내보내기");
     	            removeButtonCell.append(removeButton);
     	            row.append(removeButtonCell);
 
@@ -568,7 +590,12 @@ $(document).ready(function() {
 				  var file = fileInput.files[0];
 				  
 				  if (!file) {
-				    alert("파일을 선택해주세요.");
+					  Swal.fire({
+	    	                icon: 'error',
+	    	                title: '파일을 선택해주세요',
+	    	                showConfirmButton: false,
+	    	                timer: 3000
+	    	            })
 				    return;
 				  }
 
@@ -584,15 +611,19 @@ $(document).ready(function() {
 				    contentType: false,
 				    processData: false,
 				    data: formData,
-				    success: function(response) {
-				      alert('성공했을까?');
+				    success: function(response) {				      
 				       $.ajax({
 			    	      url: "project/projectImg/" + projectId, 
 			    	      type: "PUT",
 			    	      contentType: "application/json",
 			    	      data: JSON.stringify({ projectImage : projectId + file.name }),
 			    	      success: function() {
-			    	        alert("변경 성공");
+			    	    	  Swal.fire({
+			    	                icon: 'success',
+			    	                title: '변경완료',
+			    	                showConfirmButton: false,
+			    	                timer: 1000
+			    	            })
 			    	      },
 			    	      error: function(xhr) {
 			    	        console.log("에러 메시지:", xhr.status);
@@ -606,8 +637,13 @@ $(document).ready(function() {
                       .css('height', 'auto'); 
 				    },
 				    error: function(xhr, status, error) {
-				      alert("이미지 파일 업로드에 실패하였습니다. 오류: " + xhr.responseText);
-				      console.log("오류 : " + xhr.responseText);
+				    	Swal.fire({
+	    	                icon: 'error',
+	    	                title: '업로드 실패',
+	    	                text: xhr.responseText,
+	    	                showConfirmButton: false,
+	    	                timer: 3000
+	    	            })				      
 				      return;
 				    }
 				  });
@@ -620,7 +656,13 @@ $(document).ready(function() {
    			  let boardCount = getBoardCountSuper.substring(0, getBoardCountSuper.indexOf(' '));
 				
 	   			if (boardCount >= 10) {
-				    alert("게시판은 최대 10개까지만 생성 가능합니다!");
+	   				Swal.fire({
+    	                icon: 'error',
+    	                title: '생성 오류',
+    	                text: '게시판은 최대 10개까지만 생성가능합니다',
+    	                showConfirmButton: false,
+    	                timer: 3000
+    	            })				    
 				    $("#modal").css("display", "none");
 				    return;
 				  } else {
@@ -638,7 +680,12 @@ $(document).ready(function() {
 				      success: function() {
 				        getBoardCount();
 				        console.log('게시판이 성공적으로 추가되었습니다.');
-				        alert("게시판이 생성되었습니다.");
+				        Swal.fire({
+	    	                icon: 'success',
+	    	                title: '생성 완료',	    	                
+	    	                showConfirmButton: false,
+	    	                timer: 1000
+	    	            })
 				        $("#modal").css("display", "none");
 				        
 				        // 추가 요청을 보내는 부분
@@ -656,7 +703,13 @@ $(document).ready(function() {
 				      },
 				      error: function() {
 				        console.log('게시판 추가에 실패했습니다.');
-				        alert("생성 실패!");
+				        Swal.fire({
+	    	                icon: 'error',
+	    	                title: '생성 실패',
+	    	                text: xhr.responseText,
+	    	                showConfirmButton: false,
+	    	                timer: 3000
+	    	            })
 				        $("#modal").css("display", "none");
 				      }
 				    });
@@ -680,7 +733,13 @@ $(document).ready(function() {
 			
 			  let deleteButton = $(this);
 			  if (userId == memberId) {
-			    alert("관리자는 추방할 수 없습니다.");
+				  Swal.fire({
+  	                icon: 'error',
+  	                title: '내보내기 실패',
+  	                text: '사유 : 관리자',
+  	                showConfirmButton: false,
+  	                timer: 3000
+  	            })
 			    return;
 			  }
 			
@@ -692,7 +751,12 @@ $(document).ready(function() {
 			    success: function() {
 			      console.log("삭제");
 			      deleteButton.closest("tr").remove();
-			      alert("추방되었습니다.");
+			      Swal.fire({
+  	                icon: 'success',
+  	                title: '내보내기 완료',  	                
+  	                showConfirmButton: false,
+  	                timer: 1000
+  	            })
 			      updateProjectParticipantsAsync();
 			      addUserToTable([]);
 			      getUsers(currentPage, pageSize); // 페이징 처리 유지
@@ -714,7 +778,12 @@ $(document).ready(function() {
   		        contentType: "application/json",
   		        success: function() {
   		            console.log("프로젝트 삭제");
-  		            alert("프로젝트가 삭제되었습니다.");
+	  		          Swal.fire({
+	  	                icon: 'success',
+	  	                title: '삭제 완료',	  	                
+	  	                showConfirmButton: false,
+	  	                timer: 2000
+	  	            })
   		             $.ajax({
 				          url: '/projectDetail.do',
 				          type: 'GET',
@@ -846,7 +915,7 @@ $(document).ready(function() {
                     <tr>
                       <th scope="col">이름</th>
                       <th scope="col">아이디</th>
-                      <th scope="col">추방</th>
+                      <th scope="col">내보내기</th>
                     </tr>
                   </thead>
                   <tbody id="memberList"></tbody>
