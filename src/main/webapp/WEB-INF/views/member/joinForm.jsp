@@ -21,7 +21,7 @@
 
 	.main-container {
 		display: flex;
-        height: 100%;
+        height: 100vh;
         align-items: center;
         justify-content: center;
         background: linear-gradient(178.6deg, rgb(20, 36, 50) 11.8%, rgb(124, 143, 161) 83.8%);
