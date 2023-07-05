@@ -13,7 +13,7 @@
 			
 			<div class="nav">
 				<c:if test="${userid != 'anonymousUser'}">
-					<div class="sb-sidenav-menu-heading">Core</div>
+					<!-- <div class="sb-sidenav-menu-heading">Core</div> -->
 					<a class="nav-link" href="${pageContext.request.contextPath}/projectList.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
@@ -30,23 +30,27 @@
 				</c:if>
 
 				<c:if test="${projectId != null}">
-					<div class="sb-sidenav-menu-heading">KANBAN</div>
+					
+					<a class="nav-link" href="${pageContext.request.contextPath}/projectDetail.do/${project.projectId}" >
+						PROJECT_${project.projectName}
+					</a>
+					
+					
+					<div class="sb-sidenav-menu-heading" id="">일정관리</div>
+	
 					<a class="nav-link" href="${pageContext.request.contextPath}/kanban.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
-						</div> kanban (${projectId})
+						</div> 칸반보드
 					</a>
-
 					
-					
-					<div class="sb-sidenav-menu-heading">CALENDAR</div>
 					<a class="nav-link" href="${pageContext.request.contextPath}/fullcalendar.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
-						</div> fullcalendar (${projectId})
+						</div> 달력
 					</a>
 					
-					<div class="sb-sidenav-menu-heading" id="boardList">Board List</div>
+					<div class="sb-sidenav-menu-heading" id="boardList">게시판</div>
 					<c:if test="${boardList != null}">
 
 						<c:forEach var="board" items="${boardList}">
@@ -54,9 +58,7 @@
 								<div class='sb-nav-link-icon'>
 									<i class='fas fa-table'></i>
 								</div> ${board.boardName}
-								<div class="sb-sidenav-collapse-arrow">
-									<i class="fas fa-angle-down"></i>
-								</div>
+								
 							</a>
 						</c:forEach>
 
@@ -68,11 +70,11 @@
 			<div class='nav' style="display: grid; align-content: end;">
 				<div>
 					<c:if test="${managerId == userid}">
-						<div class="sb-sidenav-menu-heading">PROJECTMANAGEMENT</div>
+						<div class="sb-sidenav-menu-heading">관리자메뉴</div>
 						<a class="nav-link" href="${pageContext.request.contextPath}/projectManagement.do">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
-							</div> Project Management (${projectId})
+							</div> ${project.projectName} 관리
 						</a>
 					</c:if>
 				</div>
@@ -88,11 +90,14 @@
 
 			<c:if test="${userid != 'anonymousUser'}">
 				<form action="/logout" method="POST">
-					<button type='submit' class='float-end btn btn-primary'>로그아웃</button>
+					<button type='submit' class='float-end btn btn-secondary'><i class="fas fa-sign-out-alt" style="color: #f0f2f4;"></i> Logout</button>
 				</form>
 			</c:if>
 			<div class="small">Logged in as:</div>
-			${userid}
+			<div onclick=""><a href="${pageContext.request.contextPath}/editForm">
+			<img style="width:15px;border-radius: 50%;" src="/resource/users/${userImage}"/>
+			${userid}</a>
+			</div>
 		</div>
 	</nav>
 </div>

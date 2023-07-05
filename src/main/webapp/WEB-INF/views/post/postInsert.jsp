@@ -22,7 +22,7 @@
 	<div id="layoutSidenav_content">
 <main>
 
-<div class="container">
+<div class="container mt-4">
     <h3 class="mt-4" id='qwerqwer'>게시판 글쓰기</h3>
     <ol class="breadcrumb mb-4">
     	<li class="breadcrumb-item"><a href="/projectDetail.do/${projectId}">${project.projectName}</a></li>

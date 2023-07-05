@@ -17,6 +17,11 @@
 <!-- swal2  -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+<style>
+  .btn-with-border {
+    border: 1px solid #ccc;
+  }
+</style>
 <body class="sb-nav-fixed">
 
     <%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -29,11 +34,20 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="text-center">
-                                    <h2>정보수정</h2>                                    
+                                    <h3>MY PROFILE</h3>                                    
                                 </div>
                             </div>
                             <div class="card-body">
                                 <form id="editForm">
+                                
+                                	 <div class="form-group" style="text-align: center; padding: 20px;">
+ 	                               	 	<!--프로필사진파일 업로드 -->
+                                        <img id="profileImg" style="width:200px; border-radius: 50%;" src="/resource/users/${userImage}"/>
+                                    </div>
+                                    <div style="display: flex; justify-content: center;">
+									  <label for="image" class="btn btn-info">프로필사진 변경</label>
+									  <input type="file" id="image" name="image" accept="image/*" class="custom-file-input real-upload" style="display: none;">
+									</div>
                                     <div class="form-group">
                                         <label for="userid" class="form-label mt-4">아이디</label>
                                         <input type="text" class="form-control" id="userid" name="userid" value="${user.userid}" disabled>
@@ -51,18 +65,11 @@
                                         <input type="email" class="form-control" id="email" name="email" value="${user.email}" placeholder="Enter your email">
                                     </div>
                                     
-                                    <!--프로필사진파일 업로드 -->
-                                    <div class="form-group">
-                                        <label for="image" class="form-label mt-4">프로필 사진</label>
-                                        <input type="file" class="form-control" id="image" name="image" value="${user.image}">
-                                    </div>
-                                    
                                     <div class="form-group mt-4 text-center">
-                                        <button type="submit" class="btn btn-primary">수정하기</button>
+                                        <button type="submit" class="btn btn-info"">수정하기</button>
                                     </div>
                                 </form>
                             </div>
-                            <div class="card-footer small text-muted text-center">OHappyToolgether</div>
                         </div>
                     </div>
                 </div>
@@ -78,6 +85,33 @@
 		//set file
 		const fileInput = document.getElementById('image');
 		
+		//프로필 사진 변경
+		let getImageFiles = (e) => {
+	        const files = e.currentTarget.files;
+	        const file = files[0];
+
+	        // 파일 타입 검사
+	        if (!file.type.match("image/.*")) {
+	            alert('이미지 파일만 업로드가 가능합니다.');
+	            return;
+	        }
+
+	        const reader = new FileReader();
+	        reader.onload = (e) => {
+	            const preview = changeBgImg(e);
+	        };
+	        reader.readAsDataURL(file);
+	    }
+
+	    let changeBgImg = (e, file) => {
+	    	profileImg.src= e.target.result;
+	    	
+	    }
+
+	    const realUpload = document.querySelector('.real-upload');
+	    realUpload.addEventListener('change', getImageFiles);
+		
+	    
 		// 파일 입력 필드의 값 설정
 		//const file = new File(['파일 내용'], '파일명.txt', { type: 'text/plain' });
 		//fileInput.files = [file];
@@ -129,7 +163,11 @@
 	  
 	  function uploadImg() {
 		  var data = new FormData();
-		  let file = editForm.image.files[0];
+		  //let file = editForm.image.files[0];
+		  
+		  var fileInput = editForm.elements.image;
+		  var file = fileInput.files[0];
+		  
 		  data.append('uploadFile', file);
 
 		  $.ajax({
@@ -153,5 +191,8 @@
 		    }
 		  });
 		}
+	  
+	  
+	  
 	 
 	</script>  
