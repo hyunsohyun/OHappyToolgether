@@ -789,16 +789,16 @@ $(document).on('click', '.job-block', async function () {
             '<input id="swal-input2" class="swal2-input" value="' + content + '" disabled>' +
 
             '<div class="pt-3">시작날짜</div>' +
-            '<input type="text" id="swal-input3" name="from" class="swal2-input" value="' + startDate + '" disabled>' +
+            '<input type="date" id="swal-input3" name="from" class="swal2-input" value="' + startDate + '" disabled>' +
 
             '<div class="pt-3">종료날짜</div>' +
-            '<input type="text" id="swal-input4" name="to" class="swal2-input" value="' + endDate + '" disabled>' +
+            '<input type="date" id="swal-input4" name="to" class="swal2-input" value="' + endDate + '" disabled>' +
 
             '<div class="pt-3">담당자이름</div>' +
             '<input id="swal-input5" class="swal2-input" value="' + name + '" disabled>' +
 
             '<div class="pt-3">완료날짜</div>' +
-            '<input type="text" id="swal-input6" name="to" class="swal2-input" value="' + completeDate + '" disabled>' +
+            '<input type="date" id="swal-input6" name="to" class="swal2-input" value="' + completeDate + '" disabled>' +
 
             '<div id="cardIdForDelete" style="display: none">' + cardId + '</div>'+
             '<div><button id="deleteBtn" class="btn btn-danger deleteBtn">삭제</button></div>',
@@ -842,16 +842,16 @@ $(document).on('click', '.job-edit', async function (event) {
             '<input id="swal-input2" class="swal2-input" value="' + content + '">' +
 
             '<div class="pt-3">시작날짜</div>' +
-            '<input type="text" id="swal-input3" name="from" class="swal2-input" value="' + startDate + '">' +
+            '<input type="date" id="swal-input3" name="from" class="swal2-input" value="' + startDate + '">' +
 
             '<div class="pt-3">종료날짜</div>' +
-            '<input type="text" id="swal-input4" name="to" class="swal2-input" value="' + endDate + '">' +
+            '<input type="date" id="swal-input4" name="to" class="swal2-input" value="' + endDate + '">' +
 
             '<div class="pt-3">담당자이름</div>' +
             '<input id="swal-input5" class="swal2-input" value="' + name + '">' +
 
             '<div class="pt-3">완료날짜</div>' +
-            '<input type="text" id="swal-input6" name="to" class="swal2-input" value="' + completeDate + '">',
+            '<input type="date" id="swal-input6" name="to" class="swal2-input" value="' + completeDate + '">',
 
 
         focusConfirm: false,
@@ -971,16 +971,16 @@ $("[id^='plusBtn']").click(function () {
             '<input id="swal-input2" class="swal2-input" >' +
 
             '<div class="pt-3">시작날짜</div>' +
-            '<input type="text" id="swal-input3" name="from" class="swal2-input" >' +
+            '<input type="date" id="swal-input3" name="from" class="swal2-input" >' +
 
             '<div class="pt-3">종료날짜</div>' +
-            '<input type="text" id="swal-input4" name="to" class="swal2-input" >' +
+            '<input type="date" id="swal-input4" name="to" class="swal2-input" >' +
 
             '<div class="pt-3">담당자이름</div>' +
             '<input id="swal-input5" class="swal2-input" >' +
             
             '<div class="pt-3">완료날짜</div>' +
-            '<input type="text" id="swal-input6" name="to" class="swal2-input" >' ,
+            '<input type="date" id="swal-input6" name="to" class="swal2-input" >' ,
 
 
         focusConfirm: false,
