@@ -44,7 +44,7 @@
 					<c:forEach var="file" items="${fileList}" varStatus="status">
 				        <li style='list-style-type: none;'>
 				        	<span style='color: gray;'>${file.realFileName}</span>&nbsp;&nbsp;&nbsp;
-				        	<i class='fa-solid fa-xmark' style="color: #b53930;" onclick="deleteFile(${status.index}, ${file.fileId})"></i>
+				        	<i class='fa-solid fa-xmark' style="color: #b53930;" onclick="deleteOriginFile(${status.index}, ${file.fileId})"></i>
 				        </li>
 		        	</c:forEach>
 		        	</c:if>
@@ -66,6 +66,7 @@
     
     <!-- include summernote css/js -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<script type="text/javascript">
 	
 	//삭제 파일 인덱스
@@ -108,7 +109,12 @@
 				} 
 		   })
 		   .then((response) => {
-			  	alert("게시글 수정완료");
+			   Swal.fire({
+				   icon: 'success',
+	               title: '게시글이 수정되었습니다.',
+	               showConfirmButton: false,
+	               timer: 3000
+               });
 				window.location.href="<%=request.getContextPath()%>/postDetail/${post.boardId}/${post.postId}";
 			})
 		   .catch((error) => {
@@ -132,22 +138,52 @@
 
 	//origin파일 삭제
 	function deleteOriginFile(i,fileId){
-		//화면에서 지우기
-		$("#selectedFiles").children().eq(i).remove();
 		
-		//db에서 지우기
-		fetch("/file/delete" + boardId + "/" + postId)
-		  .then(response => response.json())
-		  .then(data => {
-		    $('#commentList').empty();
-		    data.forEach(value => {
-					      
-		      $('#commentList').append(str);
-		    });
-		  })
-		  .catch(error => {
-		    console.log(error);
-		  });
+		Swal.fire({
+			  html: "<div class='mb-7'>삭제된 파일은 복구되지 않습니다. 파일을 삭제하시겠습니까?</div>",
+			  icon: "info",
+			  showCancelButton: true,
+			  buttonsStyling: false,
+			  confirmButtonText: "네",
+			  cancelButtonText: "아니요",
+			  customClass: {
+			    confirmButton: "btn btn-primary",
+			    cancelButton: "btn btn-active-light"
+			  }
+			}).then((result) => {
+			  if (result.isConfirmed) {
+			    // 화면에서 제거하기
+			    $("#selectedFiles").children().eq(i).remove();
+
+			    // 데이터베이스에서 삭제하기
+			    let data = {
+			      postId: '${post.postId}',
+			      fileId: fileId,
+			    };
+
+			    fetch("/file/delete", {
+			      method: "DELETE",
+			      headers: {
+			        "Content-Type": "application/json",
+			      },
+			      body: JSON.stringify(data),
+			    })
+			      .then((response) => {
+			        if (response.ok) {
+			          return response.json();
+			        } else {
+			          throw new Error("파일 삭제 실패");
+			        }
+			      })
+			      .then((data) => {
+			        // 성공적으로 삭제되었을 때의 추가 작업 수행
+			        console.log("파일 삭제 완료", data);
+			      })
+			      .catch((error) => {
+			        console.error(error);
+			      });
+			  }
+			});
 	}
 	
 	//파일 삭제

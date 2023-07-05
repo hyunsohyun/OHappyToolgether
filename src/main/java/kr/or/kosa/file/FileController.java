@@ -136,11 +136,12 @@ public class FileController {
 	
 	//DB파일 삭제
 	@DeleteMapping(value="/delete")
-	public ResponseEntity<Integer> postDelete(@RequestBody Post post, Model model) {
+	public ResponseEntity<Integer> postDelete(@RequestBody FileInfo fileInfo, Model model) {
 		try {
-			int result = postService.postDelete(post);
+			int result = fileService.fileDelete(fileInfo);
+			
 			if(result>0) {
-				return new ResponseEntity<Integer>(post.getPostId(),HttpStatus.OK);
+				return new ResponseEntity<Integer>(result,HttpStatus.OK);
 			}else {
 				return new ResponseEntity<Integer>(-1,HttpStatus.BAD_REQUEST);
 			}

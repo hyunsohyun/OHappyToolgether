@@ -32,19 +32,16 @@
 		<div id="layoutSidenav_content">
 			<main>
 			<div class="container">
-				<h1 class="mt-4">${boardName}</h1>
+				<h1 class="mt-5">${boardName}</h1>
 				<ol class="breadcrumb mb-4">
-					<li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-					<li class="breadcrumb-item active">Tables</li>
+    				<li class="breadcrumb-item"><a href="/projectDetail.do/${projectId}">${project.projectName}</a></li>
+					<li class="breadcrumb-item active"><a href="<%=request.getContextPath()%>/postList/${boardId}">${boardName}</a></li>
 				</ol>
 
 				<div class="card mb-4">
-					<div class="card-header">
-						<i class="fas fa-table me-1"></i>${boardName}
-					</div>
 					
 					<div class="card-body">
-						<table id="datatablesSimple">
+						<table id="datatablesSimple" class="">
 							<thead>
 								<tr>
 									<th>번호</th>
@@ -54,7 +51,7 @@
 									<th>조회수</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody class="">
 								<c:forEach items="${list}" var="post" varStatus="status">
 									<tr data-post-id="${post.postId}">
 										<!-- <div style="display: none;">${post.postId}</div> -->
@@ -86,7 +83,7 @@
 					var lang_kor = {
 						"decimal" : "",
 						"emptyTable" : "데이터가 없습니다.",
-						"info" : "_START_ - _END_ (총 _TOTAL_ 명)",
+						"info" : "_START_ - _END_ (총 _TOTAL_ 개)",
 						"infoEmpty" : "0명",
 						"infoFiltered" : "(전체 _MAX_ 명 중 검색결과)",
 						"infoPostFix" : "",
