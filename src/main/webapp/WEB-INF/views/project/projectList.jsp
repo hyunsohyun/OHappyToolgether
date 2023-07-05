@@ -151,7 +151,7 @@
 
 		          setTimeout(function() {
 		            	window.location.href = "/projectList.do";
-					}, 3000);
+					}, 2000);
 		        },
 		        error: function(xhr, status, error) {
 		        	Swal.fire({
