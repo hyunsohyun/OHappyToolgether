@@ -95,14 +95,14 @@
 							</div>
 
 							<div id="rightSideDiv">
-								<div id="projectImg">
-									<label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
-								</div>
-								<div>
-									<img src="assets/img/tiger.png" height="270" width="270"
-										class="img-fluid">
-								</div>
+							    <div id="projectImg" style="text-align: center;">
+							        <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
+							    </div>
+							    <div style="text-align: center;">
+							        <img src="/resource/projectimg/${sessionScope.project.projectImage}" height="270" width="270" class="img-fluid">
+							    </div>
 							</div>
+
 						</div>
 					</div>
 				</div>
@@ -392,8 +392,3 @@ $(document).ready(function() {
 </script>
 
 </html>
-
-
-
-
-
