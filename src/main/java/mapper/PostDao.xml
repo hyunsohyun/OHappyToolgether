@@ -3,68 +3,90 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.or.kosa.post.PostDao" >
+<mapper namespace="kr.or.kosa.post.PostDao">
 
 	<select id="postList" resultType="kr.or.kosa.post.Post">
-	    SELECT POST_ID 
-		    , BOARD_ID
-		    , TITLE
-		    , CONTENT
-		    , HIT
-		    , CREATE_DATE
-		    , MODIFY_DATE
-		    , PROJECT_ID
-		    , USERID 
+		SELECT POST_ID
+		, BOARD_ID
+		, TITLE
+		, CONTENT
+		, HIT
+		, CREATE_DATE
+		, MODIFY_DATE
+		, PROJECT_ID
+		, USERID
 		FROM POST
 		WHERE BOARD_ID = #{boardId}
 		order by CREATE_DATE desc
 	</select>
-	
-	<select id="postDetail" parameterType="kr.or.kosa.post.Post" resultType="kr.or.kosa.post.Post">
-	    SELECT POST_ID 
-	    , BOARD_ID
-	    , TITLE
-	    , CONTENT
-	    , HIT
-	    , CREATE_DATE
-	    , MODIFY_DATE
-	    , PROJECT_ID
-	    , USERID
-	    FROM POST
-	    WHERE POST_ID = #{postId}
-	    AND BOARD_ID = #{boardId}
+
+	<select id="postDetail" parameterType="kr.or.kosa.post.Post"
+		resultType="kr.or.kosa.post.Post">
+		SELECT POST_ID
+		, BOARD_ID
+		, TITLE
+		, CONTENT
+		, HIT
+		, CREATE_DATE
+		, MODIFY_DATE
+		, PROJECT_ID
+		, USERID
+		FROM POST
+		WHERE POST_ID = #{postId}
+		AND BOARD_ID = #{boardId}
 	</select>
 
-	<insert id="postInsert" parameterType="kr.or.kosa.post.Post" useGeneratedKeys="true" keyProperty="postId">
-		<selectKey keyProperty="postId" resultType="int" order="BEFORE">
+	<select id="recentPostList" resultType="kr.or.kosa.post.Post">
+		SELECT POST_ID, BOARD_ID, TITLE, CONTENT, HIT, CREATE_DATE, MODIFY_DATE,
+		PROJECT_ID, USERID
+		FROM (
+		SELECT *
+		FROM post
+		WHERE project_id = #{projectId}
+		ORDER BY create_date DESC
+		)
+		WHERE ROWNUM &lt;= 5
+	</select>
+
+	<insert id="postInsert" parameterType="kr.or.kosa.post.Post"
+		useGeneratedKeys="true" keyProperty="postId">
+		<selectKey keyProperty="postId" resultType="int"
+			order="BEFORE">
 			SELECT POST_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO POST (POST_ID, BOARD_ID, TITLE, CONTENT, HIT, CREATE_DATE, PROJECT_ID, USERID)
-		VALUES (#{postId}, #{boardId}, #{title}, #{content}, 0, sysdate, #{projectId}, #{userid})
+		INSERT INTO POST (POST_ID, BOARD_ID, TITLE, CONTENT, HIT, CREATE_DATE,
+		PROJECT_ID, USERID)
+		VALUES (#{postId}, #{boardId}, #{title},
+		#{content}, 0, sysdate, #{projectId}, #{userid})
 	</insert>
-	
+
 	<delete id="postDelete" parameterType="kr.or.kosa.post.Post">
-		DELETE 
-		FROM POST 
-		WHERE POST_ID = #{postId}
+		DELETE
+		FROM POST
+		WHERE
+		POST_ID = #{postId}
 		AND BOARD_ID = #{boardId}
 	</delete>
-	
-	<update id ="postHitUpdate">
-		UPDATE POST 
-			SET HIT = HIT + 1
+
+	<update id="postHitUpdate">
+		UPDATE POST
+		SET HIT = HIT + 1
 		WHERE POST_ID = #{postId}
 		AND BOARD_ID = #{boardId}
 	</update>
-	
+
 	<update id="postUpdate" parameterType="kr.or.kosa.post.Post">
-		UPDATE POST SET 
-			TITLE = #{title}
-			, CONTENT = #{content}
-			, MODIFY_DATE = sysdate
-		WHERE POST_ID = #{postId}
-		AND BOARD_ID = #{boardId}
+		UPDATE POST SET
+		TITLE =
+		#{title}
+		, CONTENT = #{content}
+		, MODIFY_DATE = sysdate
+		WHERE POST_ID =
+		#{postId}
+		AND BOARD_ID =
+		#{boardId}
 	</update>
-	
+
 </mapper>
 
+		

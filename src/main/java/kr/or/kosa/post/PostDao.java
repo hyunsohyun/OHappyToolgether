@@ -21,4 +21,8 @@ public interface PostDao {
 	
 	//게시판 조회수 업데이트
 	public void postHitUpdate(Post post) throws ClassNotFoundException, SQLException;
+	
+	//최근 글 5개 가져오기
+	public List<Post> recentPostList(int projectId) throws ClassNotFoundException, SQLException;
+	
 }
