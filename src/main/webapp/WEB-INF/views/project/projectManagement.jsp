@@ -354,52 +354,97 @@ $(document).ready(function() {
     	    });
     	  });
 
-    	  // 검색으로 받은 Users값에 따른 표시
-    	  function addUserToTable(user) {
-    	    let tableBody = $("#userTableBody");
-    	    tableBody.empty();
+			// 검색으로 받은 Users값에 따른 표시
+			function addUserToTable(user) {
+			  let tableBody = $("#userTableBody");
+			  tableBody.empty();
+			
+			  if (Array.isArray(user)) {
+			    for (let i = 0; i < user.length; i++) {
+			      let currentUser = user[i];
+			      let row = $("<tr>");
+			
+			      let nameCell = $("<td>").text(currentUser.name);
+			      row.append(nameCell);
+			
+			      let userIdCell = $("<td>").text(currentUser.userid);
+			      row.append(userIdCell);
+			
+			      let hasMatch = false;
+			      $.ajax({
+			        url: "member/users/" + projectId,
+			        type: "GET",
+			        contentType: "application/json",
+			        success: function(response) {
+			          for (let j = 0; j < response.length; j++) {
+			            if (response[j].userid === currentUser.userid) {
+			              hasMatch = true;
+			              break;
+			            }
+			          }
+			          if (!hasMatch) {
+			            let inviteButtonCell = $("<td>");
+			            let inviteButton = $("<a>").addClass("btn btn-outline-primary userInvite").text("초대");
+			            inviteButtonCell.append(inviteButton);
+			            row.append(inviteButtonCell);
+			          } else {
+			            let notAvailableCell = $("<td>").text("초대 불가").css("color", "red");
+			            row.append(notAvailableCell);
+			          }
+			          tableBody.append(row);
+			        },
+			        error: function(xhr, status, error) {
+			          console.log("에러 메시지:", xhr.status);
+			        }
+			      });
+			    }
+			  } else {
+			    if (user.userid == null) {
+			      tableBody.text("검색 결과가 없습니다.");
+			    } else {
+			      if (user.userid !== "") {
+			        let row = $("<tr>");
+			
+			        let nameCell = $("<td>").text(user.name);
+			        row.append(nameCell);
+			
+			        let userIdCell = $("<td>").text(user.userid);
+			        row.append(userIdCell);
+			
+			        let hasMatch = false;
+			        $.ajax({
+			          url: "member/users/" + projectId,
+			          type: "GET",
+			          contentType: "application/json",
+			          success: function(response) {
+			            for (let i = 0; i < response.length; i++) {
+			              if (response[i].userid === user.userid) {
+			                hasMatch = true;
+			                break;
+			              }
+			            }
+			            if (!hasMatch) {
+			              let inviteButtonCell = $("<td>");
+			              let inviteButton = $("<a>").addClass("btn btn-outline-primary userInvite").text("초대");
+			              inviteButtonCell.append(inviteButton);
+			              row.append(inviteButtonCell);
+			            } else {
+			              let notAvailableCell = $("<td>").text("초대 불가").css("color", "red");
+			              row.append(notAvailableCell);
+			            }
+			            tableBody.append(row);
+			          },
+			          error: function(xhr, status, error) {
+			            console.log("에러 메시지:", xhr.status);
+			          }
+			        });
+			      }
+			    }
+			  }
+			}
 
-    	    if (Array.isArray(user)) {
-    	      for (let i = 0; i < user.length; i++) {
-    	        let currentUser = user[i];
-    	        let row = $("<tr>");
 
-    	        let nameCell = $("<td>").text(currentUser.name);
-    	        row.append(nameCell);
 
-    	        let userIdCell = $("<td>").text(currentUser.userid);
-    	        row.append(userIdCell);
-
-    	        let inviteButtonCell = $("<td>");
-    	        let inviteButton = $("<a>").addClass("btn btn-outline-primary userInvite").text("초대");
-    	        inviteButtonCell.append(inviteButton);
-    	        row.append(inviteButtonCell);
-
-    	        tableBody.append(row);
-    	      }
-    	    } else {
-    	      if (user.userid == null) {
-    	        tableBody.text("검색 결과가 없습니다.");
-    	      } else {
-    	        if (user.userid !== "") {
-    	          let row = $("<tr>");
-
-    	          let nameCell = $("<td>").text(user.name);
-    	          row.append(nameCell);
-
-    	          let userIdCell = $("<td>").text(user.userid);
-    	          row.append(userIdCell);
-
-    	          let inviteButtonCell = $("<td>");
-    	          let inviteButton = $("<a>").addClass("btn btn-outline-primary userInvite").text("초대");
-    	          inviteButtonCell.append(inviteButton);
-    	          row.append(inviteButtonCell);
-
-    	          tableBody.append(row);
-    	        }
-    	      }
-    	    }
-    	  }
 
     	 	//초대하기 기능
 			$(document).on("click", ".userInvite", function(e) {
@@ -416,15 +461,7 @@ $(document).ready(function() {
 			        url: "project/" + userId,
 			        type: "GET",
 			        contentType: "application/json",
-			        success: function(response) {
-			            for (let i = 0; i < response.length; i++) {
-			                if (response[i].projectId == projectId) {
-			                    console.log("이미 초대한 유저입니다.");
-			                    alert("이미 초대한 유저입니다.");
-			                    return;
-			                }
-			            }
-			            
+			        success: function(response) {			            
 			            $.ajax({
 			                url: "project/" + projectId + "/" + userId,
 			                type: "POST",
@@ -521,36 +558,48 @@ $(document).ready(function() {
     		     if(isModalOn() && e.key === "Escape") {
     		         modalOff()
     		     }
-    		 }) 
-    		 
+   		 	}) 
+   		 
 
-    		 //현소현
+   		 	//현소현
 			$('#projectImageInsertBtn').click(function() {
-			  var fileInput = document.getElementById('projectImage');
-			
-			  fileInput.addEventListener('change', function(event) {
-			    var files = event.target.files;
-			    var file = files[0];
-			
-			    var data = new FormData();
-			    data.append('uploadFile', file);
-			
-			    $.ajax({
-			      url: "${pageContext.request.contextPath}/file/projectimg/upload",
-			      type: "POST",
-			      contentType: false,
-			      processData: false,
-			      data: data,
-			      success: function(response) {
-			        // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
-			      },
-			      error: function(xhr, status, error) {
-			        alert("이미지파일업로드에 실패하였습니다. 오류: " + xhr.responseText);
-			        return;
-			      }
-			    });
-			  });
-			});
+				  var fileInput = document.getElementById('projectMainImage');
+				  var file = fileInput.files[0];
+				  
+				  if (!file) {
+				    alert("파일을 선택해주세요.");
+				    return;
+				  }
+
+				  var formData = new FormData();
+				  formData.append('uploadFile', file);
+
+				  console.log(file);
+				  console.log(formData);
+
+				  $.ajax({
+				    url: "${pageContext.request.contextPath}/file/projectimg/upload",
+				    type: "POST",
+				    contentType: false,
+				    processData: false,
+				    data: formData,
+				    success: function(response) {
+				      // 업로드 성공 시 실행할 동작을 여기에 추가하세요.
+				      alert('성공했을까?');
+				      var encodedFileName = encodeURIComponent(file.name); // 파일 이름 인코딩
+				      var imageUrl = "../resource/projectimg/" + projectId + encodedFileName; // 이미지 경로
+				      console.log(imageUrl);
+				      $('#projectMainImage2').attr('src', imageUrl)
+                      .css('width', '420px')
+                      .css('height', '340px');
+				    },
+				    error: function(xhr, status, error) {
+				      alert("이미지 파일 업로드에 실패하였습니다. 오류: " + xhr.responseText);
+				      console.log("오류 : " + xhr.responseText);
+				      return;
+				    }
+				  });
+				});
 
     		 
 		    $('#boardInsertBtn').click(function() {
@@ -615,6 +664,7 @@ $(document).ready(function() {
 			      alert("추방되었습니다.");
 			      updateProjectParticipantsAsync();
 			      getUsers(currentPage, pageSize); // 페이징 처리 유지
+			      
 			    },
 			    error: function(xhr) {
 			      console.log("에러 메시지:", xhr.status);
@@ -640,9 +690,7 @@ $(document).ready(function() {
     	      }
     	    });
     	  });
-
-
-}); 
+		}); 
 </script>
 
 <body class="sb-nav-fixed">
@@ -652,8 +700,8 @@ $(document).ready(function() {
     <div id="layoutSidenav_content">
       <main>
         <div class="projectManagementTitle">
-          <h2>프로젝트 관리자d</h2>
-        </div>
+			<h1>Context Path: <%= request.getContextPath() %></h1>        
+		</div>
 
         <div class="projectinfo-container">
           <div class="card projectinfo">
@@ -719,20 +767,21 @@ $(document).ready(function() {
               </div>
 
               <div id="rightSideDiv">
-                <div id="projectImg">
-                  <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
-                </div>
-                <div>
-                  <img src="/resource/projectimg/${project.projectImage}" height="340" width="420" class="img-fluid">
-                </div>
-                <div class="d-flex">
-	                <!--프로필사진파일 업로드 -->
-					<div class="form-group">
-					    <input type="file" class="form-control" id="projectImage" value="${project.projectImage}">
-					    <button type="submit" id="projectImageInsertBtn" class="btn btn-primary">프로젝트이미지업로드</button>
-					</div>
-                </div>
-              </div>
+				  <div id="projectImg">
+				    <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
+				  </div>
+				  <div>
+				    <img src="/resource/projectimg/${project.projectImage}" id="projectMainImage2" height="300" width="420" class="img-fluid">
+				  </div>
+				  <div class="d-flex">
+				    <!--프로필사진파일 업로드 -->
+				    <div class="form-group">
+				      <input type="file" class="form-control" id="projectMainImage" value="${project.projectImage}">
+				      <button type="button" id="projectImageInsertBtn" class="btn btn-primary">프로젝트 이미지 변경</button>
+				    </div>
+				  </div>
+				</div>
+
             </div>
           </div>
         </div>

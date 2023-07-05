@@ -29,6 +29,22 @@ public class PostService {
 		return postList;
 	}
 	
+	//프로젝트의 최신글 5개 가져오기
+	public List<Post> recentPostList(int projectId){
+		System.out.println("recentPostList(int projectId) 서비스 시작");
+		List<Post> postList = null;
+		try {
+			PostDao postdao = sqlsession.getMapper(PostDao.class);
+			postList = postdao.recentPostList(projectId);
+		} catch(Exception e) {
+			System.out.println("글목록 오류발생");
+			System.out.println(e.getMessage());
+		}
+		return postList;
+		
+	}
+	
+	
 	//상세보기
 	public Post postDetail(Post postParam){
 		Post post = null;

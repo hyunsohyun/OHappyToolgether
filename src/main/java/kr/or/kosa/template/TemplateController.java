@@ -27,6 +27,5 @@ public class TemplateController {
 	public String note() throws Exception{
 		return "templateContent/summernote";
 	}
-	
 
 }

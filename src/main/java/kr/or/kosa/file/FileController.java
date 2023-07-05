@@ -96,25 +96,6 @@ public class FileController {
 	    }	
 	}
 	
-	//프로젝트 이미지 삽입
-	@PostMapping("projectimg/insert")
-	public ResponseEntity<Integer> projectimgInsert(@RequestParam("uploadFile") MultipartFile file, 													
-													@RequestParam("projectId") String projectId, 
-													HttpSession session) {
-	    int result = 0;
-	    try {
-    		// FileIO에 요청해서 업로드하기
-    		String filepath = FileIO.uploadProjectimg(file, projectId, session);
-    		if(!filepath.equals("")) result = 1;
-	        return new ResponseEntity<Integer>(result, HttpStatus.OK);
-
-	    } catch (Exception e) {
-	        System.out.println(e.getMessage());
-	        return new ResponseEntity<Integer>(result, HttpStatus.BAD_REQUEST);
-	    }	
-	}
-	
-	
 	//파일 다운로드
 	@GetMapping("/download/{postId}/{fileId}")
 	public ResponseEntity<Integer> fileDown(@PathVariable("postId") int postId,@PathVariable("fileId") int fileId, HttpServletRequest request, HttpServletResponse response) throws Exception{
