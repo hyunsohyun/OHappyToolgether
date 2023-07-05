@@ -71,16 +71,6 @@
 			<script type="text/javascript">
 			
 				$(document).ready(function() {
-				 /*  $('#datatablesSimple').DataTable({
-					  // datatable 설정 옵션들...
-					  "columnDefs": [
-					    {
-					      "targets": 0, // postId가 위치한 열의 인덱스
-					      "visible": false, // postId 열은 숨김 처리
-					    }
-					  ]
-				}); */
-			
 				$("#datatablesSimple").on('click', 'tbody tr', function() {
 					let postId = $(this).children().eq(0).text();
 					//let postId = $(this).children().eq(0).attr("id");
