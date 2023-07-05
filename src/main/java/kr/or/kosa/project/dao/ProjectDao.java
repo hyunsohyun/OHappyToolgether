@@ -15,5 +15,5 @@ public interface ProjectDao {
 	
 	//프로젝트명 변경
 	public int updateProjectName(Project project);
-	
+	public int updateProjectImg(Project project);
 }
