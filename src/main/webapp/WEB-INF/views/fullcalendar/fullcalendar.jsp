@@ -30,7 +30,7 @@
 		<div id="layoutSidenav_content">
 		
 			<main>
-				<div class="container" id="fullcalendarContainer">
+				<div class="container" id="fullcalendarContainer" style="padding: 20px;">
                     <!-- fullcalendar 영역-->                    
                     <div id='calendar'></div>
                     <!-- fullcalendar 영역 끝 -->
@@ -74,7 +74,7 @@ $(document).ready(async function() {
 
         const projectData = [];
 
-        // 각각의 데이터를 가져와서 배열에 추가
+        // 각각의 데이터를 가져와서 배열에 추가 
         projectData.push(getKanban(${sessionScope.projectId}, 10));
         projectData.push(getKanban(${sessionScope.projectId}, 20));
         projectData.push(getKanban(${sessionScope.projectId}, 30));
@@ -109,6 +109,32 @@ $(document).ready(async function() {
                 if (newItem.end !== null) {
                     let endDate = new Date(newItem.end);
                     newItem.end = endDate.toISOString().split('T')[0];  // YYYY-MM-DD format
+                }
+
+                // backgroundColor 추가
+                switch (newItem.kanbanboardId) {
+                    case 10:
+                        newItem.backgroundColor = "#F94144";
+                        newItem.borderColor = "#F94144";
+                        break;
+                    case 20:
+                        newItem.backgroundColor = "#F8961E";
+                        newItem.borderColor = "#F8961E";
+                        break;
+                    case 30:
+                        newItem.backgroundColor = "#F9C74F";
+                        newItem.borderColor = "#F9C74F";
+                        break;
+                    case 40:
+                        newItem.backgroundColor = "#90BE6D";
+                        newItem.borderColor = "#90BE6D";
+                        break;
+                    case 50:
+                        newItem.backgroundColor = "#577590";
+                        newItem.borderColor = "#577590";
+                        break;
+                    default:
+                        break;
                 }
 
                 return newItem;
