@@ -602,8 +602,8 @@ $(document).ready(function() {
 				      var imageUrl = "../resource/projectimg/" + projectId + encodedFileName; // 이미지 경로
 				      console.log(imageUrl);
 				      $('#projectMainImage2').attr('src', imageUrl)
-                      .css('width', '420px')
-                      .css('height', '340px'); 
+                      .css('width', '100%')
+                      .css('height', 'auto'); 
 				    },
 				    error: function(xhr, status, error) {
 				      alert("이미지 파일 업로드에 실패하였습니다. 오류: " + xhr.responseText);
@@ -817,16 +817,18 @@ $(document).ready(function() {
 				    <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
 				  </div>
 				  <div>
-					<img src="/resource/projectimg/${project.projectImage} " id="projectMainImage2" class="img-fluid img-fixed-size" style="width:420px; height : 340px;">
+					<img src="/resource/projectimg/${project.projectImage} " id="projectMainImage2" class="img-fluid img-fixed-size" style="width:100%; height : auto;">
 				  </div>
 				  <div class="d-flex">
 				    <!--프로필사진파일 업로드 -->
 				    <div class="form-group">
-				      <input type="file" class="form-control" id="projectMainImage" value="${project.projectImage}">
-				      <button type="button" id="projectImageInsertBtn" class="btn btn-primary">프로젝트 이미지 변경</button>
+				
+				    		 <input type="file" class="form-control" id="projectMainImage" value="${project.projectImage}">				  
+				    		<button type="button" id="projectImageInsertBtn" class="btn btn-primary mt-2">이미지 변경</button>
+				    	  
 				    </div>
 				  </div>
-				</div>
+			  </div>
 
             </div>
           </div>
@@ -883,7 +885,7 @@ $(document).ready(function() {
               <div id="pagination"></div>
             </div>
           </div>          
-		    <div id="modal" class="modal-overlay" style="display: none;">
+		  <div id="modal" class="modal-overlay" style="display: none;">
 		        <div class="modal-window">
 		            <div class="title">
 		                <h2>게시판 생성</h2>
@@ -899,15 +901,19 @@ $(document).ready(function() {
 		                      <button type="button" class="btn btn-primary ml-2" id="boardInsertBtn">게시판 생성</button>
 		                    </div>		                    
 		                  </div>
-		            </div>
 		        </div>
-		    </div>
-        </div>
-
-      </div>
+	      </div>
+	    </div>
+      </main>
     </div>
-</main>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+
+   
+	
+	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+   </div>
+   
+
 </body>
+
 
 
