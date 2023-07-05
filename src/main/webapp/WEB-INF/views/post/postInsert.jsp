@@ -27,7 +27,7 @@
     	<input type="hidden" name="projectId" value="${projectId}">
     	<input type="hidden" name="boardId" value="${boardId}">
 	    <div class="form-group">
-	      <input type="text" class="form-control" id="boardName" value="${boardName}" readonly>
+	      <input type="text" class="form-control" id="boardName" value="" readonly>
 	    </div>
         <div class="form-group">
             <input type="input" class="form-control" id="Input" name="title" placeholder="제목을 입력해주세요">
@@ -59,8 +59,35 @@
 	//삭제 파일 인덱스
 	let fileRemoveIndex = [];
 	
+	
 	$(document).ready(function() {
+		const projectId = '${sessionScope.projectId}'; 
+		const boardId = 1;
+		console.log(projectId);
+		console.log(boardId);
 		$('#summernote').summernote();
+		
+		$.ajax({
+			  url: '/board/'+projectId, // 서버의 API 주소로 수정
+			  method: 'GET',
+			  success: function(response) {
+			    // 받아온 JSON 데이터를 활용하여 원하는 정보 추출
+			    let boardName = '';
+			    for (let i = 0; i < response.length; i++) {
+			      if (response[i].boardId === boardId) {
+			        boardName = response[i].boardName;
+			        break;
+			      }
+			    }
+
+			    // 추출한 정보를 활용하여 필요한 작업 수행
+			    console.log(boardName);
+			    $('#boardName').val(boardName);
+			  },
+			  error: function() {
+			    console.log('데이터를 가져오는데 실패했습니다.');
+			  }
+			});
 	});
 
 	//게시글 쓰기 
@@ -99,6 +126,7 @@
 		     console.error(error);
 		   }); 
 	}
+	
 	
 	// 파일 리스트 표시
 	$("#fileInput").on("change",function() {

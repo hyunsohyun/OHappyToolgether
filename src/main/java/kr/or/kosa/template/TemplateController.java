@@ -32,5 +32,10 @@ public class TemplateController {
 	public String projectManagementView() throws Exception{
 		return "project/projectManagement";
 	}
+	
+	@RequestMapping("/projectMain.do")
+	public String projectMainView() throws Exception{
+		return "project/projectMain";
+	}
 
 }

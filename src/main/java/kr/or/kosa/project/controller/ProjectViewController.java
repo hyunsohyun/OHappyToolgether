@@ -77,6 +77,7 @@ public class ProjectViewController {
 		try {
 			list = boardService.selectBoardList(projectId);
 			session.setAttribute("boardList", list);
+			
 		} catch (Exception e) {
 			System.out.println("projectList()에서 터짐");
 			System.out.println(e.getMessage());
