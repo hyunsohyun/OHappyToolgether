@@ -14,17 +14,18 @@
 		id="sidebarToggle" href="#!">
 		<i class="fas fa-bars"></i>
 	</button>
-	<!-- Navbar Search-->
-	<form
-		class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-		<div class="input-group" style="display: flex; flex-wrap: unset;">
-			<input class="form-control" type="text" placeholder="Search for..."
-				aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-			<button class="btn btn-primary" id="btnNavbarSearch" type="button">
-				<i class="fas fa-search"></i>
-			</button>
-		</div>
+
+	<!--프로젝트 리스트 -->
+	<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+		<select class="form-select bg-dark text-light" aria-label="Select option" style="width: 200px;"onchange="selectProject(this.value)">
+		  <c:forEach var="project" items="${sessionScope.projectList}">
+		  <option value="${project.projectId}" ${project.projectId == sessionScope.projectId ? 'selected' : ''}>
+		    ${project.projectName}
+		  </option>
+		</c:forEach>
+		</select>
 	</form>
+	
 	<!-- Navbar-->
 	<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
@@ -42,3 +43,10 @@
 		</li>
 	</ul>
 </nav> 
+
+<!-- projectList selectbox -->
+<script type="text/javascript">
+	function selectProject(projectId) {
+		window.location.href = "/projectDetail.do/"+projectId;
+	}
+</script>
