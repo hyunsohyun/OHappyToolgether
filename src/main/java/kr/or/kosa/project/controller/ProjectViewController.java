@@ -98,26 +98,4 @@ public class ProjectViewController {
 		return "project/projectDetail";
 	}
 	
-	/*
-	@RequestMapping(value="/insertProject")
-	public String insertProject(HttpSession session, @RequestBody Project project) {
-		System.out.println("@RequestMapping(value=\"/insertProject\") 진입");
-		int result = 0;
-		String userid = (String)session.getAttribute("userid");
-		
-		try {
-			result = projectService.insertProject(project);
-			System.out.println("프로젝트 삽입행 : "+ result);
-			System.out.println("삽입한 projectId : "+ project.getProjectId());			
-			if(result > 0) {
-				session.setAttribute("projectList", projectService.selectAllProjectById(userid));
-				System.out.println("세션의 프로젝트 리스트 갱신");
-			}
-		} catch (Exception e) {
-			System.out.println("insertProject()에서 터짐");
-			System.out.println(e.getMessage());
-		}
-		return "project/projectList";
-	}
-	*/
 }

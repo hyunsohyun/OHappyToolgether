@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.or.kosa.post.Post;
 import kr.or.kosa.utils.FileIO;
 
 @RestController
@@ -96,6 +98,24 @@ public class FileController {
 	    }	
 	}
 	
+	//프로젝트 이미지 삽입
+		@PostMapping("projectimg/insert")
+		public ResponseEntity<Integer> projectimgInsert(@RequestParam("uploadFile") MultipartFile file, 													
+														@RequestParam("projectId") String projectId, 
+														HttpSession session) {
+		    int result = 0;
+		    try {
+	    		// FileIO에 요청해서 업로드하기
+	    		String filepath = FileIO.uploadProjectimg(file, projectId, session);
+	    		if(!filepath.equals("")) result = 1;
+		        return new ResponseEntity<Integer>(result, HttpStatus.OK);
+
+		    } catch (Exception e) {
+		        System.out.println(e.getMessage());
+		        return new ResponseEntity<Integer>(result, HttpStatus.BAD_REQUEST);
+		    }	
+		}
+	
 	//파일 다운로드
 	@GetMapping("/download/{postId}/{fileId}")
 	public ResponseEntity<Integer> fileDown(@PathVariable("postId") int postId,@PathVariable("fileId") int fileId, HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -113,4 +133,22 @@ public class FileController {
 	        return new ResponseEntity<Integer>(result, HttpStatus.BAD_REQUEST);
 	    }	
 	}
+	
+	//DB파일 삭제
+	@DeleteMapping(value="/delete")
+	public ResponseEntity<Integer> postDelete(@RequestBody FileInfo fileInfo, Model model) {
+		try {
+			int result = fileService.fileDelete(fileInfo);
+			
+			if(result>0) {
+				return new ResponseEntity<Integer>(result,HttpStatus.OK);
+			}else {
+				return new ResponseEntity<Integer>(-1,HttpStatus.BAD_REQUEST);
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<Integer>(-1,HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 }

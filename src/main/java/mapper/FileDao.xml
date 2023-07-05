@@ -49,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE 
 		FROM FILES
 		WHERE file_ID = #{fileId}
+		AND POST_ID = #{postId}
 	</delete>
 	
 </mapper>
