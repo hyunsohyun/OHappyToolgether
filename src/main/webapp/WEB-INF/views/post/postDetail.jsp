@@ -161,7 +161,7 @@
 				</div>
 				
 				<!-- 글수정 삭제 -->
-				<div id="writerMode">
+				<div id="writerMode" class="mb-5">
 					<div style="display: flex; justify-content: space-between;">
 					 	<div class="right"></div>
 						<c:if test="${userid == post.userid}">
@@ -176,12 +176,14 @@
 				
 				</div>
 			</main>
+			<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 			</div>
 			</div>
 				
 			
 			
-		<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+		
+		
 	<script src="/js/scripts.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 				
@@ -250,7 +252,7 @@
 		    data.forEach(value => {
 		      let str = '';
 		      str += '<tr style="width:100%;">';
-		      str += '<td rowspan="3" style="width:10%;text-align: center;"><img style="width:50px;" src="/resource/users/' + value.writerImage + '"/></td>';
+		      str += '<td rowspan="3" style="width:10%;text-align: center;"><img style="width:50px; border-radius: 50%;" src="/resource/users/' + value.writerImage + '"/></td>';
 		      str += '<td style="width:75%;"><span style="font-weight: bold;">' + value.writerId + '</span></td>';
 		      str += '<td rowspan="3" style="width: 15%;">';
 		      str += (value.writerId === '${userid}') ? '<input type="button" class="btn btn-light" value="수정" onclick="commentUpdateMode(' + value.commentId + ', this)"><input type="button" class="btn btn-light" value="삭제" onclick="commentDelete(' + value.commentId + ')">' : '';
