@@ -120,4 +120,10 @@ public class ProjectService {
 		ProjectDao dao = sqlsession.getMapper(ProjectDao.class);
 		return dao.updateProjectName(project);
 	}
+	
+	
+	public int updateProjectImg(Project project) {
+		ProjectDao dao = sqlsession.getMapper(ProjectDao.class);
+		return dao.updateProjectImg(project);
+	}
 }
