@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<delete id="deleteProject">
-		DELETE FROM project WHERE project_id = #{projectId} on cascade
+		DELETE FROM project WHERE project_id = #{projectId}
 	</delete>
 	
 	<insert id="insertUsersProject" parameterType="kr.or.kosa.project.vo.UsersProject">
