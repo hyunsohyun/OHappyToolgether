@@ -14,6 +14,10 @@ public class Post {
 	private String boardName;
 	private String writerImage;
 	
+	
+	private String beforePostId;
+	private String afterPostId;
+	
 	public int getPostId() {
 		return postId;
 	}
@@ -83,11 +87,28 @@ public class Post {
 		this.writerImage = writerImage;
 	}
 	
+	
+	
+	public String getBeforePostId() {
+		return beforePostId;
+	}
+	public void setBeforePostId(String beforePostId) {
+		this.beforePostId = beforePostId;
+	}
+	public String getAfterPostId() {
+		return afterPostId;
+	}
+	public void setAfterPostId(String afterPostId) {
+		this.afterPostId = afterPostId;
+	}
 	@Override
 	public String toString() {
 		return "Post [postId=" + postId + ", boardId=" + boardId + ", title=" + title + ", content=" + content
 				+ ", hit=" + hit + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", projectId="
-				+ projectId + ", userid=" + userid + ", boardName=" + boardName + ", writerImage=" + writerImage + "]";
+				+ projectId + ", userid=" + userid + ", boardName=" + boardName + ", writerImage=" + writerImage
+				+ ", beforePostId=" + beforePostId + ", afterPostId=" + afterPostId + "]";
 	}
+	
+	
 	
 }
