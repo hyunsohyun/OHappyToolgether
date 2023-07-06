@@ -2,7 +2,6 @@ package kr.or.kosa.post;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -85,6 +84,13 @@ public class PostController {
 		post = postService.postDetail(post);
 		model.addAttribute("post", post);
 
+		//이전글 다음글 번호
+		Post nextPostInfo = new Post();
+		nextPostInfo = postService.nextPostInfo(post);	
+		System.out.println(nextPostInfo.getAfterPostId());
+		System.out.println(nextPostInfo.getBeforePostId());
+		model.addAttribute("nextPostInfo", nextPostInfo);
+		
 		//파일리스트
 		FileInfo file = new FileInfo();
 		file.setBoardId(post.getBoardId());

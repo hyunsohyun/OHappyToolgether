@@ -1,6 +1,8 @@
 package kr.or.kosa.post;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,5 +119,18 @@ public class PostService {
 			System.out.println("조회수 업데이트 오류발생");
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	//이전 다음글 정보 가지고 오기
+	public Post nextPostInfo(Post post) {
+		Post nextPostInfo = new Post();
+		try {
+			PostDao postdao = sqlsession.getMapper(PostDao.class);
+			nextPostInfo = postdao.nextPostInfo(post);
+		}catch(Exception e) {
+			System.out.println("이전글 다음글 정보 오류발생");
+			System.out.println(e.getMessage());
+		}
+		return nextPostInfo;
 	}
 }

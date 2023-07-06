@@ -170,9 +170,13 @@
 				</div> --%>
 				
 				<div id="nav" style="display: flex; justify-content: flex-end;" class ="mb-7">
-					<button type="button" class="btn btn-sm btn-secondary"" id="before" onclick="before()"><i class="fa-solid fa-arrow-down"></i> 이전글</button>
+					<c:if test= "${nextPostInfo.beforePostId != null}">
+						<button type="button" class="btn btn-sm btn-secondary"" id="before" onclick="window.location.href='/postDetail/${boardId}/${nextPostInfo.beforePostId}'"><i class="fa-solid fa-arrow-down"></i> 이전글</button>
+					</c:if>
 					<button type="button" class="btn btn-sm btn-light" id="list" onclick="window.location.href='/postList/${boardId}'">목록</button>
-					<button type="button" class="btn btn-sm btn-secondary" id="next" onclick="next()"><i class="fa-solid fa-arrow-up"></i> 다음글</button>
+					<c:if test= "${nextPostInfo.afterPostId != null}">
+						<button type="button" class="btn btn-sm btn-secondary" id="next" onclick="window.location.href='/postDetail/${boardId}/${nextPostInfo.afterPostId}'"><i class="fa-solid fa-arrow-up"></i> 다음글</button>
+					</c:if>
 				</div>
 				
 				

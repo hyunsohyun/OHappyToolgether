@@ -1,23 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!-- 현재 사용자의 ID를 가져옴 -->
 <sec:authentication property="name" var="userid" />
 
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>OHappyToolgether</title>
-	<link
-		href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-	<link href="css/projectManagement.css" rel="stylesheet" />
-	<link href="css/styles.css" rel="stylesheet" />
-	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"	crossorigin="anonymous"></script>
-	<!-- swal2  -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<title>OHappyToolgether</title>
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<link href="css/projectManagement.css" rel="stylesheet" />
+<link href="css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<!-- swal2  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -809,179 +807,178 @@ $(document).ready(function() {
 </script>
 
 <body class="sb-nav-fixed">
-  <%@ include file="/WEB-INF/views/common/header.jsp"%>
-  <div id="layoutSidenav">
-    <%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
-    <div id="layoutSidenav_content">
-      <main>
-        <div class="projectManagementTitle">
-			<h1>프로젝트 관리자</h1>        
+	<%@ include file="/WEB-INF/views/common/header.jsp"%>
+	<div id="layoutSidenav">
+		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="projectManagementTitle">
+					<h1>프로젝트 관리자</h1>
+				</div>
+
+				<div class="projectinfo-container">
+					<div class="card projectinfo">
+						<div class="card-header projectinfo-header">
+							<span class="sub-title-text">프로젝트 정보</span>
+						</div>
+						
+						<div class="card-body d-flex">
+							<div class="project-info-box">
+								<div class="d-flex">
+									<div class="project-input-name">
+										<label class="form-label mt-1">프로젝트 이름</label>
+									</div>
+									<div class="form-group project-input">
+										<div class="d-flex">
+											<input type="text" class="form-control" id="projectName">
+											<button type="button" class="btn btn-primary ml-2" id="changeProjectNameBtn">이름변경</button>
+										</div>
+									</div>
+								</div>
+
+								<hr class="hr">
+
+								<div class="d-flex mt-3">
+									<div class="project-input-name">
+										<label class="form-label">프로젝트 참여인원</label>
+									</div>
+									<div class="form-group project-input ml-2">
+										<input type="text" class="form-control" id="projectParticipants" disabled>
+									</div>
+								</div>
+
+								<div class="d-flex mt-3">
+									<div class="project-input-name">
+										<label class="form-label">관리자 이름</label>
+									</div>
+									<div class="form-group project-input ml-2">
+										<input type="text" class="form-control" id="projectManagerName" disabled>
+									</div>
+								</div>
+
+								<div class="d-flex mt-3">
+									<div class="project-input-name">
+										<label class="form-label">관리자 ID</label>
+									</div>
+									<div class="form-group project-input ml-2">
+										<input type="text" class="form-control" id="projectManagerId" disabled>
+									</div>
+								</div>
+
+								<div class="d-flex mt-3">
+									<div class="project-input-name">
+										<label class="form-label">게시판 개수</label>
+									</div>
+									<div class="form-group project-input ml-2">
+										<input type="text" class="form-control" id="projectBoardCount" disabled>
+									</div>
+								</div>
+
+								<hr class="hr2">
+
+								<button type="button" class="btn btn-primary projectDelteBtn float-right mt-3" id="boardCreateBtn">게시판 생성</button>
+								<button type="button" class="btn btn-danger projectDelteBtn float-right mt-3" id="projectDelteBtn">프로젝트 삭제</button>
+							</div>
+
+							<div id="rightSideDiv">
+								<div id="projectImg" class="text-center">
+									<label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
+								</div>
+								<div class="text-center">
+									<img src="/resource/projectimg/${project.projectImage} " id="projectMainImage2" class="img-fluid img-fixed-size" style="width: 100%; height: auto;">
+								</div>
+								<div>
+									<!--프로필사진파일 업로드 -->
+									<div class="form-group">
+
+										<input type="file" class="form-control float" id="projectMainImage" value="${project.projectImage}">
+										<button type="button" id="projectImageInsertBtn" class="btn btn-primary mt-3 float-end">이미지 변경</button>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="projectinfo-container2">
+					<div class="card mb-3 projectinfo projectMemberManagement">
+						<div class="card-header projectinfo-header">
+							<span class="sub-title-text">프로젝트 참가자</span>
+						</div>
+						<div class="card-body">
+							<div class="form-group table-size">
+								<table class="table table-hover" id="projectMemberTable">
+									<thead>
+										<tr>
+											<th scope="col">이름</th>
+											<th scope="col">아이디</th>
+											<th scope="col">내보내기</th>
+										</tr>
+									</thead>
+									<tbody id="memberList"></tbody>
+								</table>
+							</div>
+							<div id="paginationContainer">
+								<ul class="pagination justify-content-center" id="pagination"></ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="card mb-3 projectinfo projectMemberManagement2">
+						<div class="card-header projectinfo-header">
+							<span class="sub-title-text">참가자 초대하기</span>
+						</div>
+						<div class="card-body">
+							<form class="d-flex">
+								<input class="form-control me-sm-2" type="search" placeholder="ID 검색" id="userSearch">
+							</form>
+							<table class="table table-hover table-title">
+								<thead>
+									<tr>
+										<th scope="col">이름</th>
+										<th scope="col">아이디</th>
+										<th scope="col">초대</th>
+									</tr>
+								</thead>
+							</table>
+							<div class="table-wrapper">
+								<table class="table table-hover">
+									<tbody id="userTableBody">
+										<!-- 페이징 처리로 동적으로 추가될 내용 -->
+									</tbody>
+								</table>
+							</div>							
+						</div>
+					</div>
+					
+				</div>
+			</div>
 		</div>
+	</main>
 
-        <div class="projectinfo-container">
-          <div class="card projectinfo">
-            <div class="card-header projectinfo-header">
-              <span class="sub-title-text">프로젝트 정보</span>
-            </div>
-            <div class="card-body d-flex">
-              <div class="project-info-box">
-                <div class="d-flex">
-                  <div class="project-input-name">
-                    <label class="form-label mt-1">프로젝트 이름</label>
-                  </div>
-                  <div class="form-group project-input">
-                    <div class="d-flex">
-                      <input type="text" class="form-control" id="projectName">
-                      <button type="button" class="btn btn-primary ml-2" id="changeProjectNameBtn">이름변경</button>
-                    </div>
-                  </div>
-                </div>
-
-                <hr class="hr">
-
-                <div class="d-flex mt-3">
-                  <div class="project-input-name">
-                    <label class="form-label">프로젝트 참여인원</label>
-                  </div>
-                  <div class="form-group project-input ml-2">
-                    <input type="text" class="form-control" id="projectParticipants" disabled>
-                  </div>
-                </div>
-
-                <div class="d-flex mt-3">
-                  <div class="project-input-name">
-                    <label class="form-label">관리자 이름</label>
-                  </div>
-                  <div class="form-group project-input ml-2">
-                    <input type="text" class="form-control" id="projectManagerName" disabled>
-                  </div>
-                </div>
-
-                <div class="d-flex mt-3">
-                  <div class="project-input-name">
-                    <label class="form-label">관리자 ID</label>
-                  </div>
-                  <div class="form-group project-input ml-2">
-                    <input type="text" class="form-control" id="projectManagerId" disabled>
-                  </div>
-                </div>
-
-                <div class="d-flex mt-3">
-                  <div class="project-input-name">
-                    <label class="form-label">게시판 개수</label>
-                  </div>
-                  <div class="form-group project-input ml-2">
-                    <input type="text" class="form-control" id="projectBoardCount" disabled>
-                  </div>
-                </div>
-
-                <hr class="hr2">
-                
-				<button type="button" class="btn btn-primary projectDelteBtn float-right mt-3" id="boardCreateBtn">게시판 생성</button>
-                <button type="button" class="btn btn-danger projectDelteBtn float-right mt-3" id="projectDelteBtn">프로젝트 삭제</button>
-              </div>
-
-              <div id="rightSideDiv">
-				  <div id="projectImg">
-				    <label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
-				  </div>
-				  <div>
-					<img src="/resource/projectimg/${project.projectImage} " id="projectMainImage2" class="img-fluid img-fixed-size" style="width:100%; height : auto;">
-				  </div>
-				  <div class="d-flex">
-				    <!--프로필사진파일 업로드 -->
-				    <div class="form-group">
-				
-				    		 <input type="file" class="form-control" id="projectMainImage" value="${project.projectImage}">				  
-				    		<button type="button" id="projectImageInsertBtn" class="btn btn-primary mt-2">이미지 변경</button>
-				    	  
-				    </div>
-				  </div>
-			  </div>
-
-            </div>
-          </div>
-        </div>
-
-        <div class="projectinfo-container2">
-          <div class="card mb-3 projectinfo projectMemberManagement">
-            <div class="card-header projectinfo-header">
-              <span class="sub-title-text">프로젝트 참가자</span>
-            </div>
-            <div class="card-body">
-              <div class="form-group table-size">
-                <table class="table table-hover" id="projectMemberTable">
-                  <thead>
-                    <tr>
-                      <th scope="col">이름</th>
-                      <th scope="col">아이디</th>
-                      <th scope="col">내보내기</th>
-                    </tr>
-                  </thead>
-                  <tbody id="memberList"></tbody>
-                </table>
-              </div>
-              <div id="paginationContainer">
-                <ul class="pagination justify-content-center" id="pagination"></ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="card mb-3 projectinfo projectMemberManagement2">
-            <div class="card-header projectinfo-header">
-              <span class="sub-title-text">참가자 초대하기</span>
-            </div>
-            <div class="card-body">
-              <form class="d-flex">
-                <input class="form-control me-sm-2" type="search" placeholder="ID 검색" id="userSearch">
-              </form>
-              <table class="table table-hover table-title">
-                <thead>
-                  <tr>
-                    <th scope="col">이름</th>
-                    <th scope="col">아이디</th>
-                    <th scope="col">초대</th>
-                  </tr>
-                </thead>
-              </table>
-              <div class="table-wrapper">
-                <table class="table table-hover">
-                  <tbody id="userTableBody">
-                    <!-- 페이징 처리로 동적으로 추가될 내용 -->
-                  </tbody>
-                </table>
-              </div>
-              <div id="pagination"></div>
-            </div>
-          </div>          
-		  <div id="modal" class="modal-overlay" style="display: none;">
-		        <div class="modal-window">
-		            <div class="title">
-		                <h2>게시판 생성</h2>
-		            </div>
-		            <hr class="hr3">
-		            <div class="close-area">X</div>
-		            <div class="content">
-						<label class="form-label mt-1">게시판 이름</label>
-		                  </div>
-		                  <div class="form-group">
-		                    <div class="d-flex">
-		                      <input type="text" class="form-control-board" id="boardInsertName">
-		                      <button type="button" class="btn btn-primary ml-2" id="boardInsertBtn">게시판 생성</button>
-		                    </div>		                    
-		                  </div>
-		        </div>
-	      </div>
-	    </div>
-      </main>
-    </div>
-
-   
-	
-	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
-   </div>
-   
-
+		
+	</div>
+	</div>
+	<div id="modal" class="modal-overlay" style="display: none;">
+		<div class="modal-window">
+			<div class="title">
+				<h2>게시판 생성</h2>
+			</div>
+			<hr class="hr3">
+			<div class="close-area">X</div>
+			<div class="content">
+				<label class="form-label mt-1">게시판 이름</label>
+			</div>
+			<div class="form-group">
+				<div class="d-flex">
+					<input type="text" class="form-control-board" id="boardInsertName">
+					<button type="button" class="btn btn-primary ml-2" id="boardInsertBtn">게시판 생성</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 
 

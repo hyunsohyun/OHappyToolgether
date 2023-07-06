@@ -2,6 +2,7 @@ package kr.or.kosa.post;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public interface PostDao {
 	//리스트
@@ -25,4 +26,6 @@ public interface PostDao {
 	//최근 글 5개 가져오기
 	public List<Post> recentPostList(int projectId) throws ClassNotFoundException, SQLException;
 	
+	//이전글 다음글 가지고오기 
+	public Post nextPostInfo(Post post) throws ClassCastException, SQLException;
 }
