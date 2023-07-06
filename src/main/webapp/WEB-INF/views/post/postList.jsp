@@ -128,8 +128,7 @@
 				});
 				
 				$("#datatablesSimple").on('click', 'tbody tr', function() {
-					// let postId = $(this).children().eq(0).text();
-					// //let postId = $(this).children().eq(0).attr("id");
+	
 					let postId = $(this).data('post-id');  // .data() 메소드를 사용해 postId를 가져옵니다.
 					let boardId = '${boardId}';
 					

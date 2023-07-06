@@ -801,7 +801,7 @@ $(document).on('click', '.job-block', async function () {
             '<input type="date" id="swal-input6" name="to" class="swal2-input" value="' + completeDate + '" disabled>' +
 
             '<div id="cardIdForDelete" style="display: none">' + cardId + '</div>'+
-            '<div><button id="deleteBtn" class="btn btn-danger deleteBtn">삭제</button></div>',
+            '<div><button id="deleteBtn" class="btn btn-danger btn-sm deleteBtn">del</button></div>',
 
         focusConfirm: false,
         preConfirm: () => {

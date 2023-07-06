@@ -812,10 +812,6 @@ $(document).ready(function() {
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 			<main>
-				<div class="projectManagementTitle">
-					<h1>프로젝트 관리자</h1>
-				</div>
-
 				<div class="projectinfo-container">
 					<div class="card projectinfo">
 						<div class="card-header projectinfo-header">
@@ -880,12 +876,12 @@ $(document).ready(function() {
 								<button type="button" class="btn btn-danger projectDelteBtn float-right mt-3" id="projectDelteBtn">프로젝트 삭제</button>
 							</div>
 
-							<div id="rightSideDiv">
+							<div id="rightSideDiv text-center" >
 								<div id="projectImg" class="text-center">
 									<label class="form-label mt-1 projectImgLabel">프로젝트 이미지</label>
 								</div>
-								<div class="text-center">
-									<img src="/resource/projectimg/${project.projectImage} " id="projectMainImage2" class="img-fluid img-fixed-size" style="width: 100%; height: auto;">
+								<div class="text-center" style="width: 340px; text-align:center;">							
+								  <img src="/resource/projectimg/${project.projectImage}" id="projectMainImage2" class="img-fluid img-fixed-size mx-auto d-block" style="max-width: 100%; height: auto;">
 								</div>
 								<div>
 									<!--프로필사진파일 업로드 -->

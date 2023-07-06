@@ -69,7 +69,7 @@ public class FileController {
 	}
 	
 	//파일업로드
-	@PostMapping("post/upload")
+	@PostMapping("/file/post/upload")
 	public ResponseEntity<Integer> postInsert(@RequestParam("uploadFiles") List<MultipartFile> files, String postId, int boardId, HttpSession session) {
 	   
 	    int result = 0;

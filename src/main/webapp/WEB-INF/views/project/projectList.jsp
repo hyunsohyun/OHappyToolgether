@@ -26,6 +26,7 @@
 		<%@ include file="/WEB-INF/views/common/sidenav.jsp"%>
 		<div id="layoutSidenav_content">
 			<main>
+				<div class="md-5"><h2 style="text-align: center;">프로젝트 리스트</h2></div>
 				<div class="container mt-2" id="projectContainer">
 					<!-- 프로젝트 카드영역-->
 					<c:set var="colNum" value='4' />
@@ -98,7 +99,7 @@
 <div class="modal" id="projectForm" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header bg-warning">
+      <div class="modal-header">
         <h1 class="modal-title fs-5">프로젝트 생성</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>

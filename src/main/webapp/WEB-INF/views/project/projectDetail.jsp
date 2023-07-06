@@ -32,23 +32,24 @@
 			<main>
 			<div class="container mt-2" id="projectContainer" > 
 			
-				<img src="/resource/projectimg/${project.projectImage}" style="width: 50px; display: inline-block;  border-radius: 50%;">
+				<img src="/resource/projectimg/${project.projectImage}" style="width: 30px; display: inline-block;  border-radius: 50%;">
 				<h3 style="display: inline-block;">${project.projectName}</h3>	
 				
 				
-				
+					<div>
+					
+					
 					<!-- member 영역 -->
 					<div class="card mb-4">
 						<div class="card-header projectinfo-header">
 							<span class="sub-title-text"><i class="fas fa-users"></i> TEAM MEMBER</span>
 						</div>
 						
-						<div style="margin: auto;">
+						<div style="display: flex; justify-content: center; align-items: center;">
 							<c:set var="colNum" value='5' />
 							<c:set var="length" value='${fn:length(memberlist)}' />
 							<i class="fa-duotone fa-users"></i>
-							<c:forEach var="item" items="${memberlist}" begin="0"
-								varStatus="status">
+							<c:forEach var="item" items="${memberlist}" begin="0" varStatus="status">
 								<c:if test="${status.index%colNum == 0}">
 									<div class='row mt-5'>
 								</c:if>
@@ -58,7 +59,7 @@
 										<!-- style="cursor :pointer"  -->
 										<div class="card-body">
 											<div class="form-group d-flex">
-												<img src='/resource/users/${item.image}' class='card-img-top' />
+												<img src='/resource/users/${item.image}' class='card-img-top'style="max-height: 230px;" />
 											</div>
 											<div>
 												<h5 style="text-align: center; font-size: 1.1em;">${item.name}(${item.userid})</h5>
@@ -127,14 +128,13 @@
 						<div class="col-lg-4">
 							<div class="card mb-4">
 								<div id="ww_77adeaef7d684" v='1.3' loc='id' a='{"t":"horizontal","lang":"ko","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722"}'>Weather Data Source: <a href="https://wetterlang.de/seoul_wetter_30_tage/" id="ww_77adeaef7d684_u" target="_blank">wetterlang.de</a></div><script async src="https://app1.weatherwidget.org/js/?id=ww_77adeaef7d684"></script>
-							</div>
+							 </div>
 						</div>
 						<!-- 날씨 위젯 끝 -->
 						
 					</div>
+					</div>
 					
-					
-				</div>
 		</main>
 		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 		<script src="/js/datatables-simple-demo.js"></script>
