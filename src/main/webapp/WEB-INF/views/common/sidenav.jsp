@@ -13,11 +13,11 @@
 			
 			<div class="nav">
 				<c:if test="${userid != 'anonymousUser'}">
-					<div class="sb-sidenav-menu-heading">Main</div>
+					<div class="sb-sidenav-menu-heading">메인</div>
 					<a class="nav-link" href="${pageContext.request.contextPath}/projectList.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
-						</div> MY 프로젝트 리스트
+						</div> 참여중인 프로젝트 리스트
 					</a>
 				</c:if>
 				<c:if test="${userid == 'anonymousUser'}">
