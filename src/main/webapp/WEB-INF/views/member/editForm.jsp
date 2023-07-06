@@ -92,8 +92,16 @@
 
 	        // 파일 타입 검사
 	        if (!file.type.match("image/.*")) {
-	            alert('이미지 파일만 업로드가 가능합니다.');
-	            return;
+	        	Swal.fire({
+	                icon: 'error',
+	                title: '이미지 파일이 아닙니다',
+	                text: '오류 : ' + xhr.responseText,
+	                showConfirmButton: false,
+	                timer: 1500
+	            })
+	            setTimeout(function(){
+	            	return;
+	            },1500);
 	        }
 
 	        const reader = new FileReader();
