@@ -13,11 +13,11 @@
 			
 			<div class="nav">
 				<c:if test="${userid != 'anonymousUser'}">
-					<!-- <div class="sb-sidenav-menu-heading">Core</div> -->
+					<div class="sb-sidenav-menu-heading">Main</div>
 					<a class="nav-link" href="${pageContext.request.contextPath}/projectList.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
-						</div> Project List
+						</div> MY 프로젝트 리스트
 					</a>
 				</c:if>
 				<c:if test="${userid == 'anonymousUser'}">
@@ -31,13 +31,13 @@
 
 				<c:if test="${projectId != null}">
 					
+					<div class="sb-sidenav-menu-heading" id="">접속된 프로젝트</div>
 					<a class="nav-link" href="${pageContext.request.contextPath}/projectDetail.do/${project.projectId}" >
-						PROJECT_${project.projectName}
+						${project.projectName}
 					</a>
 					
-					
 					<div class="sb-sidenav-menu-heading" id="">일정관리</div>
-	
+					
 					<a class="nav-link" href="${pageContext.request.contextPath}/kanban.do">
 						<div class="sb-nav-link-icon">
 							<i class="fas fa-tachometer-alt"></i>
@@ -73,8 +73,8 @@
 						<div class="sb-sidenav-menu-heading">관리자메뉴</div>
 						<a class="nav-link" href="${pageContext.request.contextPath}/projectManagement.do">
 							<div class="sb-nav-link-icon">
-								<i class="fas fa-tachometer-alt"></i>
-							</div> ${project.projectName} 관리
+								<i class="fas fa-cog" aria-hidden="true"></i>
+							</div> 프로젝트(${project.projectName}) 관리
 						</a>
 					</c:if>
 				</div>

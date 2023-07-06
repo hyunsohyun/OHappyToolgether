@@ -156,7 +156,7 @@
 		        let html = '<div class="text-center">';
 		        html += '<table class="table table-hover center">';
 		        html += '<tr>';
-		        html += '<th style="width:10%; text-align:center;">반호</th>';
+		        html += '<th style="width:10%; text-align:center;">번호</th>';
 		        html += '<th style="width:40%; text-align:center;">제목</th>';
 		        html += '<th style="width:20%; text-align:center;">작성자</th>';
 		        html += '<th style="width:30%; text-align:center;">작성일</th>';
