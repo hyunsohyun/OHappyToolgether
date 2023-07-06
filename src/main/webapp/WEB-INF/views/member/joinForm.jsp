@@ -53,20 +53,19 @@
                     <form id="joinForm" action="/" method="POST">
                         <div class="form-group">
                             <label for="userid" class="form-label mt-4">아이디</label>
-                            <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID">
+                            <input type="text" class="form-control" id="userid" name="userid" placeholder="Enter your ID" required>
                         </div>
                         <div class="form-group">
                             <label for="password" class="form-label mt-4">비밀번호</label>
-                            <input type="password" class="form-control" id="password" name="password"
-                                placeholder="Password">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                         </div>
                         <div class="form-group">
                             <label for="name" class="form-label mt-4">이름</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label mt-4">이메일</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                         </div>
                         <div class="form-group mt-4 text-center">
                             <button type="submit" class="btn btn-primary">가입하기</button>
