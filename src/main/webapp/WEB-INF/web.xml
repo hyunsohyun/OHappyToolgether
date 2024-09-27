@@ -11,9 +11,10 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/spring/root-context.xml
-			/WEB-INF/spring/appServlet/security-context.xml
+			/WEB-INF/spring/appServlet/security-context.xml			
 		</param-value>
 	</context-param>
+	<!-- /WEB-INF/spring/appServlet/security-context.xml -->
 
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
@@ -61,7 +62,7 @@
    </filter-mapping>
 
 
-	<servlet-mapping>
+ 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.js</url-pattern>
 		<url-pattern>*.css</url-pattern>

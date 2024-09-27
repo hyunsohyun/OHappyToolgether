@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.kosa.project.dao.ProjectDao">
+	
+	<select id="selectAllProjectById" resultType="kr.or.kosa.project.vo.Project">
+		select project_id, project_name, project_image, manager_id from
+		project where project_id in (
+			select project_id from users_project where userid = #{userid}
+		)
+	</select>
+	
+	<select id="selectProjectByProjectId" resultType="kr.or.kosa.project.vo.Project">
+		select project_id, project_name, project_image, manager_id from
+		project where project_id = #{project_id}
+	</select>
+	
+	<insert id="insertProject" parameterType="kr.or.kosa.project.vo.Project" useGeneratedKeys="true" keyProperty="projectId">
+		<selectKey keyProperty="projectId" resultType="int" order="BEFORE">
+			SELECT PROJECT_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO project(project_id, project_name, project_image, manager_id)
+		VALUES (#{projectId}, #{projectName}, #{projectId} || #{projectImage}, #{managerId})
+	</insert>
+	
+	<delete id="deleteProject">
+		DELETE FROM project WHERE project_id = #{projectId}
+	</delete>
+	
+	<insert id="insertUsersProject" parameterType="kr.or.kosa.project.vo.UsersProject">
+		INSERT INTO users_project(userid, project_id)
+		VALUES (#{userid}, #{projectId})
+	</insert>
+	
+	<delete id="deleteUsersProject" parameterType="kr.or.kosa.project.vo.UsersProject">
+		DELETE FROM users_project WHERE userid = #{userid} and project_id = #{projectId}
+	</delete>
+	
+	<delete id="deleteAllUsersProject" parameterType="kr.or.kosa.project.vo.UsersProject">
+		DELETE FROM project WHERE project_id = #{projectId}
+	</delete>
+	
+	<!-- 프로젝트명 변경 -->
+	<update id="updateProjectName" parameterType="kr.or.kosa.project.vo.Project">
+		UPDATE PROJECT SET project_Name=#{projectName} 
+		WHERE manager_id = #{managerId} and project_id = #{projectId}
+	</update>
+	
+	
+	<update id="updateProjectImg" parameterType="kr.or.kosa.project.vo.Project">
+		UPDATE PROJECT SET project_image=#{projectImage} 
+		WHERE project_id = #{projectId}
+	</update>
+
+</mapper>
+	
+	
+
+
+
+
+
+

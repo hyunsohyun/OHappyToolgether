@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.kosa.post.PostDao" >
+
+	<select id="postList" resultType="kr.or.kosa.post.Post">
+	    SELECT POST_ID 
+		    , BOARD_ID
+		    , TITLE
+		    , CONTENT
+		    , HIT
+		    , CREATE_DATE
+		    , MODIFY_DATE
+		    , PROJECT_ID
+		    , USERID 
+		FROM POST
+	</select>
+	
+	<select id="postDetail" resultType="kr.or.kosa.post.Post">
+	    SELECT POST_ID 
+	    , BOARD_ID
+	    , TITLE
+	    , CONTENT
+	    , HIT
+	    , CREATE_DATE
+	    , MODIFY_DATE
+	    , PROJECT_ID
+	    , USERID
+	    FROM POST
+	    WHERE POST_ID = #{postId}
+	</select>
+	
+</mapper>
+
